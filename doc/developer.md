@@ -25,7 +25,7 @@ The MuSHR system is distributed over a series of repositories, however the MuSHR
 
 This structure encourages users to use the main MuSHR repo a starting point for MuSHR-related projects, however some advanced users prefer the bare minimum robot code assets and these can accessed in the independent MuSHR rospackage repos. The following diagram ought clarify the repository structure:
 
-![Repository Diagram](http://url/to/img.png)
+![Repository Diagram](https://raw.githubusercontent.com/personalrobotics/mushr/development/doc/repo_overview.png)
 
 ## Hardware Management
 _So you have a car. How do you maintain it? TODO: Patrick?._
