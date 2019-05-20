@@ -1,0 +1,10 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+  <arg name="sensors_config" default="$(find mushr_base)/config/racecar-mit/sensors.yaml" />
+  <rosparam file="$(arg sensors_config)" command="load" />
+
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch" />
+
+  <node pkg="urg_node" type="urg_node" name="laser_node" />
+  <node pkg="razor_imu_9dof" type="imu_node.py" name="imu_node"/>
+</launch>
