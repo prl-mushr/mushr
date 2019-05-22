@@ -1,6 +1,6 @@
 <!-- -*- mode: XML -*- -->
 <launch>
-  <arg name="sensors_config" default="$(find mushr_base)/config/racecar-uw/sensors.yaml" />
+  <arg name="sensors_config" default="$(find mushr_hardware)/config/racecar-uw/sensors.yaml" />
   <rosparam file="$(arg sensors_config)" command="load" />
 
   <include file="$(find realsense2_camera)/launch/rs_camera.launch" />
