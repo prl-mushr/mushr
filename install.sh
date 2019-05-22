@@ -9,8 +9,20 @@ sudo apt-get install -y python3-vcstool
 #Get Repos
 vcs import < repos.yaml
 
+#Get apt-add-repository
+sudo apt-get install -y software-properties-common
+
+#Install serial
+sudo apt-get install -y ros-kinetic-serial
+
 #Install cv_bridge (for realsense)
 sudo apt-get install -y ros-kinetic-cv-bridge
+
+#Install ackermann_msgs
+sudo apt-get install -y ros-kinetic-ackermann-msgs
+
+#Install image_transport
+sudo apt-get install -y ros-kinetic-image-transport
 
 #Install urg_node (for old car laser)
 sudo apt-get install -y ros-kinetic-urg-node
@@ -27,6 +39,13 @@ sudo apt-get install -y librealsense2=${ver}
 sudo apt-get install -y librealsense2-utils=${ver}
 sudo apt-get install -y librealsense2-dev=${ver}
 sudo apt-get install -y librealsense2-dbg=${ver}
+
+#Install yaml-cpp (for ackermann_cmd_mux)
+cd $HOME/catkin_ws/src/mushr/yaml-cpp/
+sed -i '49s/OFF/ON/g' CMakeLists.txt
+mkdir build && cd build
+cmake .. && make && make install
+cd $HOME/catkin_ws/src/mushr && rm -rf yaml-cpp
 
 #Source and remake
 source $HOME/catkin_ws/devel/setup.bash
