@@ -48,11 +48,7 @@ cd $HOME/catkin_ws/src/mushr/yaml-cpp/
 sed -i '49s/OFF/ON/g' CMakeLists.txt
 mkdir build && cd build
 cmake .. && make && make install
-<<<<<<< HEAD
-#cd $HOME/catkin_ws/src/mushr && rm -rf yaml-cpp
-=======
 cd $HOME/catkin_ws/src/mushr && rm -rf yaml-cpp
->>>>>>> 27767f2d840b1cc4071921b5ca9a221116e3b127
 
 #Source and remake
 source $HOME/catkin_ws/devel/setup.bash
