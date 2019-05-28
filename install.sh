@@ -51,6 +51,9 @@ mkdir build && cd build
 cmake .. && make && make install
 cd $HOME/catkin_ws/src/mushr && rm -rf yaml-cpp
 
+#udev rules to connect to devices
+cp $HOME/catkin_ws/src/mushr/mushr_utils/udev_rules/* /etc/udev/rules.d
+
 #Source and remake
 source /opt/ros/kinetic/setup.bash
 source $HOME/catkin_ws/devel/setup.bash
