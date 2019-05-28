@@ -33,15 +33,16 @@ sudo apt-get install -y ros-kinetic-urg-node
 #Install IMU package
 sudo apt-get install -y ros-kinetic-razor-imu-9dof
 
-#Install librealsense verson 2.15 
-#newer versions give make issue https://github.com/IntelRealSense/librealsense/issues/2314
-sudo apt-key adv --keyserver keys.gnupg.net --recv-key C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key C8B3A55A6F3EFCDE
-sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo xenial main" -u
-ver="2.15.0-0~realsense0.83"
-sudo apt-get install -y librealsense2=${ver}
-sudo apt-get install -y librealsense2-utils=${ver}
-sudo apt-get install -y librealsense2-dev=${ver}
-sudo apt-get install -y librealsense2-dbg=${ver}
+#Install librealsense
+git clone https://github.com/IntelRealSense/librealsense.git && cd librealsense
+sudo apt-get install -y udev
+sudo apt-get install -y git libssl-dev libusb-1.0-0-dev pkg-config libgtk-3-dev
+#Ubuntu 18 specific
+sudo apt-get install -y libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev
+./scripts/setup_udev_rules.sh
+./scripts/patch-realsense-ubuntu-lts.sh
+mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release
+sudo make uninstall && make clean && make && sudo make install
 
 #Install yaml-cpp (for ackermann_cmd_mux)
 cd $HOME/catkin_ws/src/mushr/yaml-cpp/
@@ -51,5 +52,6 @@ cmake .. && make && make install
 cd $HOME/catkin_ws/src/mushr && rm -rf yaml-cpp
 
 #Source and remake
+source /opt/ros/kinetic/setup.bash
 source $HOME/catkin_ws/devel/setup.bash
 cd $HOME/catkin_ws/ && catkin_make && cd $HOME/catkin_ws/src/mushr

@@ -11,6 +11,10 @@ repositories:
     type: git
     url: git@github.com:personalrobotics/push_button_utils.git
     version: eb09c67333eeb14fc34d6d52fb9c1c261a85a9fe
+  mushr_hardware/realsense:
+    type: git
+    url: git@github.com:IntelRealSense/realsense-ros.git
+    version: 4a5a508a34c1b7f29e2557daee83c4d81ecfd971
   mushr_hardware/ydlidar:
     type: git
     url: git@github.com:personalrobotics/ydlidar.git
