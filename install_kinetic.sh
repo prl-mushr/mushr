@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+#For Ubuntu 16.04 with ROS Kinetic
 
 #Install vctool
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -8,6 +9,12 @@ sudo apt-get install -y python3-vcstool
 
 #Get Repos
 vcs import < repos.yaml
+
+#Joystick connection stuff
+sudo apt-get install joystick
+sudo apt-get install dkms
+sudo git clone https://github.com/paroj/xpad.git /usr/src/xpad-0.4
+sudo dkms install -m xpad -v 0.4
 
 #Get apt-add-repository
 sudo apt-get install -y software-properties-common
@@ -30,8 +37,10 @@ sudo apt-get install -y ros-kinetic-image-transport
 #Install urg_node (for old car laser)
 sudo apt-get install -y ros-kinetic-urg-node
 
-#Install IMU package
+#Install IMU
 sudo apt-get install -y ros-kinetic-razor-imu-9dof
+sed -i '9 i\  <node pkg="razor_imu_9dof" type="imu_node.py" name="imu_node"/>' mushr_hardware/mushr_hardware/launch/racecar-mit/sensors.launch
+sed -i '9 i\  <node pkg="razor_imu_9dof" type="imu_node.py" name="imu_node"/>' mushr_hardware/mushr_hardware/launch/racecar-uw/sensors.launch
 
 #Install librealsense
 git clone https://github.com/IntelRealSense/librealsense.git && cd librealsense
@@ -43,6 +52,7 @@ sudo apt-get install -y libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev
 ./scripts/patch-realsense-ubuntu-lts.sh
 mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release
 sudo make uninstall && make clean && make && sudo make install
+cd $HOME/catkin_ws/src/mushr && rm -rf librealsense
 
 #Install yaml-cpp (for ackermann_cmd_mux)
 cd $HOME/catkin_ws/src/mushr/yaml-cpp/

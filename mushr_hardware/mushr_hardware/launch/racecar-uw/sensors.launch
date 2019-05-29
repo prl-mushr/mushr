@@ -7,5 +7,5 @@
   <include file="$(find ydlidar)/launch/lidar.launch" />
   <include file="$(find push_button_utils)/launch/bumper_button.launch" />
 
-  <node pkg="razor_imu_9dof" type="imu_node.py" name="imu_node" />
+
 </launch>
