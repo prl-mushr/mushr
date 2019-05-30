@@ -22,6 +22,12 @@ sudo apt-get install -y software-properties-common
 #Install joy
 sudo apt-get install -y ros-kinetic-joy
 
+#Install map_server
+sudo apt-get install -y ros-kinetic-map-server
+
+#Install gmapping
+sudo apt-get install -y ros-kinetic-gmapping
+
 #Install serial
 sudo apt-get install -y ros-kinetic-serial
 
