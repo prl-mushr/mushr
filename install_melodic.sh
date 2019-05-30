@@ -11,8 +11,8 @@ sudo apt-get install -y python3-vcstool
 vcs import < repos.yaml
 
 #Joystick connection stuff
-sudo apt-get install joystick
-sudo apt-get install dkms
+sudo apt-get install -y joystick
+sudo apt-get install -y dkms
 sudo git clone https://github.com/paroj/xpad.git /usr/src/xpad-0.4
 sudo dkms install -m xpad -v 0.4
 
