@@ -22,6 +22,9 @@ sudo apt-get install -y software-properties-common
 #Install joy
 sudo apt-get install -y ros-melodic-joy
 
+#Install map_server
+sudo apt-get install -y ros-melodic-map-server
+
 #Install serial
 sudo apt-get install -y ros-melodic-serial
 
