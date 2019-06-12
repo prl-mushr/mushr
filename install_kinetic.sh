@@ -11,8 +11,8 @@ sudo apt-get install -y python3-vcstool
 vcs import < repos.yaml
 
 #Joystick connection stuff
-sudo apt-get install joystick
-sudo apt-get install dkms
+sudo apt-get install -y joystick
+sudo apt-get install -y dkms
 sudo git clone https://github.com/paroj/xpad.git /usr/src/xpad-0.4
 sudo dkms install -m xpad -v 0.4
 
@@ -21,6 +21,12 @@ sudo apt-get install -y software-properties-common
 
 #Install joy
 sudo apt-get install -y ros-kinetic-joy
+
+#Install map_server
+sudo apt-get install -y ros-kinetic-map-server
+
+#Install gmapping
+sudo apt-get install -y ros-kinetic-gmapping
 
 #Install serial
 sudo apt-get install -y ros-kinetic-serial
