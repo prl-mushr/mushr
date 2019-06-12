@@ -1,0 +1,53 @@
+variables:
+  azure_tmpdir: $(Agent.TempDirectory)
+  ci_tools_repodir: $(azure_tmpdir)/mushr_test
+  ci_tools_bindir: $(ci_tools_repodir)/devtools/bin
+
+pool:
+  vmImage: 'ubuntu-16.04'
+
+container: personalrobotics/mushr:xenial
+
+# Get CI tooling and setup user account
+steps:
+- bash: | 
+    set -ex
+    # Get CI tooling
+    git clone https://github.com/colinxs/mushr_test.git $(ci_tools_repodir)
+    # Setup user account
+    $(ci_tools_repodir)/devtools/setup_user/setup_user.sh
+    source ~/.bashrc
+
+# Run linters and tests
+- task: Bash@3
+  inputs:
+    script: $(ci_tools_bindir)/run_flake8.sh . python
+    targetType: inline
+    noRc: false
+    noProfile: false
+  continueOnError: true
+  displayName: Run flake8
+- task: Bash@3
+  inputs:
+    script: $(ci_tools_bindir)/run_isort.sh . python check_only
+    targetType: inline
+    noRc: false
+    noProfile: false
+  continueOnError: true
+  displayName: Run isort
+- task: Bash@3
+  inputs:
+    script: $(ci_tools_bindir)/run_black.sh . ~/miniconda3/bin/python3 check_only
+    targetType: inline
+    noRc: false
+    noProfile: false
+  continueOnError: true
+  displayName: Run black
+- task: Bash@3
+  inputs:
+    script: python -m nose2 -v --pretty-assert -s ./test
+    targetType: inline
+    noRc: false
+    noProfile: false
+  continueOnError: true
+  displayName: Run nose2
