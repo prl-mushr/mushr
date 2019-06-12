@@ -6,7 +6,7 @@ repositories:
   mushr_base/vesc:
     type: git
     url: git@github.com:personalrobotics/vesc.git
-    version: 1104ed9ee0536a7130af0beea993679e2c6b8874 
+    version: 8d02b6545a313134be2717c44058e134d91b1392 
   mushr_hardware/push_button_utils:
     type: git
     url: git@github.com:personalrobotics/push_button_utils.git
