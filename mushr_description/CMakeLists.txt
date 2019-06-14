@@ -1,0 +1,54 @@
+cmake_minimum_required(VERSION 2.8.3)
+project(mushr_description)
+
+find_package(catkin REQUIRED)
+
+catkin_package()
+
+function(build_xacro infile outfile xacro_args)
+  # Call out to xacro to get dependencies
+  execute_process(COMMAND "${CATKIN_ENV} rosrun xacro xacro --deps \"${infile}\""
+    ERROR_VARIABLE _xacro_err_ignore
+    OUTPUT_VARIABLE _xacro_deps_result
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+  separate_arguments(_xacro_deps_result)
+  separate_arguments(xacro_args)
+
+  # Process xacro into final output
+  add_custom_command(OUTPUT "${outfile}"
+    COMMENT "Generating ${outfile}"
+    COMMAND ${CATKIN_ENV} rosrun xacro xacro --inorder
+    -o "${outfile}" "${infile}" ${_xacro_deps_result} ${xacro_args}
+    DEPENDS "${infile}" ${_xacro_deps_result}
+    VERBATIM)
+endfunction(build_xacro)
+
+set(ROBOTS_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/robots")
+set(BASE_OUTPUT_DIR "${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}")
+set(ROBOTS_OUTPUT_DIR "${BASE_OUTPUT_DIR}/robots")
+file(MAKE_DIRECTORY ${ROBOTS_OUTPUT_DIR})
+
+# Build component parts
+set(MUSHR_NANO_URDF_XACRO "${ROBOTS_SRC_DIR}/mushr_nano.urdf.xacro")
+set(MUSHR_NANO_URDF "${ROBOTS_OUTPUT_DIR}/mushr_nano.urdf")
+
+build_xacro(${MUSHR_NANO_URDF_XACRO} ${MUSHR_NANO_URDF} "")
+
+list(APPEND CORE_DESCRIPTION_FILES
+	${MUSHR_NANO_URDF}
+)
+
+# Add target to actually cause generation
+add_custom_target(description_files ALL DEPENDS
+	${CORE_DESCRIPTION_FILES}
+)
+
+install(DIRECTORY DESTINATION "${CATKIN_PACKAGE_SHARE_DESTINATION}/robots")
+install(FILES
+  ${DESCRIPTION_FILES}
+  DESTINATION "${CATKIN_PACKAGE_SHARE_DESTINATION}/robots")
+
+install(DIRECTORY meshes
+  DESTINATION "${CATKIN_PACKAGE_SHARE_DESTINATION}")
+
