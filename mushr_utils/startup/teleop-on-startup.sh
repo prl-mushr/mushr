@@ -10,9 +10,10 @@
 # Voila, teleop running without needing to ssh in.
 #
 
-WORKSPACE=/home/nvidia/catkin_ws
+ROS_DISTRO=melodic
+WORKSPACE=/home/robot/catkin_ws
 
-source /opt/ros/kinetic/setup.bash
+source /opt/ros/$ROS_DISTRO/setup.bash
 source $WORKSPACE/devel/setup.bash
 
 GPIO_BUTTON_FILE=/sys/class/gpio/gpio298/value
@@ -20,7 +21,7 @@ GPIO_BUTTON_FILE=/sys/class/gpio/gpio298/value
 if [[ -f "$GPIO_BUTTON_FILE" ]]; then
         VALUE=$(cat $GPIO_BUTTON_FILE)
         if [[ "$VALUE" -eq 0 ]]; then
-                roslaunch racecar teleop.launch &
+                roslaunch mushr_base teleop.launch &
                 exit 0;
         fi
 fi
