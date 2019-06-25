@@ -1,3 +1,9 @@
-#!/bin/bash -e
+#!/bin/sh -e
 
-# TODO Add what the rc local file should be.
+echo 298 > /sys/class/gpio/export
+chmod go+w /sys/class/gpio/gpio298/direction
+chmod go+rw /sys/class/gpio/gpio298/value
+
+echo "in" > /sys/class/gpio/gpio298/direction
+
+su robot -c '/home/robot/teleop-on-startup.sh 2>&1 > /home/robot/teleop-on-startup.log &'
