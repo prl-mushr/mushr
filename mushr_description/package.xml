@@ -45,6 +45,7 @@
   <buildtool_depend>catkin</buildtool_depend>
   <buildtool_depend>xacro</buildtool_depend>
   <buildtool_depend>rosbash</buildtool_depend>
+  <exec_depend>realsense2_description</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
