@@ -3,7 +3,9 @@ project(mushr_description)
 
 find_package(catkin REQUIRED)
 
-catkin_package()
+catkin_package(
+CATKIN_DEPENDS realsense2_description
+)
 
 function(build_xacro infile outfile xacro_args)
   # Call out to xacro to get dependencies
@@ -33,10 +35,15 @@ file(MAKE_DIRECTORY ${ROBOTS_OUTPUT_DIR})
 set(MUSHR_NANO_URDF_XACRO "${ROBOTS_SRC_DIR}/mushr_nano.urdf.xacro")
 set(MUSHR_NANO_URDF "${ROBOTS_OUTPUT_DIR}/mushr_nano.urdf")
 
+set(MUSHR_TX2_URDF_XACRO "${ROBOTS_SRC_DIR}/mushr_tx2.urdf.xacro")
+set(MUSHR_TX2_URDF "${ROBOTS_OUTPUT_DIR}/mushr_tx2.urdf")
+
 build_xacro(${MUSHR_NANO_URDF_XACRO} ${MUSHR_NANO_URDF} "")
+build_xacro(${MUSHR_TX2_URDF_XACRO} ${MUSHR_TX2_URDF} "")
 
 list(APPEND CORE_DESCRIPTION_FILES
 	${MUSHR_NANO_URDF}
+	${MUSHR_TX2_URDF}
 )
 
 # Add target to actually cause generation
