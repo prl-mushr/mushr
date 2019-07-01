@@ -70,6 +70,13 @@ cd "$HOME"/catkin_ws/src/mushr && rm -rf yaml-cpp
 #udev rules to connect to devices
 cp "$HOME"/catkin_ws/src/mushr/mushr_utils/udev_rules/* /etc/udev/rules.d
 
+#Setup telop on startup
+mv "$HOME"/catkin_ws/src/mushr/mushr_utils/startup/teleop-on-startup.sh /home/robot/teleop-on-startup.sh
+
+sudo mv "$HOME"/catkin_ws/src/mushr/mushr_utils/startup/rc.local /etc/rc.local
+sudo chmod +x /home/robot/teleop-on-startup.sh
+sudo chmod +x /etc/rc.local
+
 #Source and remake
 . /opt/ros/kinetic/setup.bash
 . "$HOME"/catkin_ws/devel/setup.bash
