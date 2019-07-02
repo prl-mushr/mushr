@@ -14,9 +14,22 @@ This is the main repository for MuSHR. For a full directory structure see [here]
 There are 2 ways of getting mushr running on a car. We strongly recommend option 1 as it is relatively plug and play. Option 2 is best used only when option 1 fails. Note, you will likely run into more problems with option 2.
 
 For all installs know what type of car you have. To identify, see below:
-
+- v1 (MIT Racecar): leftmost car in above image (jetson tx2)
+- v2: middle car (jetson tx2)
+- v3: rightmost car (jetson nano)
 
 ### 1: Install Jetson Image
 Because there are a lot of small steps in the install, we decided to make it much easier for you by providing a base image that works right out of the box. 
 
+**v1/v2** follow [these](https://github.com/prl-mushr/mushr/blob/master/mushr_docs/install/robosetup.md) instructions with [this]() image.
+
+**v3** follow Nvidia's [instructions](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit) with [this]() image.
+
 ### 2: Install Scripts
+TODO
+
+### FAQ
+TODO
+
+### Acknowledgements
+TODO
