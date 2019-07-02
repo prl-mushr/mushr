@@ -32,16 +32,23 @@ set(ROBOTS_OUTPUT_DIR "${BASE_OUTPUT_DIR}/robots")
 file(MAKE_DIRECTORY ${ROBOTS_OUTPUT_DIR})
 
 # Build component parts
-set(MUSHR_NANO_URDF_XACRO "${ROBOTS_SRC_DIR}/mushr_nano.urdf.xacro")
-set(MUSHR_NANO_URDF "${ROBOTS_OUTPUT_DIR}/mushr_nano.urdf")
+set(RACECAR_MIT_URDF_XACRO "${ROBOTS_SRC_DIR}/racecar-mit.urdf.xacro")
+set(RACECAR_MIT_URDF "${ROBOTS_OUTPUT_DIR}/racecar-mit.urdf")
 
 set(MUSHR_TX2_URDF_XACRO "${ROBOTS_SRC_DIR}/mushr_tx2.urdf.xacro")
 set(MUSHR_TX2_URDF "${ROBOTS_OUTPUT_DIR}/mushr_tx2.urdf")
+set(MUSHR_TX2_LINK "${ROBOTS_OUTPUT_DIR}/racecar-uw-tx2.urdf")
 
+set(MUSHR_NANO_URDF_XACRO "${ROBOTS_SRC_DIR}/mushr_nano.urdf.xacro")
+set(MUSHR_NANO_URDF "${ROBOTS_OUTPUT_DIR}/mushr_nano.urdf")
+set(MUSHR_NANO_LINK "${ROBOTS_OUTPUT_DIR}/racecar-uw-nano.urdf")
+
+build_xacro(${RACECAR_MIT_URDF_XACRO} ${RACECAR_MIT_URDF} "")
 build_xacro(${MUSHR_NANO_URDF_XACRO} ${MUSHR_NANO_URDF} "")
 build_xacro(${MUSHR_TX2_URDF_XACRO} ${MUSHR_TX2_URDF} "")
 
 list(APPEND CORE_DESCRIPTION_FILES
+	${RACECAR_MIT_URDF}
 	${MUSHR_NANO_URDF}
 	${MUSHR_TX2_URDF}
 )
@@ -50,6 +57,13 @@ list(APPEND CORE_DESCRIPTION_FILES
 add_custom_target(description_files ALL DEPENDS
 	${CORE_DESCRIPTION_FILES}
 )
+
+add_custom_target(link_mushr_tx2 ALL
+                  COMMAND ${CMAKE_COMMAND} -E create_symlink ${MUSHR_TX2_URDF} ${MUSHR_TX2_LINK})
+
+
+add_custom_target(link_mushr_nano ALL
+                  COMMAND ${CMAKE_COMMAND} -E create_symlink ${MUSHR_NANO_URDF} ${MUSHR_NANO_LINK})
 
 install(DIRECTORY DESTINATION "${CATKIN_PACKAGE_SHARE_DESTINATION}/robots")
 install(FILES
