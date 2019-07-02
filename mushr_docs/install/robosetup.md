@@ -47,7 +47,7 @@ $ sudo ./flash.sh -r jetson-tx2 mmcblk0p1
     ```
 	- Now you should be able to access it through `/media/robot/JetsonSSD`
 		
-11. Setup the robot’s network according to [this](https://drive.google.com/open?id=11qcVyFoVtKxxCiVlF4_E_a74uTdJ4bOa) document. Note that if you setup a static IP on an existing network, your subnet may be different from the addresses used in the document  
+11. Setup the robot’s network according to [this](https://github.com/prl-mushr/mushr/blob/master/mushr_docs/install/robotnetwork.md) document. Note that if you setup a static IP on an existing network, your subnet may be different from the addresses used in the document  
 12. Setup the VESC. Note that this step is optional if firmware has previously been loaded onto the VESC. Follow the instructions [here](http://www.jetsonhacks.com/2017/06/01/get-your-motor-running-vesc-jetson-racecar-build/)  
 13. Navigate to the `mushr_base` package: `roscd mushr_base/launch`  
 14. Edit the teleop.launch file so that the value of the racecar_version argument is either racecar-uw if using UW hardware, or racecar-mit if using MIT hardware  
