@@ -19,28 +19,19 @@ sudo apt-get install -y dkms
 sudo git clone https://github.com/paroj/xpad.git /usr/src/xpad-0.4
 sudo dkms install -m xpad -v 0.4
 
-#Get apt-add-repository
 sudo apt-get install -y software-properties-common
-
-#Install joy
 sudo apt-get install -y ros-melodic-joy
-
-#Install map_server
 sudo apt-get install -y ros-melodic-map-server
-
-#Install serial
 sudo apt-get install -y ros-melodic-serial
 
-#Install cv_bridge (for realsense)
+# Packages needed for realsense
 sudo apt-get install -y ros-melodic-cv-bridge
+sudo apt-get install -y ros-melodic-ddynamic-reconfigure
 
-#Install ackermann_msgs
 sudo apt-get install -y ros-melodic-ackermann-msgs
-
-#Install image_transport
 sudo apt-get install -y ros-melodic-image-transport
 
-#Install urg_node (for old car laser)
+#Needed for old car laser
 sudo apt-get install -y ros-melodic-urg-node
 
 #Install librealsense
