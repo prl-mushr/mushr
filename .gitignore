@@ -49,3 +49,10 @@ qtcreator-*
 
 # Catkin custom files
 CATKIN_IGNORE
+
+mushr_base/
+mushr_hardware/push_button_utils/
+mushr_hardware/realsense/
+mushr_hardware/ydlidar/
+yaml-cpp/
+
