@@ -20,10 +20,11 @@ In this tutorial, you will learn how to load the OS onto version 2 (`racecar-uw`
 ```
 $ sudo ./flash.sh -r jetson-tx2 mmcblk0p1
 ```
-**Note:** it will take a few minutes
-7. Once the Jetson has finished flashing, plug the mouse and keyboard into the Jetson, and connect the Jetson and monitor with the HDMI cable. Shutdown the Jetson by holding the power button, and then press it again to reboot it.
-8. On the Jetson, change the password as appropriate using the `passwd` command. The default password of the robot user is `prl_robot`
-9. **Optional:** Change the hostname to the name of your car. Open the following files and replace *nugget* with your name:
+**Note:** it will take a few minutes  
+
+7. Once the Jetson has finished flashing, plug the mouse and keyboard into the Jetson, and connect the Jetson and monitor with the HDMI cable. Shutdown the Jetson by holding the power button, and then press it again to reboot it.  
+8. On the Jetson, change the password as appropriate using the `passwd` command. The default password of the robot user is `prl_robot`  
+9. **Optional:** Change the hostname to the name of your car. Open the following files and replace *nugget* with your name:  
 	- `sudo nano /etc/hostname`
 	- `sudo nano /etc/hosts`
 	- `sudo reboot`
@@ -46,17 +47,16 @@ $ sudo ./flash.sh -r jetson-tx2 mmcblk0p1
     ```
 	- Now you should be able to access it through `/media/robot/JetsonSSD`
 		
-11. Setup the robot’s network according to [this](https://drive.google.com/open?id=11qcVyFoVtKxxCiVlF4_E_a74uTdJ4bOa) document. Note that if you setup a static IP on an existing network, your subnet may be different from the addresses used in the document
-12. Setup the VESC. Note that this step is optional if firmware has previously been loaded onto the VESC. Follow the instructions [here](http://www.jetsonhacks.com/2017/06/01/get-your-motor-running-vesc-jetson-racecar-build/)
-13. 
-14. Navigate to the `mushr_base` package: `roscd mushr_base/launch`
-15. Edit the teleop.launch file so that the value of the racecar_version argument is either racecar-uw if using UW hardware, or racecar-mit if using MIT hardware
-16. Test the car. After checking that everything is powered properly, execute the following command to launch the robot’s drivers:
+11. Setup the robot’s network according to [this](https://drive.google.com/open?id=11qcVyFoVtKxxCiVlF4_E_a74uTdJ4bOa) document. Note that if you setup a static IP on an existing network, your subnet may be different from the addresses used in the document  
+12. Setup the VESC. Note that this step is optional if firmware has previously been loaded onto the VESC. Follow the instructions [here](http://www.jetsonhacks.com/2017/06/01/get-your-motor-running-vesc-jetson-racecar-build/)  
+13. Navigate to the `mushr_base` package: `roscd mushr_base/launch`  
+14. Edit the teleop.launch file so that the value of the racecar_version argument is either racecar-uw if using UW hardware, or racecar-mit if using MIT hardware  
+15. Test the car. After checking that everything is powered properly, execute the following command to launch the robot’s drivers:  
 ```
 $ roslaunch mushr_base teleop.launch
 ```
-17. If you would like to save your own image of whatever is currently on the Jetson, you can again connect it to the host computer, put it in recovery mode, and then execute the following command to copy the current image to the host computer:
+16. If you would like to save your own image of whatever is currently on the Jetson, you can again connect it to the host computer, put it in recovery mode, and then execute the following command to copy the current image to the host computer:  
 ```
 $ sudo ./flash.sh -r -k APP -G my_backup.img jetson-tx2 mmcblk0p1
 ```
-If you then wanted to push this image on to a different Jetson, you should move `my_backup.img` and `my_backup.img.raw` to `bootloader/system.img` and `bootloader/system.img.raw` repectively. Then follow the above procedure for flashing.
+If you then wanted to push this image on to a different Jetson, you should move `my_backup.img` and `my_backup.img.raw` to `bootloader/system.img` and `bootloader/system.img.raw` repectively. Then follow the above procedure for flashing.  
