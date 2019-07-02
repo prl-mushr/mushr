@@ -14,7 +14,7 @@ repositories:
   mushr_hardware/realsense:
     type: git
     url: git@github.com:IntelRealSense/realsense-ros.git
-    version: 4a5a508a34c1b7f29e2557daee83c4d81ecfd971
+    version: 2.2.6
   mushr_hardware/ydlidar:
     type: git
     url: git@github.com:personalrobotics/ydlidar.git

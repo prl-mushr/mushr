@@ -1,6 +1,9 @@
 #!/usr/bin/env sh
 #For Ubuntu 18.04 with ROS Melodic
 
+# If your workspace is not in ~/catkin_ws change this variable
+ROS_WS="$HOME"/catkin_ws
+
 #Install vctool
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
@@ -50,19 +53,19 @@ sudo apt-get install -y libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev
 ./scripts/patch-realsense-ubuntu-lts.sh
 mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release
 sudo make uninstall && make clean && make && sudo make install
-cd "$HOME"/catkin_ws/src/mushr && rm -rf librealsense
+cd "$ROS_WS"/src/mushr && rm -rf librealsense
 
 #Install yaml-cpp (for ackermann_cmd_mux)
-cd "$HOME"/catkin_ws/src/mushr/yaml-cpp/
+cd "$ROS_WS"/src/mushr/yaml-cpp/
 sed -i '49s/OFF/ON/g' CMakeLists.txt
 mkdir build && cd build
 cmake .. && make && make install
-cd "$HOME"/catkin_ws/src/mushr && rm -rf yaml-cpp
+cd "$ROS_WS"/src/mushr && rm -rf yaml-cpp
 
 #udev rules to connect to devices
-cp "$HOME"/catkin_ws/src/mushr/mushr_utils/udev_rules/* /etc/udev/rules.d
+cp "$ROS_WS"/src/mushr/mushr_utils/udev_rules/* /etc/udev/rules.d
 
 #Source and remake
 . /opt/ros/melodic/setup.bash
-. "$HOME"/catkin_ws/devel/setup.bash
-cd "$HOME"/catkin_ws/ && catkin_make && cd "$HOME"/catkin_ws/src/mushr
+. "$ROS_WS"/devel/setup.bash
+cd "$ROS_WS" && catkin_make && cd "$ROS_WS"/src/mushr
