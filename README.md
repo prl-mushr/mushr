@@ -55,4 +55,4 @@ This project is from the Personal Robotics Lab at the University of Washington P
 **Advisor:** [Sidd Srinivasa](https://goodrobot.ai/)  
 **Post Doctorial Advisor:** [Sanjiban Choudhury](http://www.sanjibanchoudhury.com/)  
 **Project Lead:** [Matt Schmittle](https://schmittlema.github.io/)  
-**Our AMAZING Development Team:** Matthew Rockett, [Colin Summers](https://colinxsummers.com/), [Johan Michalove](http://www.johanam.com/), [Patrick Lancaster](https://homes.cs.washington.edu/~planc509/), Max Thompson, and [AJ Kruse](https://www.linkedin.com/in/ajkruse/)
+**Our AMAZING Development Team:** Matthew Rockett, [Colin Summers](https://colinxsummers.com/), [Johan Michalove](http://www.johanam.com/), [Patrick Lancaster](https://homes.cs.washington.edu/~planc509/), [Max Thompson](https://www.linkedin.com/in/max-thompson-aa242310a/), and [AJ Kruse](https://www.linkedin.com/in/ajkruse/)
