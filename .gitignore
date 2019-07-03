@@ -51,6 +51,7 @@ qtcreator-*
 CATKIN_IGNORE
 
 mushr_base/
+mushr_sim/
 mushr_hardware/push_button_utils/
 mushr_hardware/realsense/
 mushr_hardware/ydlidar/
