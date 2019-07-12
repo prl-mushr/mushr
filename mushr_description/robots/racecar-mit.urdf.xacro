@@ -22,6 +22,23 @@
     <color rgba="0.3 0.57 1. 1."/>
   </material>
 
+	<link name="base_footprint">
+		<inertial>
+			<origin
+				xyz="0 0 0"
+				rpy="0 0 0" />
+			<mass
+				value="0.1" />
+			<inertia
+				ixx="1"
+				ixy="0"
+				ixz="0"
+				iyy="1"
+				iyz="0"
+				izz="1" />
+		</inertial>
+	</link>
+
   <link name="base_link">
     <visual>
       <origin xyz="${wheelbase/2} 0 ${ground_offset+height/2}"/>
@@ -31,6 +48,18 @@
       <material name="blue"/>
     </visual>
   </link>
+
+	<joint
+		name="base_footprint_to_base_link"
+		type="fixed">
+		<origin
+			xyz="0 0 0"
+			rpy="0 0 0" />
+		<parent
+			link="base_footprint" />
+		<child
+			link="base_link" />
+	</joint>
 
   <joint name="base_to_laser_model" type="fixed">
     <parent link="base_link"/>
