@@ -43,6 +43,9 @@ sudo apt-get install -y ros-kinetic-image-transport
 #Install urg_node (for old car laser)
 sudo apt-get install -y ros-kinetic-urg-node
 
+#Install state_publisher
+sudo apt-get install -y ros-kinetic-robot-state-publisher
+
 #Install IMU
 sudo apt-get install -y ros-kinetic-razor-imu-9dof
 sed -i '9 i\  <node pkg="razor_imu_9dof" type="imu_node.py" name="imu_node"/>' mushr_hardware/mushr_hardware/launch/racecar-mit/sensors.launch

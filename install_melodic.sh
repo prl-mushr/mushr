@@ -40,6 +40,9 @@ sudo apt-get install -y ros-melodic-image-transport
 #Install urg_node (for old car laser)
 sudo apt-get install -y ros-melodic-urg-node
 
+#Install state_publisher
+sudo apt-get install -y ros-melodic-robot-state-publisher
+
 #Install librealsense
 git clone https://github.com/IntelRealSense/librealsense.git && cd librealsense
 sudo apt-get install -y udev

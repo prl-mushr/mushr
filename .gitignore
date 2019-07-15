@@ -56,4 +56,4 @@ mushr_hardware/push_button_utils/
 mushr_hardware/realsense/
 mushr_hardware/ydlidar/
 yaml-cpp/
-
+mushr_hardware/realsense-ros/
