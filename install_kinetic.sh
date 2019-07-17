@@ -51,7 +51,7 @@ sudo apt-get install -y ros-kinetic-razor-imu-9dof
 sed -i '9 i\  <node pkg="razor_imu_9dof" type="imu_node.py" name="imu_node"/>' mushr_hardware/mushr_hardware/launch/racecar-mit/sensors.launch
 sed -i '9 i\  <node pkg="razor_imu_9dof" type="imu_node.py" name="imu_node"/>' mushr_hardware/mushr_hardware/launch/racecar-uw/sensors.launch
 
-#Install librealsense
+#Install librealsense. Will not work on v3 due to need to rebuild kernal see https://www.jetsonhacks.com/2019/05/16/jetson-nano-realsense-depth-camera/
 git clone https://github.com/IntelRealSense/librealsense.git && cd librealsense
 sudo apt-get install -y udev
 sudo apt-get install -y git libssl-dev libusb-1.0-0-dev pkg-config libgtk-3-dev
@@ -62,6 +62,11 @@ sudo apt-get install -y libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev
 mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release
 sudo make uninstall && make clean && make && sudo make install
 cd "$HOME"/catkin_ws/src/mushr && rm -rf librealsense
+
+#Install rangelibc
+cd "$HOME"/catkin_ws/src/mushr/range_libc/pywrapper
+python setup.py install
+cd "$HOME"/catkin_ws/src/mushr/ && rm -rf range_libc
 
 #Install yaml-cpp (for ackermann_cmd_mux)
 cd "$HOME"/catkin_ws/src/mushr/yaml-cpp/
