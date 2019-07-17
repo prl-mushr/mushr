@@ -23,3 +23,7 @@ repositories:
     type: git
     url: git@github.com:jbeder/yaml-cpp.git
     version: 562aefc114938e388457e6a531ed7b54d9dc1b62
+  range_libc:
+    type: git
+    url: git@github.com:kctess5/range_libc.git
+    version: master
