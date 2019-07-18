@@ -1,24 +1,24 @@
 repositories:
   mushr_base:
     type: git
-    url: git@github.com:personalrobotics/mushr_base.git
-    version: f624578fd93f9ed474220afba97f977ab390cfb3 
+    url: git@github.com:prl-mushr/mushr_base.git
+    version: master
   mushr_base/vesc:
     type: git
-    url: git@github.com:personalrobotics/vesc.git
-    version: 8d02b6545a313134be2717c44058e134d91b1392 
+    url: git@github.com:prl-mushr/vesc.git
+    version: master
   mushr_hardware/push_button_utils:
     type: git
-    url: git@github.com:personalrobotics/push_button_utils.git
-    version: eb09c67333eeb14fc34d6d52fb9c1c261a85a9fe
+    url: git@github.com:prl-mushr/push_button_utils.git
+    version: master
   mushr_hardware/realsense:
     type: git
     url: git@github.com:IntelRealSense/realsense-ros.git
-    version: 4a5a508a34c1b7f29e2557daee83c4d81ecfd971
+    version: 31fa75ec835650d319f2d5abd3f7d0ab66fd37f4 
   mushr_hardware/ydlidar:
     type: git
-    url: git@github.com:personalrobotics/ydlidar.git
-    version: 88a448854c7b5ea9896c310e94c7f9ae7e706ea8
+    url: git@github.com:prl-mushr/ydlidar.git 
+    version: master
   yaml-cpp:
     type: git
     url: git@github.com:jbeder/yaml-cpp.git
