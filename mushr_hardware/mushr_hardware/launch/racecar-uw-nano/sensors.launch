@@ -7,7 +7,7 @@
 
   <include file="$(find realsense2_camera)/launch/rs_camera.launch" />
   <include file="$(find ydlidar)/launch/lidar.launch" />
-  <include file="$(find push_button_utils)/launch/bumper_button.launch" />
+  <include file="$(find push_button_utils)/launch/push_button.launch" />
 
 
 </launch>
