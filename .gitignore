@@ -57,3 +57,4 @@ mushr_hardware/realsense/
 mushr_hardware/ydlidar/
 yaml-cpp/
 mushr_hardware/realsense-ros/
+mushr_hardware/realsense2_camera/
