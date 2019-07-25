@@ -19,6 +19,9 @@ sudo dkms install -m xpad -v 0.4
 #Get apt-add-repository
 sudo apt-get install -y software-properties-common
 
+#Install gmapping
+cd "$HOME"/catkin_ws/src/ && git clone https://github.com/ros-perception/openslam_gmapping.git && git clone https://github.com/ros-perception/slam_gmapping.git
+
 #Install joy
 sudo apt-get install -y ros-melodic-joy
 
