@@ -20,6 +20,7 @@ This is the main repository for MuSHR. For a full directory structure see [here]
 - [mushr_pf](https://github.com/prl-mushr/mushr_pf): The particle filter used for localization in a map from laser scans.
 - [mushr_rhc](https://github.com/prl-mushr/mushr_rhc): The receding horizon controller for navigating to goal points in a map.
 
+The directory structure after install is [here](https://raw.githubusercontent.com/prl-mushr/mushr/master/mushr_docs/structure.png?token=ADLMJKEM2OEXW5XMU5WQBOC5JNYLA).
 ## FAQ
 
 - **How do I get started?!**
