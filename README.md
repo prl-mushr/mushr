@@ -23,7 +23,7 @@ This is the main repository for MuSHR. For a full directory structure see [here]
 The directory structure after install is [here](https://raw.githubusercontent.com/prl-mushr/mushr/master/mushr_docs/structure.png?token=ADLMJKEM2OEXW5XMU5WQBOC5JNYLA).
 ## FAQ
 
-- **How do I get started?!**
+- **How do I get started?!**  
 Visit our [website](https://prl-mushr.github.io/)! We have an ever-growing list of tutorials and build instructions there.
 
 - **Who can use MuSHR?**  
