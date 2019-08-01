@@ -20,13 +20,6 @@ This is the main repository for MuSHR. For a full directory structure see [here]
 - [mushr_pf](https://github.com/prl-mushr/mushr_pf): The particle filter used for localization in a map from laser scans.
 - [mushr_rhc](https://github.com/prl-mushr/mushr_rhc): The receding horizon controller for navigating to goal points in a map.
 
-### : Install Scripts
-We strongly recommend using our image and following the instructions on our website as it is significantly less error prone and we will be much quicker to fix. To run the install scripts, make sure you have a ubuntu 16/18.04 with ROS kinetic/melodic installed.  
-1. Clone `mushr` into your `catkin_ws/src`  
-2. Then `cd .../catkin_ws/src/mushr/`
-3. `sudo ./install_melodic.sh` or `sudo ./install_kinetic.sh` if you are using kinetic. The script will take ~1 hour to run.
-4. If something fails, please contact us and we will do our best to respond to your issue. Most of the time, failures happend when compiling librealsense as it is not fully supported for ARM devices.
-
 ## FAQ
 
 - **How do I get started?!**
