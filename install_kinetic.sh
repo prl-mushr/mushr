@@ -55,6 +55,7 @@ sed -i '9 i\  <node pkg="razor_imu_9dof" type="imu_node.py" name="imu_node"/>' m
 git clone https://github.com/IntelRealSense/librealsense.git && cd librealsense
 sudo apt-get install -y udev
 sudo apt-get install -y git libssl-dev libusb-1.0-0-dev pkg-config libgtk-3-dev
+
 #Ubuntu 18 specific
 sudo apt-get install -y libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev
 ./scripts/setup_udev_rules.sh

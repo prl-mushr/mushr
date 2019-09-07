@@ -50,6 +50,7 @@ sudo apt-get install -y ros-melodic-robot-state-publisher
 git clone https://github.com/IntelRealSense/librealsense.git && cd librealsense
 sudo apt-get install -y udev
 sudo apt-get install -y git libssl-dev libusb-1.0-0-dev pkg-config libgtk-3-dev
+
 #Ubuntu 18 specific
 sudo apt-get install -y libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev
 ./scripts/setup_udev_rules.sh
