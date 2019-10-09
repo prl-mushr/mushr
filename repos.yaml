@@ -1,29 +1,25 @@
 repositories:
-  mushr_base:
+  mushr_sim:
     type: git
-    url: git@github.com:prl-mushr/mushr_base.git
+    url: https://github.com/prl-mushr/mushr_sim.git
     version: master
-  mushr_base/vesc:
+  mushr:
     type: git
-    url: git@github.com:prl-mushr/vesc.git
+    url: https://github.com/prl-mushr/mushr.git
     version: master
-  mushr_hardware/push_button_utils:
+  mushr/mushr_base/mushr_base:
     type: git
-    url: git@github.com:prl-mushr/push_button_utils.git
+    url: https://github.com/prl-mushr/mushr_base.git
     version: master
-  mushr_hardware/realsense:
+  mushr/mushr_base/vesc:
     type: git
-    url: git@github.com:IntelRealSense/realsense-ros.git
-    version: 31fa75ec835650d319f2d5abd3f7d0ab66fd37f4 
-  mushr_hardware/ydlidar:
-    type: git
-    url: git@github.com:prl-mushr/ydlidar.git 
+    url: https://github.com/prl-mushr/vesc.git
     version: master
-  yaml-cpp:
+  mushr/mushr_hardware/realsense:
     type: git
-    url: git@github.com:jbeder/yaml-cpp.git
-    version: 562aefc114938e388457e6a531ed7b54d9dc1b62
+    url: https://github.com/IntelRealSense/realsense-ros.git
+    version: 31fa75ec835650d319f2d5abd3f7d0ab66fd37f4
   range_libc:
     type: git
-    url: git@github.com:kctess5/range_libc.git
-    version: master
+    url: https://github.com/kctess5/range_libc.git
+    version: deploy
