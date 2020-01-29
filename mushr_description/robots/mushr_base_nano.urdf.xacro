@@ -39,7 +39,7 @@
 					xyz="0 0 0"
 					rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://mushr_description/meshes/base/mushr_base_nano.dae" />
+					<mesh filename="package://mushr_description/meshes/base/nano/mushr_base_nano.dae" />
 				</geometry>
 			</visual>
 			<collision>
@@ -47,7 +47,7 @@
 					xyz="0 0 0"
 					rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://mushr_description/meshes/base/mushr_base_collision_nano.dae" />
+					<mesh filename="package://mushr_description/meshes/base/nano/mushr_base_nano_collision.dae" />
 				</geometry>
 			</collision>
 		</link>

@@ -39,7 +39,7 @@
 					xyz="0 0 0"
 					rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://mushr_description/meshes/base/mushr_base_tx2.dae" />
+					<mesh filename="package://mushr_description/meshes/base/tx2/mushr_base_tx2.dae" />
 				</geometry>
 			</visual>
 			<collision>
@@ -47,7 +47,7 @@
 					xyz="0 0 0"
 					rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://mushr_description/meshes/base/mushr_base_collision_tx2.dae" />
+					<mesh filename="package://mushr_description/meshes/base/tx2/mushr_base_tx2_collision.dae" />
 				</geometry>
 			</collision>
 		</link>
