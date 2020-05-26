@@ -1,8 +1,8 @@
 <!-- -*- mode: XML -*- -->
 <launch>
 
-  <arg name="racecar_version" default="racecar-uw-nano"/>
-  <arg name="car_name"/>
+  <arg name="racecar_version" />
+  <arg name="car_name" default="car" />
   <arg name="tf_prefix" default="$(arg car_name)"/>
 
   <arg name="sensors_config" default="$(find mushr_hardware)/config/$(arg racecar_version)/sensors.yaml" />
