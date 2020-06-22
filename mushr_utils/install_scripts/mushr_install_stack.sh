@@ -32,6 +32,7 @@ wget https://mushr.io/tutorials/quickstart/repos.yaml
 vcs import < repos.yaml
 
 # Install dependencies
+cd ~/catkin_ws
 rosdep install --from-paths src --ignore-src -r -y
 
 # Install Cython
@@ -41,10 +42,13 @@ sudo pip install Cython
 cd ~/catkin_ws/src/range_libc/pywrapper
 sudo python setup.py install
 cd ~/catkin_ws/src
-rm -rf range_libc
+sudo rm -rf range_libc
+
+# Create OpenCV symbolic link
+sudo ln -s /usr/include/opencv4 /usr/include/opencv
 
 # Compile
-cd ~/catkin_ws/src
+cd ~/catkin_ws
 catkin_make
 
 # Create default RVIZ setup
