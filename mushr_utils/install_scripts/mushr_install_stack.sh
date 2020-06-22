@@ -24,6 +24,10 @@ mkdir -p catkin_ws/src
 cd catkin_ws/src
 catkin_init_workspace
 
+# Auto source this workspace on terminal startup
+echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
 # Get repo info
 sudo apt install wget
 wget https://mushr.io/tutorials/quickstart/repos.yaml
