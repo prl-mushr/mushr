@@ -30,7 +30,8 @@ sudo adduser $USER dialout
 
 # Setup VESC udev rules. Following commands adapted from:
 # https://github.com/RacecarJ/installRACECARUdev
-echo "ACTION==\"add\", ATTRS{idVendor}==\"0483\", ATTRS{idProduct}==\"5740\", SYMLINK+=\"vesc\"" > /etc/udev/rules.d/10-vesc.rules
+echo "ACTION==\"add\", ATTRS{idVendor}==\"0483\", ATTRS{idProduct}==\"5740\", SYMLINK+=\"vesc\"" > /tmp/10-vesc.rules
+sudo mv /tmp/10-vesc.rules /etc/udev/rules.d/
 sudo udevadm control --reload-rules 
 sudo udevadm trigger
 
