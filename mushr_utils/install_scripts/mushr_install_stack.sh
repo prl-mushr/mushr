@@ -60,7 +60,7 @@ sudo ln -s /usr/include/opencv4 /usr/include/opencv
 
 # Compile
 cd ~/catkin_ws
-catkin_make
+catkin_make -j 2
 
 # Create default RVIZ setup
 mkdir ~/.rviz
