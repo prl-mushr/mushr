@@ -16,7 +16,7 @@ sudo apt-get install python3-vcstool
 sudo apt install python-pip
 
 # Install extra ROS packages
-sudo apt install -y ros-melodic-ackermann-msgs ros-melodic-map-server ros-melodic-serial ros-melodic-urg-node ros-melodic-robot-state-publisher ros-melodic-xacro
+sudo apt install -y ros-melodic-ackermann-msgs ros-melodic-map-server ros-melodic-serial ros-melodic-urg-node ros-melodic-robot-state-publisher ros-melodic-xacro ros-melodic-joy
 
 # Create workspace
 cd ~
@@ -26,6 +26,9 @@ catkin_init_workspace
 
 # Auto source this workspace on terminal startup
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+echo "ROS_IP=10.42.0.1" >> ~/.bashrc
 source ~/.bashrc
 
 # Get repo info

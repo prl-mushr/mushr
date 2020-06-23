@@ -47,12 +47,12 @@ cd ~/catkin_ws/src/mushr/mushr_hardware
 git clone https://github.com/prl-mushr/push_button_utils
 
 # Setup rc.local
-echo "#!/bin/sh -e" > /tmp/rc.local
+echo '#!/bin/sh -e' > /tmp/rc.local
 echo "echo 200 > sys/class/gpio/export" >> /tmp/rc.local
 echo "chmod go+w /sys/class/gpio/gpio200/direction" >> /tmp/rc.local
 echo "chmod go+rw /sys/class/gpio/gpio200/value" >> /tmp/rc.local
 echo "echo \"in\" > /sys/class/gpio/gpio200/direction" >> /tmp/rc.local
-echo "rs enumerate-devices &> /dev/null" >> /tmp/rc.local
+echo "rs-enumerate-devices &> /dev/null" >> /tmp/rc.local
 echo "nvpmodel -m 0" >> /tmp/rc.local
 echo "sleep 60 && jetson_clocks" >> /tmp/rc.local
 sudo mv /tmp/rc.local /etc/rc.local
@@ -60,5 +60,8 @@ sudo mv /tmp/rc.local /etc/rc.local
 # Compile
 cd ~/catkin_ws
 catkin_make
+
+# Install timed roslaunch
+sudo apt install ros-melodic-timed-roslaunch
 
 echo "Hardware drivers installed, please reboot for changes to take effect"
