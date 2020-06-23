@@ -36,6 +36,7 @@ echo "ROS_IP=10.42.0.1" >> ~/.bashrc
 
 # Get repo info
 sudo apt install wget
+cd ~/catkin_ws/src
 wget https://mushr.io/tutorials/quickstart/repos.yaml
 
 # Clone the repos
