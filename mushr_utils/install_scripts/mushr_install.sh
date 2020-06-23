@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "This script will install all libraries necessary for the MuSHR racecar. It assumes that this SD card has freshly been flashed with the NVIDIA stock image, and that there is an internet connection"
-read -p "Would you like to proceed with installation? " -n 1 -r
+read -p "Would you like to proceed with installation? [y/n]" -n 1 -r
 echo    # (optional) move to a new line
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
