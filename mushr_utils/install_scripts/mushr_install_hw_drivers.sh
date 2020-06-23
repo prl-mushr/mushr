@@ -57,6 +57,8 @@ echo "nvpmodel -m 0" >> /tmp/rc.local
 echo "sleep 60 && jetson_clocks" >> /tmp/rc.local
 sudo mv /tmp/rc.local /etc/rc.local
 
+source /opt/ros/melodic/setup.bash
+
 # Compile
 cd ~/catkin_ws
 catkin_make
