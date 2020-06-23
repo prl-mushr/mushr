@@ -24,12 +24,15 @@ mkdir -p catkin_ws/src
 cd catkin_ws/src
 catkin_init_workspace
 
+source /opt/ros/melodic/setup.bash
+cd ~/catkin_ws
+catkin_make
+
 # Auto source this workspace on terminal startup
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
-source ~/.bashrc
+source ~/catkin_ws/devel/setup.bash
 
 echo "ROS_IP=10.42.0.1" >> ~/.bashrc
-source ~/.bashrc
 
 # Get repo info
 sudo apt install wget

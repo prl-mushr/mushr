@@ -9,18 +9,22 @@ then
 fi
 
 # Install ROS
-wget https://raw.githubusercontent.com/prl-mushr/mushr/master/mushr_utils/install_scripts/mushr_ros.sh
+cd ~
+wget https://raw.githubusercontent.com/prl-mushr/mushr/master/mushr_utils/install_scripts/mushr_install_ros.sh
 source mushr_install_ros.sh
+cd ~
 rm mushr_install_ros.sh
 
 # Install MuSHR stack
 wget https://raw.githubusercontent.com/prl-mushr/mushr/master/mushr_utils/install_scripts/mushr_install_stack.sh
 source mushr_install_stack.sh
+cd ~
 rm mushr_install_stack.sh
 
 # Install hardware drivers
 wget https://raw.githubusercontent.com/prl-mushr/mushr/master/mushr_utils/install_scripts/mushr_install_hw_drivers.sh
 source mushr_install_hw_drivers.sh
+cd ~
 rm mushr_install_hw_drivers.sh
 
 echo "Installation complete. Please continue with the software setup at https://mushr.io/hardware/build_instructions/#software-setup"
