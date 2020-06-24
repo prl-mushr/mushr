@@ -13,8 +13,8 @@
     <arg name="tf_prefix" default="/$(arg car_name)/camera"/>
   </include>
   <include file="$(find ydlidar)/launch/lidar.launch" >
-    <arg name="camera" value="/$(arg car_name)/camera" />
-    <arg name="tf_prefix" default="/$(arg car_name)/camera"/>
+    <arg name="car_name" value="$(arg car_name)" />
+    <arg name="tf_prefix" default="$(arg tf_prefix)"/>
   </include>
 
   <include file="$(find push_button_utils)/launch/push_button.launch" />
