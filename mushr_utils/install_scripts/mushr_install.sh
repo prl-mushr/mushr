@@ -27,4 +27,4 @@ source mushr_install_hw_drivers.sh
 cd ~
 rm mushr_install_hw_drivers.sh
 
-echo "Installation complete. Please continue with the software setup at https://mushr.io/hardware/build_instructions/#software-setup"
+echo "Installation complete."
