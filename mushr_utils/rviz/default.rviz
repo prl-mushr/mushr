@@ -27,7 +27,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Toolbars:
   toolButtonStyle: 2
 Visualization Manager:
@@ -149,14 +149,22 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        insets_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         laser_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
+        platform_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
       Name: RobotModel
-      Robot Description: robot_description
-      TF Prefix: ""
+      Robot Description: car/robot_description
+      TF Prefix: car
       Update Interval: 0
       Value: true
       Visual Enabled: true
@@ -215,25 +223,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 2.51612115
+      Distance: 9.53489304
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.0676573515
-        Y: 1.95012331
+        X: -0.363669515
+        Y: 0.845769167
         Z: -4.76837158e-07
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.565398216
+      Pitch: 0.345398068
       Target Frame: base_link
       Value: ThirdPersonFollower (rviz)
-      Yaw: 1.84039748
+      Yaw: 1.98539793
     Saved:
       - Angle: 0
         Class: rviz/TopDownOrtho
