@@ -192,8 +192,8 @@ Visualization Manager:
       Selectable: true
       Size (Pixels): 3
       Size (m): 0.0299999993
-      Style: Flat Squares
-      Topic: /scan
+      Style: Points
+      Topic: /car/scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
