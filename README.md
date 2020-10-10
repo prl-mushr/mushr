@@ -30,7 +30,7 @@ This is the main repository for MuSHR. Components are listed below. Note not all
 - [`mushr_pf`](https://github.com/prl-mushr/mushr_pf): The MuSHR particle filter used for localization in a known map.
 - [`mushr_pf.jl`](https://github.com/prl-mushr/mushr_pf.jl): Another MuSHR particle filter written in julia
 - [`mushr_rhc`](https://github.com/prl-mushr/mushr_rhc): The MuSHR receding horizon controller for navigation in a known map.
-- [`mushr_gp`](): The MuSHR global planner, for planning in a known map.
+- [`mushr_gp`](https://github.com/prl-mushr/mushr_gp): The MuSHR global planner, for planning in a known map.
 
 ## Machine Learning
 - [`mushr-dl`](https://github.com/prl-mushr/MUSHR-DL): A deep learning stack for reinforcement learning in the donkey sim
