@@ -35,8 +35,6 @@ This is the main repository for MuSHR. Components are listed below. Note not all
 ## Machine Learning
 - [`mushr-dl`](https://github.com/prl-mushr/MUSHR-DL): A deep learning stack for reinforcement learning in the donkey sim
 
-The directory structure after install is [here](https://raw.githubusercontent.com/prl-mushr/mushr/master/mushr_docs/structure.png?token=ADLMJKEM2OEXW5XMU5WQBOC5JNYLA).
-
 ## FAQ
 
 - **How do I get started?!**  
