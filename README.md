@@ -2,7 +2,14 @@
 # MuSHR
 Multi-agent System for non-Holonomic Racing
 
-This is the main repository for MuSHR. Components are listed below. Note not all components are installed by default. For install and running various components we reommend following our [tutorials](https://mushr.io/tutorials/) individually linked with each component.:
+This is the main repository for MuSHR.
+- [About MuSHR](https://mushr.io/about/)
+- [System Overview](https://mushr.io/tutorials/overview/)
+- [Build Instructions](https://mushr.io/hardware/build_instructions/)
+- [Simulation Quickstart](https://mushr.io/tutorials/quickstart/)
+- [Community Page](https://spectrum.chat/mushr?tab=posts)
+
+Components are listed below. Note not all components are installed by default. For install and running various components we reommend following our [tutorials](https://mushr.io/tutorials/) also individually linked with each component:
 
 ## Basic
 - [`mushr_docs`](https://github.com/prl-mushr/mushr/tree/master/mushr_docs) : Install and hardware related docs. Component documentation found with each component
