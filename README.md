@@ -1,6 +1,6 @@
 ![no image](https://github.com/prl-mushr/mushr/blob/master/header.jpg)
 # MuSHR
-MuShR: Multi-agent System for non-Holonomic Racing
+Multi-agent System for non-Holonomic Racing
 
 This is the main repository for MuSHR. Components are listed below. Note not all components are installed by default:
 
