@@ -13,4 +13,4 @@ cd vesc_tool
 
 qmake -qt=qt5
 
-make clean && make
+make clean && make -j4
