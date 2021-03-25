@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0.2)
 project(mushr_description)
 
 find_package(catkin REQUIRED)
@@ -20,7 +20,7 @@ function(build_xacro infile outfile xacro_args)
   # Process xacro into final output
   add_custom_command(OUTPUT "${outfile}"
     COMMENT "Generating ${outfile}"
-    COMMAND ${CATKIN_ENV} rosrun xacro xacro --inorder
+    COMMAND ${CATKIN_ENV} rosrun xacro xacro
     -o "${outfile}" "${infile}" ${_xacro_deps_result} ${xacro_args}
     DEPENDS "${infile}" ${_xacro_deps_result}
     VERBATIM)
