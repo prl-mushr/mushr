@@ -128,9 +128,10 @@ add_custom_target(link_mushr_nano_purple_gold ALL
 add_custom_target(link_mushr_nano_green_black ALL
                   COMMAND ${CMAKE_COMMAND} -E create_symlink ${MUSHR_NANO_GREEN_BLACK_URDF} ${MUSHR_NANO_GREEN_BLACK_LINK})
 
-install(DIRECTORY DESTINATION "${CATKIN_PACKAGE_SHARE_DESTINATION}/robots")
+install(DIRECTORY robots DESTINATION "${CATKIN_PACKAGE_SHARE_DESTINATION}")
+
 install(FILES
-  ${DESCRIPTION_FILES}
+  ${CORE_DESCRIPTION_FILES}
   DESTINATION "${CATKIN_PACKAGE_SHARE_DESTINATION}/robots")
 
 install(DIRECTORY meshes
