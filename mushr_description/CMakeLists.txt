@@ -54,9 +54,11 @@ set(MUSHR_TX2_GREEN_BLACK_URDF "${ROBOTS_OUTPUT_DIR}/mushr_tx2_green_black.urdf"
 set(MUSHR_TX2_GREEN_BLACK_LINK "${ROBOTS_OUTPUT_DIR}/racecar-uw-tx2-green-black.urdf")
 set(MUSHR_TX2_GREEN_BLACK_ARGS "platform_color:=green" "inset_color:=black")
 
-set(MUSHR_NANO_URDF_XACRO "${ROBOTS_SRC_DIR}/mushr_nano.urdf.xacro")
-set(MUSHR_NANO_URDF "${ROBOTS_OUTPUT_DIR}/mushr_nano.urdf")
-set(MUSHR_NANO_LINK "${ROBOTS_OUTPUT_DIR}/racecar-uw-nano.urdf")
+set(MUSHR_NANO_BASE "mushr_nano.urdf")
+set(MUSHR_NANO_LINK "racecar-uw-nano.urdf")
+set(MUSHR_NANO_URDF_XACRO "${ROBOTS_SRC_DIR}/${MUSHR_NANO_BASE}.xacro")
+set(MUSHR_NANO_URDF "${ROBOTS_OUTPUT_DIR}/${MUSHR_NANO_BASE}")
+set(MUSHR_NANO_LINK_DEVEL "${ROBOTS_OUTPUT_DIR}/${MUSHR_NANO_LINK}")
 
 set(MUSHR_NANO_RED_WHITE_URDF_XACRO "${ROBOTS_SRC_DIR}/mushr_nano.urdf.xacro")
 set(MUSHR_NANO_RED_WHITE_URDF "${ROBOTS_OUTPUT_DIR}/mushr_nano_red_white.urdf")
@@ -118,7 +120,7 @@ add_custom_target(link_mushr_tx2 ALL
 add_custom_target(link_mushr_tx2_green_black ALL
                   COMMAND ${CMAKE_COMMAND} -E create_symlink ${MUSHR_TX2_GREEN_BLACK_URDF} ${MUSHR_TX2_GREEN_BLACK_LINK})
 add_custom_target(link_mushr_nano ALL
-                  COMMAND ${CMAKE_COMMAND} -E create_symlink ${MUSHR_NANO_URDF} ${MUSHR_NANO_LINK})
+                  COMMAND ${CMAKE_COMMAND} -E create_symlink ${MUSHR_NANO_URDF} ${MUSHR_NANO_LINK_DEVEL})
 add_custom_target(link_mushr_nano_red_white ALL
                   COMMAND ${CMAKE_COMMAND} -E create_symlink ${MUSHR_NANO_RED_WHITE_URDF} ${MUSHR_NANO_RED_WHITE_LINK})
 add_custom_target(link_mushr_nano_teal_purple ALL
@@ -133,6 +135,13 @@ install(DIRECTORY robots DESTINATION "${CATKIN_PACKAGE_SHARE_DESTINATION}")
 install(FILES
   ${CORE_DESCRIPTION_FILES}
   DESTINATION "${CATKIN_PACKAGE_SHARE_DESTINATION}/robots")
+
+install(CODE "execute_process( \
+    COMMAND ${CMAKE_COMMAND} -E create_symlink \
+    ${CMAKE_INSTALL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/robots/${MUSHR_NANO_BASE}   \
+    ${CMAKE_INSTALL_PREFIX}/${CATKIN_PACKAGE_SHARE_DESTINATION}/robots/${MUSHR_NANO_LINK} \
+    )"
+)
 
 install(DIRECTORY meshes
   DESTINATION "${CATKIN_PACKAGE_SHARE_DESTINATION}")
