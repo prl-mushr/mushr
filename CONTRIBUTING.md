@@ -42,7 +42,7 @@ mushr_x
 Most notably ROS specific code should be separated from functional code. This allows for easier testing, and transferability to other systems.
 
 ### Code Format
-MuSHR generally follows [PEP8](https://www.python.org/dev/peps/pep-0008/) and enforce it using [flake8](https://flake8.pycqa.org/en/latest/). We also expect function, class, and file docstrings loosly following [google](https://google.github.io/styleguide/pyguide.html). Most importantly docstring should look like the following:
+MuSHR generally follows [PEP8](https://www.python.org/dev/peps/pep-0008/) and enforces it using [flake8](https://flake8.pycqa.org/en/latest/). We also expect function, class, and file docstrings loosly following [google](https://google.github.io/styleguide/pyguide.html). Most importantly docstring should look like the following:
 ```python
 """
 Description of my file
@@ -61,7 +61,7 @@ class MyClass:
         """
         Adds the two arguments.
         
-        Arguments:
+        Attributes:
           arg1 (float): first number to add
           arg2 (float): second number to add
         
