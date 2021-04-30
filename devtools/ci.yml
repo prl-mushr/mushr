@@ -1,0 +1,63 @@
+# This is an example github action to start for MuSHR edited from github's python github action
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: build-test 
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.x 
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install isort flake8 flake8-docstrings 
+
+    - name: Check imports organization with isort 
+      run: |
+        # Check imports organization with isort 
+        isort . -c
+
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --max-complexity=18 --max-line-length=127 --show-source --statistics --docstring-convention google --ignore=D212,D415,D205,D410,D411
+
+  build_test:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [2.7, 3.7]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+
+    - name: Test with pytest
+      run: |
+        pytest --cov=. --cov-report=xml
+
