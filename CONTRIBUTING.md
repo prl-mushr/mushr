@@ -34,7 +34,7 @@ mushr_x
 ├── rviz # useful to have a custom config if you create a tutorial around your code
 │   ├── mushr_x.rviz
 └── src
-    ├── librhc # no ROS code should be in core code
+    ├── libx # no ROS code should be in core code
     │   ├── package_files.py
     │   ├── __init__.py
     ├── mushr_x_node.py # ROS wrapper around core code
