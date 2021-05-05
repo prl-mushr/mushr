@@ -7,7 +7,7 @@ For internal MuSHR team please *branch* and then PR.
 
 2. **Creating a new tutorial:** Have a cool tutorial that others may find interesting? Then fork (external) or branch (internal team) the [mushr-website](https://github.com/prl-mushr/mushr-website) repo and follow the instructions for how to create a new tutorial. A template is provide which will help you get started with our expectations/formatting. When ready submit a PR.
 
-3. **Creating a new mushr_x repo:** If you've created something new and amazing that others would enjoy you can also submit a new mushr repo to be added to our list of external repos. That way you can still have control to maintain the repo how you wish, although we ask you follow similar practices to our repos as users are familiar with that format.
+3. **Creating a new mushr_x repo:** If you've created something new and amazing that others would enjoy you can also submit a new mushr repo to be added to our list of external repos. That way you can still have control to maintain the repo how you wish, although we ask you follow similar practices to our repos as users are familiar with that format. For internal members, we can add your repo if it meets the linting, documentation, and testing requirements.
 
 # Linting / Formatting
 When evaluating format we look at code quality and overall directory structure. 
@@ -33,11 +33,12 @@ mushr_x
 │   ├── my_map.yaml
 ├── rviz # useful to have a custom config if you create a tutorial around your code
 │   ├── mushr_x.rviz
+├── scripts # scripts to start nodes or nodes themselves. If you have multiple nodes make a nodes directory and put them there instead
+    ├── mushr_x_node # ROS wrapper around core code. No .py extension
 └── src
-    ├── libx # no ROS code should be in core code
+    ├── mushr_x # no ROS code should be in core code
     │   ├── package_files.py
     │   ├── __init__.py
-    ├── mushr_x_node.py # ROS wrapper around core code
 ```
 Most notably ROS specific code should be separated from functional code. This allows for easier testing, and transferability to other systems.
 
@@ -80,6 +81,9 @@ To run auto-formatting:
 To lint:  
 `isort . -c` If you auto-format this is not necessary  
 `flake8 --config devtools/.flake8`  
+
+## Documentation
+For all MuSHR repos there must be docstrings (see linting) for each function, file, and class. Further each repo must contation a README.md that follows the EXAMPLE_README.md format.
 
 ## Tests
 TODO
