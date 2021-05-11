@@ -1,7 +1,7 @@
 # MuSHR flake8 config
 
 [flake8]
-ignore = D212,D415,D205,D410,D411
+ignore = D212,D415,D205,D410,D411,W503
 max-line-length = 127 
 max-complexity = 18
 docstring-convention=google
