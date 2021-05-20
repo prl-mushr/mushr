@@ -7,7 +7,7 @@ This is the main repository for MuSHR.
 - [System Overview](https://mushr.io/tutorials/overview/)
 - [Build Instructions](https://mushr.io/hardware/build_instructions/)
 - [Simulation Quickstart](https://mushr.io/tutorials/quickstart/)
-- [Community Page](https://spectrum.chat/mushr?tab=posts)
+- [Community Page](https://github.com/prl-mushr/mushr/discussions)
 
 Components are listed below. Note not all components are installed by default. For install and running various components we recommend following our [tutorials](https://mushr.io/tutorials/) also individually linked with each component:
 
