@@ -37,7 +37,7 @@ echo "export ROS_IP=10.42.0.1" >> ~/.bashrc
 # Get repo info
 sudo apt install wget
 cd ~/catkin_ws/src
-wget https://mushr.io/tutorials/quickstart/repos.yaml
+wget https://raw.githubusercontent.com/prl-mushr/mushr/master/repos.yaml
 
 # Clone the repos
 vcs import < repos.yaml
