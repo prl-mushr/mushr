@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Install git
-sudo apt install git-all
+sudo apt install git-all -y
 
 # Install tkinter
-sudo apt install python-tk
+sudo apt install python-tk -y
 
 # Install vcstool
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
