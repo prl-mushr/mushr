@@ -18,7 +18,7 @@ repositories:
   mushr/mushr_hardware/realsense:
     type: git
     url: https://github.com/IntelRealSense/realsense-ros.git
-    version: 31fa75ec835650d319f2d5abd3f7d0ab66fd37f4
+    version: development
   range_libc:
     type: git
     url: https://github.com/prl-mushr/range_libc
