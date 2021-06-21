@@ -10,13 +10,13 @@ sudo apt install python-tk
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv-key 0xAB17C654
 sudo apt-get update
-sudo apt-get install python3-vcstool
+sudo apt-get install python3-vcstool -y
 
 # Install pip
 sudo apt install python-pip
 
 # Install extra ROS packages
-sudo apt install -y ros-melodic-ackermann-msgs ros-melodic-map-server ros-melodic-serial ros-melodic-urg-node ros-melodic-robot-state-publisher ros-melodic-xacro ros-melodic-joy
+sudo apt install -y ros-melodic-ackermann-msgs ros-melodic-map-server ros-melodic-serial ros-melodic-urg-node ros-melodic-robot-state-publisher ros-melodic-xacro ros-melodic-joy -y
 
 # Create workspace
 cd ~

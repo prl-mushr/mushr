@@ -19,7 +19,7 @@ sudo startup/initenv.sh
 # Install BLDC tool. Following commands adapted from:
 # https://github.com/jetsonhacks/installBLDC/blob/master/installBLDC.sh
 cd $ROOT
-sudo apt-get install qtcreator libqt4-dev libudev-dev libqt5serialport5-dev 
+sudo apt-get install qtcreator libqt4-dev libudev-dev libqt5serialport5-dev -y 
 git clone https://github.com/vedderb/bldc-tool
 cd bldc-tool
 qmake -qt=qt5
@@ -65,6 +65,6 @@ cd ~/catkin_ws
 catkin_make
 
 # Install timed roslaunch
-sudo apt install ros-melodic-timed-roslaunch
+sudo apt install ros-melodic-timed-roslaunch -y
 
 echo "Hardware drivers installed, please reboot for changes to take effect"
