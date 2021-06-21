@@ -3,9 +3,10 @@
 # Need to reboot after running this script
 
 # Install librealsense. Following commands copied from
-# https://github.com/JetsonHacksNano/installLibrealsense/blob/master/installLibrealsense.sh
-sudo apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key
-sudo add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo bionic main" -u
+# https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md
+sudo apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
+sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F42ED6FBAB17C654
 sudo apt-get install apt-utils -y
 sudo apt-get install librealsense2-utils librealsense2-dev -y
 
@@ -18,7 +19,7 @@ sudo startup/initenv.sh
 # Install BLDC tool. Following commands adapted from:
 # https://github.com/jetsonhacks/installBLDC/blob/master/installBLDC.sh
 cd $ROOT
-sudo apt-get install qtcreator libqt4-dev libudev-dev libqt5serialport5-dev 
+sudo apt-get install qtcreator libqt4-dev libudev-dev libqt5serialport5-dev -y 
 git clone https://github.com/vedderb/bldc-tool
 cd bldc-tool
 qmake -qt=qt5
@@ -64,6 +65,6 @@ cd ~/catkin_ws
 catkin_make
 
 # Install timed roslaunch
-sudo apt install ros-melodic-timed-roslaunch
+sudo apt install ros-melodic-timed-roslaunch -y
 
 echo "Hardware drivers installed, please reboot for changes to take effect"
