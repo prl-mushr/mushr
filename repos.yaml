@@ -2,19 +2,15 @@ repositories:
   mushr_sim:
     type: git
     url: https://github.com/prl-mushr/mushr_sim.git
-    version: master
-  mushr:
-    type: git
-    url: https://github.com/prl-mushr/mushr.git
-    version: master
+    version: noetic 
   mushr/mushr_base/mushr_base:
     type: git
     url: https://github.com/prl-mushr/mushr_base.git
-    version: master
+    version: noetic 
   mushr/mushr_base/vesc:
     type: git
     url: https://github.com/prl-mushr/vesc.git
-    version: master
+    version: noetic 
   mushr/mushr_hardware/realsense:
     type: git
     url: https://github.com/IntelRealSense/realsense-ros.git
@@ -22,4 +18,4 @@ repositories:
   range_libc:
     type: git
     url: https://github.com/kctess5/range_libc.git
-    version: deploy
+    version: python3 

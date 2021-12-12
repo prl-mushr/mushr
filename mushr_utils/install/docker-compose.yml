@@ -1,0 +1,36 @@
+version: "3.4"
+services:
+  mushr_noetic:
+    build: 
+      context: .
+      args: 
+        REAL: ${REAL_ROBOT}
+    network_mode: "host"
+    privileged: true
+    devices:
+      - "/dev:/dev"
+      - "/dev/ydlidar:/dev/ydlidar"
+      - "/dev/vesc:/dev/vesc"
+      - "/dev/input/js0:/dev/input/js0"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - /usr/bin/tegrastats:/usr/bin/tegrastats 
+      - /etc/udev:/etc/udev
+      - /sys/class/gpio:/sys/class/gpio
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev:/dev
+      - /dev/input:/dev/input
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - NEVIAID_DRIVER_CAPABILITIES=all
+      - NVIDIA_VISIBLE_DEVICES=all
+
+# docker run -it --runtime nvidia -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix -v /etc/udev:/etc/udev -v /usr/bin/tegrastats:/usr/bin/tegrastats --device /dev --privileged --net=host --env=NVIDIA_VISIBLE_DEVICES=all --env=NEVIAID_DRIVER_CAPABILITIES=all --env QT_X11_NO_MITSHM=1 85fc23722f0c bash
+
