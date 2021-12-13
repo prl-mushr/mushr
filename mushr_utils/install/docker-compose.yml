@@ -26,6 +26,7 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /dev:/dev
       - /dev/input:/dev/input
+      - ${WS_PATH}/catkin_ws:~/catkin_ws
     environment:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1

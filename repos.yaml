@@ -11,6 +11,10 @@ repositories:
     type: git
     url: https://github.com/prl-mushr/vesc.git
     version: noetic 
+  mushr/mushr_base/ackermann_cmd_mux:
+    type: git
+    url: https://github.com/prl-mushr/ackermann_cmd_mux.git
+    version: noetic 
   mushr/mushr_hardware/realsense:
     type: git
     url: https://github.com/IntelRealSense/realsense-ros.git
@@ -18,4 +22,4 @@ repositories:
   range_libc:
     type: git
     url: https://github.com/kctess5/range_libc.git
-    version: python3 
+    version: noetic 

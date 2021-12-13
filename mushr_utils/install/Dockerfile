@@ -29,6 +29,6 @@ RUN mkdir install_scripts
 
 # Hardware drivers
 # 1 = real robot, 0 = sim (laptop)
-ARG REAL=1 
-ADD install_scripts/mushr_install_hw_drivers.sh install_scripts/mushr_install_hw_drivers.sh
-RUN if [ "$REAL" = 1 ] ; then chmod +x install_scripts/mushr_install_hw_drivers.sh && install_scripts/mushr_install_hw_drivers.sh ; fi
+#ARG REAL=1 
+#ADD install_scripts/mushr_install_hw_drivers.sh install_scripts/mushr_install_hw_drivers.sh
+#RUN if [ "$REAL" = 1 ] ; then chmod +x install_scripts/mushr_install_hw_drivers.sh && install_scripts/mushr_install_hw_drivers.sh ; fi

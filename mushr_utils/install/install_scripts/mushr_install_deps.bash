@@ -23,16 +23,12 @@ pip install Cython
 # Create OpenCV symbolic link
 ln -s /usr/include/opencv4 /usr/include/opencv
 
-# Create workspace
+# Init workspace
 source /opt/ros/noetic/setup.bash
-cd ~
-mkdir -p catkin_ws/src
-cd catkin_ws
+cd ~/catkin_ws
 catkin init
 catkin build
 
 # Auto source this workspace on terminal startup
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 source ~/catkin_ws/devel/setup.bash
-
-echo "export ROS_IP=10.42.0.1" >> ~/.bashrc
