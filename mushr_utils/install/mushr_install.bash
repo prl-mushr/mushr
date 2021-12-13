@@ -1,17 +1,28 @@
 #!/bin/bash
+
+# Are we in the right place to be running this?
 if [[ ! -f mushr_install.bash ]]; then
   echo Wrong directory! Change directory to the one containing mushr_install.bash
   exit 1
 fi
-PATH=pwd
+INSTALL_PATH=$(pwd)
 
-# Get user info
+# Real robot or on a laptop?
 read -p "Are you installing on robot and need all the sensor drivers? (y/n) " -r
 echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    export REAL_ROBOT=1
+else
+    export REAL_ROBOT=0
+fi
+
+# Get user info
 if [[ ! -f .install_run.txt ]]; then
   touch .install_run.txt # Prevents running these commands multiple times. Bit hacky
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
+
+  if [[ $REAL_ROBOT == 1 ]]; then
     echo Running robot specific commands
+
     # Need to connect to ydlidar
     git clone https://github.com/prl-mushr/ydlidar
     cd ydlidar
@@ -41,27 +52,25 @@ if [[ ! -f .install_run.txt ]]; then
     echo "nvpmodel -m 0" >> /tmp/rc.local
     echo "sleep 60 && jetson_clocks" >> /tmp/rc.local
     sudo mv /tmp/rc.local /etc/rc.local
-    export REAL_ROBOT=1
-  else
-    export REAL_ROBOT=0
   fi
 
   # Make catkin_ws outside container for easy editing
   mkdir -p ../../../catkin_ws/src
   cd ../../../ && mv mushr catkin_ws/src/mushr
-  WS_PATH=pwd
   apt-get install -y python3-vcstool
   cd catkin_ws/src/ && vcs import < mushr/repos.yaml
+  cd mushr/mushr_utils/install/ && INSTALL_PATH=$(pwd)
 
 fi
 
 # Build container
-cd $PATH
+cd $INSTALL_PATH 
+WS_PATH=$(pwd | sed 's/catkin_ws.*//')
 docker-compose up
 
 read -p $'Add "xhost +" to .bashrc? This enables GUI from docker but is a security risk.\nIf no, each time you run the docker container you will need to execute this command.\nAdd xhost + .bashrc? (y/n) ' -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  echo WARNING: Adding "xhost" + to .bashrc 
-  echo "xhost +" >> ~/.bashrc && source ~/.bashrc
+  echo WARNING: Adding "xhost +" to .bashrc 
+  echo "xhost + >> /dev/null" >> ~/.bashrc && source ~/.bashrc
 fi
