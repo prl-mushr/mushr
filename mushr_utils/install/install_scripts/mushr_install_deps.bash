@@ -10,7 +10,7 @@ apt-get update
 apt-get install -y python3-vcstool python3-pip
 
 # Install extra ROS packages
-apt-get install -y ros-noetic-ackermann-msgs ros-noetic-map-server ros-noetic-urg-node ros-noetic-robot-state-publisher ros-noetic-xacro ros-noetic-joy
+apt-get install -y ros-noetic-ackermann-msgs ros-noetic-map-server ros-noetic-urg-node ros-noetic-robot-state-publisher ros-noetic-xacro ros-noetic-joy ros-noetic-ddynamic-reconfigure
 
 # Install catkin tools
 wget http://packages.ros.org/ros.key -O - | apt-key add -
@@ -23,12 +23,5 @@ pip install Cython
 # Create OpenCV symbolic link
 ln -s /usr/include/opencv4 /usr/include/opencv
 
-# Init workspace
-source /opt/ros/noetic/setup.bash
-cd ~/catkin_ws
-catkin init
-catkin build
-
 # Auto source this workspace on terminal startup
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
-source ~/catkin_ws/devel/setup.bash

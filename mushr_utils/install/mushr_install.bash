@@ -5,7 +5,7 @@ if [[ ! -f mushr_install.bash ]]; then
   echo Wrong directory! Change directory to the one containing mushr_install.bash
   exit 1
 fi
-INSTALL_PATH=$(pwd)
+export INSTALL_PATH=$(pwd)
 
 # Real robot or on a laptop?
 read -p "Are you installing on robot and need all the sensor drivers? (y/n) " -r
@@ -39,7 +39,7 @@ if [[ ! -f .install_run.txt ]]; then
     pip install Jetson.GPIO
     sudo groupadd -f -r gpio
     sudo usermod -a -G gpio $USER
-    wget https://raw.githubusercontent.com/NVIDIA/jetson-gpio/master/lib/python/Jetson/GPIO/99-gpio.rules -O /etc/udev/rules.d/99-gpio.rules
+    sudo wget https://raw.githubusercontent.com/NVIDIA/jetson-gpio/master/lib/python/Jetson/GPIO/99-gpio.rules -O /etc/udev/rules.d/99-gpio.rules
     sudo udevadm control --reload-rules && udevadm trigger
 
     # Setup rc.local
@@ -57,15 +57,15 @@ if [[ ! -f .install_run.txt ]]; then
   # Make catkin_ws outside container for easy editing
   mkdir -p ../../../catkin_ws/src
   cd ../../../ && mv mushr catkin_ws/src/mushr
-  apt-get install -y python3-vcstool
+  sudo apt-get install -y python3-vcstool
   cd catkin_ws/src/ && vcs import < mushr/repos.yaml
-  cd mushr/mushr_utils/install/ && INSTALL_PATH=$(pwd)
+  cd mushr/mushr_utils/install/ && export INSTALL_PATH=$(pwd)
 
 fi
 
 # Build container
 cd $INSTALL_PATH 
-WS_PATH=$(pwd | sed 's/catkin_ws.*//')
+export WS_PATH=$(pwd | sed 's:/catkin_ws.*::')
 docker-compose up
 
 read -p $'Add "xhost +" to .bashrc? This enables GUI from docker but is a security risk.\nIf no, each time you run the docker container you will need to execute this command.\nAdd xhost + .bashrc? (y/n) ' -r

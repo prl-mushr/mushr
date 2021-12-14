@@ -9,26 +9,22 @@ RUN apt-get update -y \
 
 # Adding/Running files separately allows us to cache
 RUN mkdir install_scripts
+ARG INSTALL_PATH 
 
 # ROS Noetic
-ADD install_scripts/mushr_install_ros.sh install_scripts/mushr_install_ros.sh
-RUN chmod +x install_scripts/mushr_install_ros.sh && install_scripts/mushr_install_ros.sh 
+ADD $INSTALL_PATH/install_scripts/mushr_install_ros.bash install_scripts/mushr_install_ros.bash
+RUN chmod +x install_scripts/mushr_install_ros.bash && install_scripts/mushr_install_ros.bash 
 
 # Catkin build and other deps
-ADD install_scripts/mushr_install_deps.sh install_scripts/mushr_install_deps.sh
-RUN chmod +x install_scripts/mushr_install_deps.sh && install_scripts/mushr_install_deps.sh 
+ADD catkin_ws catkin_ws
+ADD $INSTALL_PATH/install_scripts/mushr_install_deps.bash install_scripts/mushr_install_deps.bash
+RUN chmod +x install_scripts/mushr_install_deps.bash && install_scripts/mushr_install_deps.bash 
 
-# MuSHR base repos 
-ADD mushr /root/catkin_ws/src/mushr
-ADD mushr_sim /root/catkin_ws/src/mushr_sim
-ADD serial /root/catkin_ws/src/serial
-ADD range_libc /root/catkin_ws/src/range_libc
-
-ADD install_scripts/mushr_install_stack.sh install_scripts/mushr_install_stack.sh
-RUN chmod +x install_scripts/mushr_install_stack.sh && install_scripts/mushr_install_stack.sh 
+ADD $INSTALL_PATH/install_scripts/mushr_install_stack.bash install_scripts/mushr_install_stack.bash
+RUN chmod +x install_scripts/mushr_install_stack.bash && install_scripts/mushr_install_stack.bash 
 
 # Hardware drivers
 # 1 = real robot, 0 = sim (laptop)
 ARG REAL=1 
-ADD install_scripts/mushr_install_hw_drivers.sh install_scripts/mushr_install_hw_drivers.sh
-RUN if [ "$REAL" = 1 ] ; then chmod +x install_scripts/mushr_install_hw_drivers.sh && install_scripts/mushr_install_hw_drivers.sh ; fi
+ADD $INSTALL_PATH/install_scripts/mushr_install_hw_drivers.bash install_scripts/mushr_install_hw_drivers.bash
+RUN if [ "$REAL" = 1 ] ; then chmod +x install_scripts/mushr_install_hw_drivers.bash && install_scripts/mushr_install_hw_drivers.bash ; fi

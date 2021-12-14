@@ -21,5 +21,17 @@ repositories:
     version: 31fa75ec835650d319f2d5abd3f7d0ab66fd37f4
   range_libc:
     type: git
-    url: https://github.com/kctess5/range_libc.git
+    url: https://github.com/prl-mushr/range_libc.git 
     version: noetic 
+  mushr/mushr_hardware/push_button_utils:
+    type: git
+    url: https://github.com/prl-mushr/push_button_utils.git 
+    version: master 
+  mushr/mushr_hardware/ydlidar:
+    type: git
+    url: https://github.com/prl-mushr/ydlidar.git 
+    version: master 
+  serial:
+    type: git
+    url: https://github.com/wjwwood/serial.git
+    version: main

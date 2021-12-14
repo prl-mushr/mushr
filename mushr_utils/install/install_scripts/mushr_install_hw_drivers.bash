@@ -12,10 +12,6 @@ add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo bionic ma
 apt-get install rsync -y
 apt-get install librealsense2-utils librealsense2-dev -y
 
-# Install YDLidar drivers
-cd ~/catkin_ws/src/mushr/mushr_hardware
-git clone https://github.com/prl-mushr/ydlidar
-
 # Install BLDC tool. Following commands adapted from:
 # https://github.com/jetsonhacks/installBLDC/blob/master/installBLDC.sh
 cd $ROOT
@@ -27,12 +23,5 @@ make clean & make
 
 # Install push-button drivers
 apt-get install Jetson.GPIO -y
-cd ~/catkin_ws/src/mushr/mushr_hardware
-git clone https://github.com/prl-mushr/push_button_utils
+rm /usr/bin/python
 ln -s /usr/bin/python3 /usr/bin/python
-
-source ~/.bashrc
-
-# Compile
-cd ~/catkin_ws
-catkin build
