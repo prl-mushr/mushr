@@ -10,7 +10,7 @@ apt-get update
 apt-get install -y python3-vcstool python3-pip
 
 # Install extra ROS packages
-apt-get install -y ros-noetic-ackermann-msgs ros-noetic-map-server ros-noetic-urg-node ros-noetic-robot-state-publisher ros-noetic-xacro ros-noetic-joy ros-noetic-ddynamic-reconfigure
+apt-get install -y ros-noetic-ackermann-msgs ros-noetic-map-server ros-noetic-urg-node ros-noetic-robot-state-publisher ros-noetic-xacro ros-noetic-joy ros-noetic-ddynamic-reconfigure ros-noetic-fake-localization
 
 # Install catkin tools
 wget http://packages.ros.org/ros.key -O - | apt-key add -
@@ -25,3 +25,16 @@ ln -s /usr/include/opencv4 /usr/include/opencv
 
 # Auto source this workspace on terminal startup
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+
+# Install rangelibc
+cd ~/catkin_ws/src/range_libc/pywrapper
+python3 setup.py install
+cd ~/catkin_ws/src
+rm -rf range_libc
+
+# Create default RVIZ setup
+mkdir ~/.rviz
+cp ~/catkin_ws/src/mushr/mushr_utils/rviz/default.rviz ~/.rviz/
+
+# Set ROS_IP
+export ROS_IP=$(ifconfig wlan0 | grep "inet " | awk '{print $2}')

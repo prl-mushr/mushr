@@ -20,7 +20,6 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              count: all
               capabilities: [gpu]
     volumes:
       - /usr/bin/tegrastats:/usr/bin/tegrastats 
@@ -35,6 +34,3 @@ services:
       - QT_X11_NO_MITSHM=1
       - NEVIAID_DRIVER_CAPABILITIES=all
       - NVIDIA_VISIBLE_DEVICES=all
-
-# docker run -it --runtime nvidia -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix -v /etc/udev:/etc/udev -v /usr/bin/tegrastats:/usr/bin/tegrastats --device /dev --privileged --net=host --env=NVIDIA_VISIBLE_DEVICES=all --env=NEVIAID_DRIVER_CAPABILITIES=all --env QT_X11_NO_MITSHM=1 85fc23722f0c bash
-

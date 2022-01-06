@@ -1,0 +1,30 @@
+version: "3.4"
+services:
+  mushr_noetic:
+    build: 
+      context: ${WS_PATH}
+      dockerfile: ${INSTALL_PATH}/Dockerfile
+      args: 
+        REAL: ${REAL_ROBOT}
+        WS_PATH: ${WS_PATH}
+        INSTALL_PATH: /catkin_ws/src/mushr/mushr_utils/install
+    network_mode: "host"
+    privileged: true
+    devices:
+      - "/dev:/dev"
+      - "/dev/ydlidar:/dev/ydlidar"
+      - "/dev/vesc:/dev/vesc"
+      - "/dev/input/js0:/dev/input/js0"
+    volumes:
+      - /usr/bin/tegrastats:/usr/bin/tegrastats 
+      - /etc/udev:/etc/udev
+      - /sys/class/gpio:/sys/class/gpio
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev:/dev
+      - /dev/input:/dev/input
+      - ${WS_PATH}/catkin_ws:/root/catkin_ws # Runtime attach
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - NEVIAID_DRIVER_CAPABILITIES=all
+      - NVIDIA_VISIBLE_DEVICES=all

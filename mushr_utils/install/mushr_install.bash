@@ -16,6 +16,15 @@ else
     export REAL_ROBOT=0
 fi
 
+# NVIDIA GPU? 
+read -p "Do you have a nvidia gpu with installed drivers? (y/n) " -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    export GPU=docker-compose-gpu.yml
+else
+    export GPU=docker-compose-cpu.yml
+fi
+
 # Get user info
 if [[ ! -f .install_run.txt ]]; then
   touch .install_run.txt # Prevents running these commands multiple times. Bit hacky
@@ -61,12 +70,28 @@ if [[ ! -f .install_run.txt ]]; then
   cd catkin_ws/src/ && vcs import < mushr/repos.yaml
   cd mushr/mushr_utils/install/ && export INSTALL_PATH=$(pwd)
 
+  # Make sure environment Variables are always set
+  export WS_PATH=$(pwd | sed 's:/catkin_ws.*::')
+  echo "export INSTALL_PATH=${INSTALL_PATH}" >> ~/.bashrc
+  echo "export REAL_ROBOT=${REAL_ROBOT}" >> ~/.bashrc
+  echo "export WS_PATH=${WS_PATH}" >> ~/.bashrc
+
+  # If laptop, don't build realsense2_camera, ydlidar, or push_button_utils
+  if [[ $REAL_ROBOT == 0 ]]; then
+      touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/push_button_utils/CATKIN_IGNORE
+      touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/ydlidar/CATKIN_IGNORE
+      touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/realsense/realsense2_camera/CATKIN_IGNORE
+  fi
+
 fi
 
 # Build container
 cd $INSTALL_PATH 
-export WS_PATH=$(pwd | sed 's:/catkin_ws.*::')
-docker-compose up
+docker-compose -f $GPU up
+
+# Shortcut
+echo "alias mushr_noetic='docker-compose -f $INSTALL_PATH/$GPU run mushr_noetic bash'" >> ~/.bashrc
+
 
 read -p $'Add "xhost +" to .bashrc? This enables GUI from docker but is a security risk.\nIf no, each time you run the docker container you will need to execute this command.\nAdd xhost + .bashrc? (y/n) ' -r
 echo
