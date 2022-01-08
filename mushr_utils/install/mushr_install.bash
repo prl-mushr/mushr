@@ -20,15 +20,20 @@ fi
 read -p "Do you have a nvidia gpu with installed drivers? (y/n) " -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    export GPU=docker-compose-gpu.yml
+    if [[ $REAL_ROBOT == 1]]; then
+      export COMPOSE_FILE=docker-compose-robot.yml
+    else
+      export COMPOSE_FILE=docker-compose-gpu.yml
+    fi
 else
-    export GPU=docker-compose-cpu.yml
+    export COMPOSE_FILE=docker-compose-cpu.yml
 fi
 
 # Get user info
 if [[ ! -f .install_run.txt ]]; then
   touch .install_run.txt # Prevents running these commands multiple times. Bit hacky
 
+  # TODO install docker, noetic docker, docker-compose
   if [[ $REAL_ROBOT == 1 ]]; then
     echo Running robot specific commands
 
@@ -67,7 +72,7 @@ if [[ ! -f .install_run.txt ]]; then
   mkdir -p ../../../catkin_ws/src
   cd ../../../ && mv mushr catkin_ws/src/mushr
   sudo apt-get install -y python3-vcstool
-  cd catkin_ws/src/ && vcs import < mushr/repos.yaml
+  cd catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import < mushr/nav-repos.yaml
   cd mushr/mushr_utils/install/ && export INSTALL_PATH=$(pwd)
 
   # Make sure environment Variables are always set
@@ -75,6 +80,7 @@ if [[ ! -f .install_run.txt ]]; then
   echo "export INSTALL_PATH=${INSTALL_PATH}" >> ~/.bashrc
   echo "export REAL_ROBOT=${REAL_ROBOT}" >> ~/.bashrc
   echo "export WS_PATH=${WS_PATH}" >> ~/.bashrc
+  echo "export COMPOSE_FILE=${COMPOSE_FILE}" >> ~/.bashrc
 
   # If laptop, don't build realsense2_camera, ydlidar, or push_button_utils
   if [[ $REAL_ROBOT == 0 ]]; then
@@ -83,15 +89,17 @@ if [[ ! -f .install_run.txt ]]; then
       touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/realsense/realsense2_camera/CATKIN_IGNORE
   fi
 
+  # Shortcuts
+  echo "alias mushr_noetic=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash\"" >> ~/.bashrc
+  # TODO these don't work
+  #echo "alias mushr_build=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash -c 'cd /root/catkin_ws && catkin_build'\" ">> ~/.bashrc
+  #echo "alias mushr_teleop=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic roslaunch mushr_base teleop.launch\" ">> ~/.bashrc
+
 fi
 
 # Build container
 cd $INSTALL_PATH 
-docker-compose -f $GPU up
-
-# Shortcut
-echo "alias mushr_noetic='docker-compose -f $INSTALL_PATH/$GPU run mushr_noetic bash'" >> ~/.bashrc
-
+docker-compose -f $COMPOSE_FILE up
 
 read -p $'Add "xhost +" to .bashrc? This enables GUI from docker but is a security risk.\nIf no, each time you run the docker container you will need to execute this command.\nAdd xhost + .bashrc? (y/n) ' -r
 echo
