@@ -20,7 +20,7 @@ fi
 read -p "Do you have a nvidia gpu with installed drivers? (y/n) " -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    if [[ $REAL_ROBOT == 1]]; then
+    if [[ $REAL_ROBOT == 1 ]]; then
       export COMPOSE_FILE=docker-compose-robot.yml
     else
       export COMPOSE_FILE=docker-compose-gpu.yml
@@ -29,12 +29,15 @@ else
     export COMPOSE_FILE=docker-compose-cpu.yml
 fi
 
-# Get user info
-if [[ ! -f .install_run.txt ]]; then
-  touch .install_run.txt # Prevents running these commands multiple times. Bit hacky
+# Build from scratch (assumes GPU)?
+read -p "Developer build from scratch (takes much longer than pulling ready-made image)? (y/n) " -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  export COMPOSE_FILE=docker-compose-build.yml
+fi
 
-  # TODO install docker, noetic docker, docker-compose
-  if [[ $REAL_ROBOT == 1 ]]; then
+# Robot specific settings
+if [[ $REAL_ROBOT == 1 ]]; then
     echo Running robot specific commands
 
     # Need to connect to ydlidar
@@ -66,44 +69,67 @@ if [[ ! -f .install_run.txt ]]; then
     echo "nvpmodel -m 0" >> /tmp/rc.local
     echo "sleep 60 && jetson_clocks" >> /tmp/rc.local
     sudo mv /tmp/rc.local /etc/rc.local
-  fi
+fi
 
-  # Make catkin_ws outside container for easy editing
+# vcstool https://github.com/dirk-thomas/vcstool 
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+sudo apt-get update && sudo apt-get install -y curl
+curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+sudo apt-get update && sudo apt install -y python3-vcstool
+
+# Make catkin_ws outside container for easy editing
+if [[ ! -d "../../../../../catkin_ws" ]]; then
   mkdir -p ../../../catkin_ws/src
   cd ../../../ && mv mushr catkin_ws/src/mushr
-  sudo apt-get install -y python3-vcstool
-  cd catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import < mushr/nav-repos.yaml
-  cd mushr/mushr_utils/install/ && export INSTALL_PATH=$(pwd)
-
-  # Make sure environment Variables are always set
-  export WS_PATH=$(pwd | sed 's:/catkin_ws.*::')
-  echo "export INSTALL_PATH=${INSTALL_PATH}" >> ~/.bashrc
-  echo "export REAL_ROBOT=${REAL_ROBOT}" >> ~/.bashrc
-  echo "export WS_PATH=${WS_PATH}" >> ~/.bashrc
-  echo "export COMPOSE_FILE=${COMPOSE_FILE}" >> ~/.bashrc
-
-  # If laptop, don't build realsense2_camera, ydlidar, or push_button_utils
-  if [[ $REAL_ROBOT == 0 ]]; then
-      touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/push_button_utils/CATKIN_IGNORE
-      touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/ydlidar/CATKIN_IGNORE
-      touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/realsense/realsense2_camera/CATKIN_IGNORE
-  fi
-
-  # Shortcuts
-  echo "alias mushr_noetic=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash\"" >> ~/.bashrc
-  # TODO these don't work
-  #echo "alias mushr_build=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash -c 'cd /root/catkin_ws && catkin_build'\" ">> ~/.bashrc
-  #echo "alias mushr_teleop=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic roslaunch mushr_base teleop.launch\" ">> ~/.bashrc
-
 fi
+
+# Pull repos
+export WS_PATH=$(pwd | sed 's:/catkin_ws.*::')
+cd $WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import < mushr/nav-repos.yaml
+cd mushr/mushr_utils/install/ && export INSTALL_PATH=$(pwd)
+
+# Make sure environment Variables are always set
+if ! grep -Fq "export INSTALL_PATH=" ~/.bashrc ; then
+  echo "export INSTALL_PATH=${INSTALL_PATH}" >> ~/.bashrc
+fi
+if ! grep -Fq "export REAL_ROBOT=" ~/.bashrc ; then
+  echo "export REAL_ROBOT=${REAL_ROBOT}" >> ~/.bashrc
+fi
+if ! grep -Fq "export WS_PATH=" ~/.bashrc ; then
+  echo "export WS_PATH=${WS_PATH}" >> ~/.bashrc
+fi
+if ! grep -Fq "export COMPOSE_FILE=" ~/.bashrc ; then
+  echo "export COMPOSE_FILE=${COMPOSE_FILE}" >> ~/.bashrc
+fi
+
+# If laptop, don't build realsense2_camera, ydlidar, or push_button_utils
+if [[ $REAL_ROBOT == 0 ]]; then
+  touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/push_button_utils/CATKIN_IGNORE
+  touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/ydlidar/CATKIN_IGNORE
+  touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/realsense/realsense2_camera/CATKIN_IGNORE
+fi
+
+# Shortcuts
+if ! grep -Fq "alias mushr_noetic=" ~/.bashrc ; then
+  echo "alias mushr_noetic=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash\"" >> ~/.bashrc
+fi
+# TODO these don't work
+#echo "alias mushr_build=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash -c 'cd /root/catkin_ws && catkin_build'\" ">> ~/.bashrc
+#echo "alias mushr_teleop=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic roslaunch mushr_base teleop.launch\" ">> ~/.bashrc
 
 # Build container
 cd $INSTALL_PATH 
 docker-compose -f $COMPOSE_FILE up
 
-read -p $'Add "xhost +" to .bashrc? This enables GUI from docker but is a security risk.\nIf no, each time you run the docker container you will need to execute this command.\nAdd xhost + .bashrc? (y/n) ' -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-  echo WARNING: Adding "xhost +" to .bashrc 
-  echo "xhost + >> /dev/null" >> ~/.bashrc && source ~/.bashrc
+# Make sure all devices are visible
+sudo udevadm control --reload-rules && sudo udevadm trigger
+
+# Display permissions
+if ! grep -Fxq "xhost + >> /dev/null" ~/.bashrc ; then
+  read -p $'Add "xhost +" to .bashrc? This enables GUI from docker but is a security risk.\nIf no, each time you run the docker container you will need to execute this command.\nAdd xhost + .bashrc? (y/n) ' -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo WARNING: Adding "xhost +" to .bashrc 
+    echo "xhost + >> /dev/null" >> ~/.bashrc && source ~/.bashrc
+  fi
 fi
