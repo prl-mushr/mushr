@@ -18,7 +18,7 @@ apt-get update
 apt-get install -y python3-catkin-tools
 
 # Install Cython, PyTorch
-pip3 install Cython torch torchvision torchaudio
+pip3 install Cython torch torchvision torchaudio numpy scipy progress
 
 # Create OpenCV symbolic link
 ln -s /usr/include/opencv4 /usr/include/opencv
