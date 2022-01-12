@@ -10,15 +10,15 @@ apt-get update
 apt-get install -y python3-vcstool python3-pip
 
 # Install extra ROS packages
-apt-get install -y ros-noetic-ackermann-msgs ros-noetic-map-server ros-noetic-urg-node ros-noetic-robot-state-publisher ros-noetic-xacro ros-noetic-joy ros-noetic-ddynamic-reconfigure ros-noetic-fake-localization
+apt-get install -y ros-noetic-ackermann-msgs ros-noetic-map-server ros-noetic-urg-node ros-noetic-robot-state-publisher ros-noetic-xacro ros-noetic-joy ros-noetic-ddynamic-reconfigure ros-noetic-fake-localization ros-noetic-gmapping
 
 # Install catkin tools
 wget http://packages.ros.org/ros.key -O - | apt-key add -
 apt-get update
 apt-get install -y python3-catkin-tools
 
-# Install Cython, PyTorch
-pip3 install Cython torch torchvision torchaudio numpy scipy progress
+# Install Cython, PyTorch 1.10 at least!
+pip3 install Cython torch torchvision torchaudio numpy scipy progress --upgrade
 
 # Create OpenCV symbolic link
 ln -s /usr/include/opencv4 /usr/include/opencv
