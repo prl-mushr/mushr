@@ -30,7 +30,7 @@ else
 fi
 
 # Build from scratch (assumes GPU)?
-read -p "Developer build from scratch (takes much longer than pulling ready-made image)? (y/n) " -r
+read -p "Build from scratch? (Not recommended, takes much longer than pulling ready-made image) (y/n) " -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   export COMPOSE_FILE=docker-compose-build.yml
@@ -73,7 +73,8 @@ fi
 
 # vcstool https://github.com/dirk-thomas/vcstool 
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-sudo apt-get update && sudo apt-get install -y curl
+sudo apt-get update
+sudo apt-get install -y curl
 curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 sudo apt-get update && sudo apt install -y python3-vcstool
 
