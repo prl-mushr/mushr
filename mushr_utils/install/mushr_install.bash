@@ -36,9 +36,24 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   export COMPOSE_FILE=docker-compose-build.yml
 fi
 
+# curl and dep keys
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+sudo apt-get update
+sudo apt-get install -y curl
+curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+
 # Robot specific settings
 if [[ $REAL_ROBOT == 1 ]]; then
     echo Running robot specific commands
+    
+    # Don't need sudo for docker
+    sudo usermod -aG docker $USER
+    newgrp docker
+    
+    # docker-compose
+    sudo curl -L "https://github.com/docker/compose/releases/download/v2.2.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
     # Need to connect to ydlidar
     git clone https://github.com/prl-mushr/ydlidar
@@ -72,10 +87,6 @@ if [[ $REAL_ROBOT == 1 ]]; then
 fi
 
 # vcstool https://github.com/dirk-thomas/vcstool 
-sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-sudo apt-get update
-sudo apt-get install -y curl
-curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 sudo apt-get update && sudo apt install -y python3-vcstool
 
 # Make catkin_ws outside container for easy editing
