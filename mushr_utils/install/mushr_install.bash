@@ -48,7 +48,6 @@ if [[ $REAL_ROBOT == 1 ]]; then
     
     # Don't need sudo for docker
     sudo usermod -aG docker $USER
-    newgrp docker
     
     # docker-compose
     sudo curl -L "https://github.com/docker/compose/releases/download/v2.2.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
