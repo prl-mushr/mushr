@@ -129,10 +129,6 @@ fi
 #echo "alias mushr_build=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash -c 'cd /root/catkin_ws && catkin_build'\" ">> ~/.bashrc
 #echo "alias mushr_teleop=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic roslaunch mushr_base teleop.launch\" ">> ~/.bashrc
 
-# Build container
-cd $INSTALL_PATH 
-docker-compose -f $COMPOSE_FILE up
-
 # Make sure all devices are visible
 sudo udevadm control --reload-rules && sudo udevadm trigger
 
