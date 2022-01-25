@@ -16,9 +16,6 @@ services:
       - "/dev/vesc:/dev/vesc"
       - "/dev/input/js0:/dev/input/js0"
     volumes:
-      - /usr/bin/tegrastats:/usr/bin/tegrastats 
-      - /etc/udev:/etc/udev
-      - /sys/class/gpio:/sys/class/gpio
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /dev:/dev
       - /dev/input:/dev/input
@@ -26,5 +23,3 @@ services:
     environment:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
-      - NEVIAID_DRIVER_CAPABILITIES=all
-      - NVIDIA_VISIBLE_DEVICES=all

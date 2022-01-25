@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Detect OS 
+export OS_TYPE="$(uname -s)"
+if [[ $OS_TYPE == "Darwin" ]]; then
+  export SHELL_PROFILE=".zshrc"
+else
+  export SHELL_PROFILE=".bashrc"
+fi
+
 # Are we in the right place to be running this?
 if [[ ! -f mushr_install.bash ]]; then
   echo Wrong directory! Change directory to the one containing mushr_install.bash
@@ -37,10 +45,12 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 # curl and dep keys
-sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-sudo apt-get update
-sudo apt-get install -y curl
-curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+if [[ $OS_TYPE != "Darwin" ]]; then
+  sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+  sudo apt-get update
+  sudo apt-get install -y curl
+  curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+fi
 
 # Robot specific settings
 if [[ $REAL_ROBOT == 1 ]]; then
@@ -86,7 +96,11 @@ if [[ $REAL_ROBOT == 1 ]]; then
 fi
 
 # vcstool https://github.com/dirk-thomas/vcstool 
-sudo apt-get update && sudo apt install -y python3-vcstool
+if [[ $OS_TYPE != "Darwin" ]]; then
+  sudo apt-get update && sudo apt install -y python3-vcstool
+else
+  sudo pip install vcstool
+fi
 
 # Make catkin_ws outside container for easy editing
 if [[ ! -d "../../../../../catkin_ws" ]]; then
@@ -100,17 +114,17 @@ cd $WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import <
 cd mushr/mushr_utils/install/ && export INSTALL_PATH=$(pwd)
 
 # Make sure environment Variables are always set
-if ! grep -Fq "export INSTALL_PATH=" ~/.bashrc ; then
-  echo "export INSTALL_PATH=${INSTALL_PATH}" >> ~/.bashrc
+if ! grep -Fq "export INSTALL_PATH=" ~/$SHELL_PROFILE ; then
+  echo "export INSTALL_PATH=${INSTALL_PATH}" >> ~/$SHELL_PROFILE
 fi
-if ! grep -Fq "export REAL_ROBOT=" ~/.bashrc ; then
-  echo "export REAL_ROBOT=${REAL_ROBOT}" >> ~/.bashrc
+if ! grep -Fq "export REAL_ROBOT=" ~/$SHELL_PROFILE ; then
+  echo "export REAL_ROBOT=${REAL_ROBOT}" >> ~/$SHELL_PROFILE
 fi
-if ! grep -Fq "export WS_PATH=" ~/.bashrc ; then
-  echo "export WS_PATH=${WS_PATH}" >> ~/.bashrc
+if ! grep -Fq "export WS_PATH=" ~/$SHELL_PROFILE ; then
+  echo "export WS_PATH=${WS_PATH}" >> ~/$SHELL_PROFILE
 fi
-if ! grep -Fq "export COMPOSE_FILE=" ~/.bashrc ; then
-  echo "export COMPOSE_FILE=${COMPOSE_FILE}" >> ~/.bashrc
+if ! grep -Fq "export COMPOSE_FILE=" ~/$SHELL_PROFILE ; then
+  echo "export COMPOSE_FILE=${COMPOSE_FILE}" >> ~/$SHELL_PROFILE
 fi
 
 # If laptop, don't build realsense2_camera, ydlidar, or push_button_utils
@@ -121,22 +135,24 @@ if [[ $REAL_ROBOT == 0 ]]; then
 fi
 
 # Shortcuts
-if ! grep -Fq "alias mushr_noetic=" ~/.bashrc ; then
-  echo "alias mushr_noetic=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash\"" >> ~/.bashrc
+if ! grep -Fq "alias mushr_noetic=" ~/$SHELL_PROFILE ; then
+  echo "alias mushr_noetic=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash\"" >> ~/$SHELL_PROFILE
 fi
 # TODO these don't work
-#echo "alias mushr_build=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash -c 'cd /root/catkin_ws && catkin_build'\" ">> ~/.bashrc
-#echo "alias mushr_teleop=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic roslaunch mushr_base teleop.launch\" ">> ~/.bashrc
+#echo "alias mushr_build=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash -c 'cd /root/catkin_ws && catkin_build'\" ">> ~/$SHELL_PROFILE
+#echo "alias mushr_teleop=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic roslaunch mushr_base teleop.launch\" ">> ~/$SHELL_PROFILE
 
 # Make sure all devices are visible
-sudo udevadm control --reload-rules && sudo udevadm trigger
+if [[ $REAL_ROBOT == 1 ]]; then
+  sudo udevadm control --reload-rules && sudo udevadm trigger
+fi
 
 # Display permissions
-if ! grep -Fxq "xhost + >> /dev/null" ~/.bashrc ; then
-  read -p $'Add "xhost +" to .bashrc? This enables GUI from docker but is a security risk.\nIf no, each time you run the docker container you will need to execute this command.\nAdd xhost + .bashrc? (y/n) ' -r
+if ! grep -Fxq "xhost + >> /dev/null" ~/$SHELL_PROFILE ; then
+  read -p $'Add "xhost +" to $SHELL_PROFILE? This enables GUI from docker but is a security risk.\nIf no, each time you run the docker container you will need to execute this command.\nAdd xhost + $SHELL_PROFILE? (y/n) ' -r
   echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo WARNING: Adding "xhost +" to .bashrc 
-    echo "xhost + >> /dev/null" >> ~/.bashrc && source ~/.bashrc
+    echo WARNING: Adding "xhost +" to $SHELL_PROFILE 
+    echo "xhost + >> /dev/null" >> ~/$SHELL_PROFILE && source ~/$SHELL_PROFILE
   fi
 fi
