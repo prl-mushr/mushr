@@ -20,7 +20,7 @@ ADD $INSTALL_PATH/install_scripts/mushr_install_ros.bash install_scripts/mushr_i
 RUN chmod +x install_scripts/mushr_install_ros.bash && install_scripts/mushr_install_ros.bash 
 
 # Catkin build and other deps
-ADD catkin_ws catkin_ws
+ADD dependencies_ws dependencies_ws
 ADD $INSTALL_PATH/install_scripts/mushr_install_deps.bash install_scripts/mushr_install_deps.bash
 RUN chmod +x install_scripts/mushr_install_deps.bash && install_scripts/mushr_install_deps.bash 
 

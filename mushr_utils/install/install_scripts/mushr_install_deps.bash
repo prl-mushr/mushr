@@ -24,17 +24,17 @@ pip3 install Cython torch torchvision torchaudio numpy scipy progress --upgrade
 ln -s /usr/include/opencv4 /usr/include/opencv
 
 # Auto source this workspace on terminal startup
-echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+echo "source ~/dependencies_ws/devel/setup.bash" >> ~/.bashrc
 
 # Install rangelibc
-cd ~/catkin_ws/src/range_libc/pywrapper
+cd ~/dependencies_ws/src/range_libc/pywrapper
 python3 setup.py install
-cd ~/catkin_ws/src
+cd ~/dependencies_ws/src
 rm -rf range_libc
 
 # Create default RVIZ setup
 mkdir ~/.rviz
-cp ~/catkin_ws/src/mushr/mushr_utils/rviz/default.rviz ~/.rviz/
+cp ~/dependencies_ws/src/mushr/mushr_utils/rviz/default.rviz ~/.rviz/
 
 # Set ROS_IP
 export ROS_IP=$(ifconfig wlan0 | grep "inet " | awk '{print $2}')

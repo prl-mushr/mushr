@@ -102,15 +102,15 @@ else
   sudo pip install vcstool
 fi
 
-# Make catkin_ws outside container for easy editing
-if [[ ! -d "../../../../../catkin_ws" ]]; then
-  mkdir -p ../../../catkin_ws/src
-  cd ../../../ && mv mushr catkin_ws/src/mushr
+# Make dependencies_ws outside container for easy editing
+if [[ ! -d "../../../../../dependencies_ws" ]]; then
+  mkdir -p ../../../dependencies_ws/src
+  cd ../../../ && mv mushr dependencies_ws/src/mushr
 fi
 
 # Pull repos
-export WS_PATH=$(pwd | sed 's:/catkin_ws.*::')
-cd $WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import < mushr/nav-repos.yaml
+export WS_PATH=$(pwd | sed 's:/dependencies_ws.*::')
+cd $WS_PATH/dependencies_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import < mushr/nav-repos.yaml
 cd mushr/mushr_utils/install/ && export INSTALL_PATH=$(pwd)
 
 # Make sure environment Variables are always set
@@ -129,9 +129,9 @@ fi
 
 # If laptop, don't build realsense2_camera, ydlidar, or push_button_utils
 if [[ $REAL_ROBOT == 0 ]]; then
-  touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/push_button_utils/CATKIN_IGNORE
-  touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/ydlidar/CATKIN_IGNORE
-  touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/realsense/realsense2_camera/CATKIN_IGNORE
+  touch $WS_PATH/dependencies_ws/src/mushr/mushr_hardware/push_button_utils/CATKIN_IGNORE
+  touch $WS_PATH/dependencies_ws/src/mushr/mushr_hardware/ydlidar/CATKIN_IGNORE
+  touch $WS_PATH/dependencies_ws/src/mushr/mushr_hardware/realsense/realsense2_camera/CATKIN_IGNORE
 fi
 
 # Shortcuts
@@ -139,7 +139,7 @@ if ! grep -Fq "alias mushr_noetic=" ~/$SHELL_PROFILE ; then
   echo "alias mushr_noetic=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash\"" >> ~/$SHELL_PROFILE
 fi
 # TODO these don't work
-#echo "alias mushr_build=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash -c 'cd /root/catkin_ws && catkin_build'\" ">> ~/$SHELL_PROFILE
+#echo "alias mushr_build=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash -c 'cd /root/dependencies_ws && dependencies_build'\" ">> ~/$SHELL_PROFILE
 #echo "alias mushr_teleop=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic roslaunch mushr_base teleop.launch\" ">> ~/$SHELL_PROFILE
 
 # Make sure all devices are visible
