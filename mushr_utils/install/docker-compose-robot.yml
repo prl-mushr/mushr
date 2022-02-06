@@ -1,7 +1,7 @@
 version: "3.4"
 services:
   mushr_noetic:
-    image: schmittle/mushr_noetic
+    image: schmittle/mushr_class
     network_mode: "host"
     privileged: true
     devices:
@@ -23,6 +23,7 @@ services:
       - /dev:/dev
       - /dev/input:/dev/input
       - ${WS_PATH}/dependencies_ws:/root/dependencies_ws # Runtime attach
+      - ${WS_PATH}/mushr_ws:/root/mushr_ws # Runtime attach
     environment:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
