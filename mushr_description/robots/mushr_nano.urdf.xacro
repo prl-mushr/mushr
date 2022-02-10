@@ -1,29 +1,56 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="mushr_nano">
 
-	<xacro:include filename="mushr_base_nano.urdf.xacro" />
-	<xacro:include filename="mushr_wheel.urdf.xacro" />
-	<xacro:include filename="mushr_ydlidar.urdf.xacro" />
-	<xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />	
+  <xacro:include filename="mushr_base_nano.urdf.xacro" />
+  <xacro:include filename="mushr_wheel.urdf.xacro" />
+  <xacro:include filename="mushr_ydlidar.urdf.xacro" />
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />	
 
-	<xacro:arg name="platform_color" default="none"/>
-	<xacro:arg name="inset_color" default="none" />
+  <xacro:arg name="platform_color" default="none"/>
+  <xacro:arg name="inset_color" default="none" />
 
-	<xacro:mushr_base_nano platform_color="$(arg platform_color)" inset_color="$(arg inset_color)"/>
+  <xacro:mushr_base_nano platform_color="$(arg platform_color)" inset_color="$(arg inset_color)"/>
 
-	<xacro:mushr_wheel prefix="front_left"  left="true" />
-	<xacro:mushr_wheel prefix="front_right" left="false"/>
-	<xacro:mushr_wheel prefix="back_left"  left="true" />
-	<xacro:mushr_wheel prefix="back_right" left="false"/>
+  <xacro:mushr_wheel prefix="front_left"  left="true" />
+  <xacro:mushr_wheel prefix="front_right" left="false"/>
+  <xacro:mushr_wheel prefix="back_left"  left="true" />
+  <xacro:mushr_wheel prefix="back_right" left="false"/>
 
-	<xacro:mushr_ydlidar />
+  <xacro:mushr_ydlidar />
 
-	<xacro:sensor_d435 parent="base_link" >
-  		<origin xyz="0.0123949 0.0 0.0550227" rpy="0 0 0" />
-	</xacro:sensor_d435>
+  <xacro:sensor_d435 parent="base_link" >
+    <origin xyz="0.0123949 0.0 0.0550227" rpy="0 0 0" />
+  </xacro:sensor_d435>
 
 
-	<link name="front_left/wheel_steer_link"/>
-	<link name="front_right/wheel_steer_link" />
+  <link name="front_left/wheel_steer_link">
+    <inertial>
+      <origin xyz="0 0 0"
+              rpy="0 0 0" />
+
+      <mass value="0.001" />
+      <inertia ixx="1"
+               ixy="0"
+               ixz="0"
+               iyy="1"
+               iyz="0"
+               izz="1" />
+    </inertial>
+  </link>
+
+  <link name="front_right/wheel_steer_link" >
+    <inertial>
+      <origin xyz="0 0 0"
+              rpy="0 0 0" />
+
+      <mass value="0.001" />
+      <inertia ixx="1"
+               ixy="0"
+               ixz="0"
+               iyy="1"
+               iyz="0"
+               izz="1" />
+    </inertial>
+  </link>
 
   <joint
     name="front_left_wheel_steer"
