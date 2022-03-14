@@ -1,0 +1,5 @@
+flake8 >= 3.9.0
+flake8-docstrings
+isort >= 5.8.0
+pytest >= 6.2.3
+black >=20.8b1
