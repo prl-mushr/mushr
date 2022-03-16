@@ -22,6 +22,6 @@ qmake -qt=qt5
 make clean & make
 
 # Install push-button drivers
-apt-get install Jetson.GPIO -y
+pip install Jetson.GPIO -y
 rm /usr/bin/python
 ln -s /usr/bin/python3 /usr/bin/python

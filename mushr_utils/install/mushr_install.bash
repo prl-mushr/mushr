@@ -40,7 +40,9 @@ fi
 # Build from scratch (assumes GPU)?
 read -p "Build from scratch? (Not recommended, takes much longer than pulling ready-made image) (y/n) " -r
 echo
+export BUILD_FROM_SCRATCH=0
 if [[ $REPLY =~ ^[Yy]$ ]]; then
+  export BUILD_FROM_SCRATCH=1
   export COMPOSE_FILE=docker-compose-build.yml
 fi
 
@@ -114,16 +116,16 @@ cd $WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import <
 cd mushr/mushr_utils/install/ && export INSTALL_PATH=$(pwd)
 
 # Make sure environment Variables are always set
-if ! grep -Fq "export INSTALL_PATH=" ~/$SHELL_PROFILE ; then
+if ! grep -Fq "export INSTALL_PATH=" ~/$SHELL_PROFILE  || [[ $BUILD_FROM_SCRATCH ]] ; then
   echo "export INSTALL_PATH=${INSTALL_PATH}" >> ~/$SHELL_PROFILE
 fi
-if ! grep -Fq "export REAL_ROBOT=" ~/$SHELL_PROFILE ; then
+if ! grep -Fq "export REAL_ROBOT=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH ]] ; then
   echo "export REAL_ROBOT=${REAL_ROBOT}" >> ~/$SHELL_PROFILE
 fi
-if ! grep -Fq "export WS_PATH=" ~/$SHELL_PROFILE ; then
+if ! grep -Fq "export WS_PATH=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH ]] ; then
   echo "export WS_PATH=${WS_PATH}" >> ~/$SHELL_PROFILE
 fi
-if ! grep -Fq "export COMPOSE_FILE=" ~/$SHELL_PROFILE ; then
+if ! grep -Fq "export COMPOSE_FILE=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH=1 ]] ; then
   echo "export COMPOSE_FILE=${COMPOSE_FILE}" >> ~/$SHELL_PROFILE
 fi
 
@@ -138,9 +140,6 @@ fi
 if ! grep -Fq "alias mushr_noetic=" ~/$SHELL_PROFILE ; then
   echo "alias mushr_noetic=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash\"" >> ~/$SHELL_PROFILE
 fi
-# TODO these don't work
-#echo "alias mushr_build=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash -c 'cd /root/catkin_ws && catkin_build'\" ">> ~/$SHELL_PROFILE
-#echo "alias mushr_teleop=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic roslaunch mushr_base teleop.launch\" ">> ~/$SHELL_PROFILE
 
 # Make sure all devices are visible
 if [[ $REAL_ROBOT == 1 ]]; then
