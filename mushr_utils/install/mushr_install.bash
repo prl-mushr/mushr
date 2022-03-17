@@ -5,6 +5,7 @@ export OS_TYPE="$(uname -s)"
 if [[ $OS_TYPE == "Darwin" ]]; then
   export SHELL_PROFILE=".zshrc"
 else
+  export OS_TYPE="$(uname -i)"
   export SHELL_PROFILE=".bashrc"
 fi
 
@@ -20,6 +21,7 @@ read -p "Are you installing on robot and need all the sensor drivers? (y/n) " -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     export REAL_ROBOT=1
+    export OS_TYPE=robot
 else
     export REAL_ROBOT=0
 fi
@@ -127,6 +129,9 @@ if ! grep -Fq "export WS_PATH=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH ]] ; 
 fi
 if ! grep -Fq "export COMPOSE_FILE=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH=1 ]] ; then
   echo "export COMPOSE_FILE=${COMPOSE_FILE}" >> ~/$SHELL_PROFILE
+fi
+if ! grep -Fq "export OS_TYPE=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH=1 ]] ; then
+  echo "export OS_TYPE=${OS_TYPE}" >> ~/$SHELL_PROFILE
 fi
 
 # If laptop, don't build realsense2_camera, ydlidar, or push_button_utils

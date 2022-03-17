@@ -1,6 +1,7 @@
 version: "3.4"
 services:
   mushr_noetic:
+    image: mushr/mushr:${OS_TYPE}
     build: 
       context: ${WS_PATH}/catkin_ws
       dockerfile: ${INSTALL_PATH}/Dockerfile

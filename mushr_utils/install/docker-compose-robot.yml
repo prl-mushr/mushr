@@ -1,7 +1,7 @@
 version: "3.4"
 services:
   mushr_noetic:
-    image: schmittle/mushr_noetic
+    image: mushr/mushr:robot
     network_mode: "host"
     privileged: true
     devices:

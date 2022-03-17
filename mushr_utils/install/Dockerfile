@@ -1,4 +1,3 @@
-#FROM timongentzsch/l4t-ubuntu20-pytorch:latest
 FROM ubuntu:focal
 
 MAINTAINER Matt Schmittle <schmttle@cs.washington.edu>
