@@ -136,7 +136,7 @@ fi
 
 # Shortcuts
 if ! grep -Fq "alias mushr_noetic=" ~/$SHELL_PROFILE ; then
-  echo "alias mushr_noetic=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash\"" >> ~/$SHELL_PROFILE
+  echo "alias mushr_noetic=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run -p 9090:9090 mushr_noetic bash\"" >> ~/$SHELL_PROFILE
 fi
 # TODO these don't work
 #echo "alias mushr_build=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash -c 'cd /root/catkin_ws && catkin_build'\" ">> ~/$SHELL_PROFILE
