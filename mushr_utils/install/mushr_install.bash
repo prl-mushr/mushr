@@ -5,6 +5,7 @@ export OS_TYPE="$(uname -s)"
 if [[ $OS_TYPE == "Darwin" ]]; then
   export SHELL_PROFILE=".zshrc"
 else
+  export OS_TYPE="$(uname -i)"
   export SHELL_PROFILE=".bashrc"
 fi
 
@@ -20,6 +21,7 @@ read -p "Are you installing on robot and need all the sensor drivers? (y/n) " -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     export REAL_ROBOT=1
+    export OS_TYPE=robot
 else
     export REAL_ROBOT=0
 fi
@@ -40,7 +42,9 @@ fi
 # Build from scratch (assumes GPU)?
 read -p "Build from scratch? (Not recommended, takes much longer than pulling ready-made image) (y/n) " -r
 echo
+export BUILD_FROM_SCRATCH=0
 if [[ $REPLY =~ ^[Yy]$ ]]; then
+  export BUILD_FROM_SCRATCH=1
   export COMPOSE_FILE=docker-compose-build.yml
 fi
 
@@ -114,17 +118,20 @@ cd $WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import <
 cd mushr/mushr_utils/install/ && export INSTALL_PATH=$(pwd)
 
 # Make sure environment Variables are always set
-if ! grep -Fq "export INSTALL_PATH=" ~/$SHELL_PROFILE ; then
+if ! grep -Fq "export INSTALL_PATH=" ~/$SHELL_PROFILE  || [[ $BUILD_FROM_SCRATCH ]] ; then
   echo "export INSTALL_PATH=${INSTALL_PATH}" >> ~/$SHELL_PROFILE
 fi
-if ! grep -Fq "export REAL_ROBOT=" ~/$SHELL_PROFILE ; then
+if ! grep -Fq "export REAL_ROBOT=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH ]] ; then
   echo "export REAL_ROBOT=${REAL_ROBOT}" >> ~/$SHELL_PROFILE
 fi
-if ! grep -Fq "export WS_PATH=" ~/$SHELL_PROFILE ; then
+if ! grep -Fq "export WS_PATH=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH ]] ; then
   echo "export WS_PATH=${WS_PATH}" >> ~/$SHELL_PROFILE
 fi
-if ! grep -Fq "export COMPOSE_FILE=" ~/$SHELL_PROFILE ; then
+if ! grep -Fq "export COMPOSE_FILE=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH=1 ]] ; then
   echo "export COMPOSE_FILE=${COMPOSE_FILE}" >> ~/$SHELL_PROFILE
+fi
+if ! grep -Fq "export OS_TYPE=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH=1 ]] ; then
+  echo "export OS_TYPE=${OS_TYPE}" >> ~/$SHELL_PROFILE
 fi
 
 # If laptop, don't build realsense2_camera, ydlidar, or push_button_utils
@@ -138,9 +145,6 @@ fi
 if ! grep -Fq "alias mushr_noetic=" ~/$SHELL_PROFILE ; then
   echo "alias mushr_noetic=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run -p 9090:9090 mushr_noetic bash\"" >> ~/$SHELL_PROFILE
 fi
-# TODO these don't work
-#echo "alias mushr_build=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic bash -c 'cd /root/catkin_ws && catkin_build'\" ">> ~/$SHELL_PROFILE
-#echo "alias mushr_teleop=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run mushr_noetic roslaunch mushr_base teleop.launch\" ">> ~/$SHELL_PROFILE
 
 # Make sure all devices are visible
 if [[ $REAL_ROBOT == 1 ]]; then

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Install git, tkinter, wget, g++, vim, tmux, networking stuff
-apt-get install -y git-all python3-tk wget g++ vim tmux net-tools iputils-ping
+# Install git, tkinter, wget, g++, vim, tmux, networking stuff, apt-add-repository
+apt-get install -y git-all python3-tk wget g++ vim tmux net-tools iputils-ping software-properties-common
 
 # Install vcstool, pip
 sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -10,7 +10,7 @@ apt-get update
 apt-get install -y python3-vcstool python3-pip
 
 # Install extra ROS packages
-apt-get install -y ros-noetic-ackermann-msgs ros-noetic-map-server ros-noetic-urg-node ros-noetic-robot-state-publisher ros-noetic-xacro ros-noetic-joy ros-noetic-ddynamic-reconfigure ros-noetic-fake-localization ros-noetic-gmapping
+apt-get install -y ros-noetic-ackermann-msgs ros-noetic-map-server ros-noetic-urg-node ros-noetic-robot-state-publisher ros-noetic-xacro ros-noetic-joy ros-noetic-ddynamic-reconfigure ros-noetic-fake-localization ros-noetic-gmapping ros-noetic-rosbridge-suite
 
 # Install catkin tools
 wget http://packages.ros.org/ros.key -O - | apt-key add -
@@ -37,4 +37,4 @@ mkdir ~/.rviz
 cp ~/catkin_ws/src/mushr/mushr_utils/rviz/default.rviz ~/.rviz/
 
 # Set ROS_IP
-export ROS_IP=$(ifconfig wlan0 | grep "inet " | awk '{print $2}')
+echo "export ROS_IP=\$(ifconfig wlan0 | grep 'inet ' | awk '{print \$2}')" >> ~/.bashrc
