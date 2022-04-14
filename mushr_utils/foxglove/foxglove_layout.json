@@ -1,0 +1,114 @@
+{
+  "configById": {
+    "3D Panel!6ya0bo": {
+      "checkedKeys": [
+        "name:Topics",
+        "t:/car/car_pose",
+        "t:/map",
+        "t:/mushr_sim/reposition",
+        "t:/tf_static",
+        "ns:/tf:map",
+        "ns:/tf:car/base_link",
+        "ns:/tf:car/back_right/wheel_link",
+        "ns:/tf:car/front_left/wheel_steer_link",
+        "ns:/tf:car/front_left/wheel_link",
+        "ns:/tf:car/front_right/wheel_steer_link",
+        "ns:/tf:car/front_right/wheel_link",
+        "ns:/tf:car/base_footprint",
+        "ns:/tf:car/odom",
+        "ns:/tf:car/ground_truth_base_footprint",
+        "ns:/tf:car/insets_link",
+        "ns:/tf:car/laser_link",
+        "ns:/tf:car/platform_link",
+        "ns:/tf:car/camera_bottom_screw_frame",
+        "ns:/tf:car/camera_link",
+        "ns:/tf:car/back_left/wheel_link",
+        "t:/tf",
+        "t:/robot_description"
+      ],
+      "expandedKeys": [
+        "name:Topics",
+        "t:/tf"
+      ],
+      "followTf": "map",
+      "followMode": "follow",
+      "cameraState": {
+        "distance": 130.0741064822481,
+        "perspective": true,
+        "phi": 0.7321710993759635,
+        "targetOffset": [
+          3.0513561121739805,
+          -7.004265481437386,
+          0
+        ],
+        "thetaOffset": 0.04068496960546705,
+        "fovy": 0.7853981633974483,
+        "near": 0.01,
+        "far": 5000
+      },
+      "modifiedNamespaceTopics": [
+        "/tf"
+      ],
+      "pinTopics": false,
+      "settingsByKey": {
+        "t:/car/car_pose": {
+          "size": {
+            "headLength": 1,
+            "shaftWidth": 0.3,
+            "headWidth": 1
+          },
+          "overrideColor": {
+            "r": 0.9019607843137255,
+            "g": 0.13333333333333333,
+            "b": 0.13333333333333333,
+            "a": 1
+          }
+        }
+      },
+      "autoSyncCameraState": false,
+      "autoTextBackgroundColor": true,
+      "diffModeEnabled": true,
+      "useThemeBackgroundColor": true,
+      "customBackgroundColor": "#000000",
+      "clickToPublishPoseTopic": "/move_base_simple/goal",
+      "clickToPublishPointTopic": "/clicked_point",
+      "clickToPublishPoseEstimateTopic": "/initialpose",
+      "clickToPublishPoseEstimateXDeviation": 0.5,
+      "clickToPublishPoseEstimateYDeviation": 0.5,
+      "clickToPublishPoseEstimateThetaDeviation": 0.2617993877991494
+    },
+    "Teleop!47h9exp": {
+      "topic": "car/foxglove/teleop",
+      "publishRate": 1,
+      "upButton": {
+        "field": "linear-x",
+        "value": 1
+      },
+      "downButton": {
+        "field": "linear-x",
+        "value": -1
+      },
+      "leftButton": {
+        "field": "linear-z",
+        "value": -1
+      },
+      "rightButton": {
+        "field": "linear-z",
+        "value": 1
+      }
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {},
+  "linkedGlobalVariables": [],
+  "playbackConfig": {
+    "speed": 1,
+    "messageOrder": "receiveTime"
+  },
+  "layout": {
+    "direction": "row",
+    "first": "3D Panel!6ya0bo",
+    "second": "Teleop!47h9exp",
+    "splitPercentage": 73.70221975258093
+  }
+}
