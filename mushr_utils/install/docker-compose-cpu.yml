@@ -1,7 +1,7 @@
 version: "3.4"
 services:
   mushr_noetic:
-    image: mushr/mushr:${OS_TYPE}
+    image: mushr/mushr:${MUSHR_OS_TYPE}
     privileged: true
     devices:
       - "/dev:/dev"
@@ -12,7 +12,7 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /dev:/dev
       - /dev/input:/dev/input
-      - ${WS_PATH}/catkin_ws:/root/catkin_ws # Runtime attach
+      - ${MUSHR_WS_PATH}/catkin_ws:/root/catkin_ws # Runtime attach
     environment:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1

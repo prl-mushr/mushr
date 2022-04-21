@@ -13,7 +13,6 @@ RUN apt-get update -y \
 RUN mkdir install_scripts
 
 # ROS Noetic
-#ADD $INSTALL_PATH/install_scripts/mushr_install_ros.bash install_scripts/mushr_install_ros.bash
 ADD src/mushr/mushr_utils/install/install_scripts/mushr_install_ros.bash install_scripts/mushr_install_ros.bash
 RUN chmod +x install_scripts/mushr_install_ros.bash && install_scripts/mushr_install_ros.bash 
 
