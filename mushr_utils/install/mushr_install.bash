@@ -134,6 +134,11 @@ if ! grep -Fq "export OS_TYPE=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH=1 ]] 
   echo "export OS_TYPE=${OS_TYPE}" >> ~/$SHELL_PROFILE
 fi
 
+# Shortcuts
+if ! grep -Fq "alias mushr_noetic=" ~/$SHELL_PROFILE ; then
+  echo "alias mushr_noetic=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run -p 9090:9090 mushr_noetic bash\"" >> ~/$SHELL_PROFILE
+fi
+
 # If laptop, don't build realsense2_camera, ydlidar, or push_button_utils
 if [[ $REAL_ROBOT == 0 ]]; then
   touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/push_button_utils/CATKIN_IGNORE
@@ -141,22 +146,7 @@ if [[ $REAL_ROBOT == 0 ]]; then
   touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/realsense/realsense2_camera/CATKIN_IGNORE
 fi
 
-# Shortcuts
-if ! grep -Fq "alias mushr_noetic=" ~/$SHELL_PROFILE ; then
-  echo "alias mushr_noetic=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run -p 9090:9090 mushr_noetic bash\"" >> ~/$SHELL_PROFILE
-fi
-
 # Make sure all devices are visible
 if [[ $REAL_ROBOT == 1 ]]; then
   sudo udevadm control --reload-rules && sudo udevadm trigger
-fi
-
-# Display permissions
-if ! grep -Fxq "xhost + >> /dev/null" ~/$SHELL_PROFILE ; then
-  read -p $'Add "xhost +" to $SHELL_PROFILE? This enables GUI from docker but is a security risk.\nIf no, each time you run the docker container you will need to execute this command.\nAdd xhost + $SHELL_PROFILE? (y/n) ' -r
-  echo
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo WARNING: Adding "xhost +" to $SHELL_PROFILE 
-    echo "xhost + >> /dev/null" >> ~/$SHELL_PROFILE && source ~/$SHELL_PROFILE
-  fi
 fi
