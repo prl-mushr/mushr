@@ -49,12 +49,13 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 # curl and dep keys
-if [[ $OS_TYPE != "Darwin" ]]; then
-  sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-  sudo apt-get update
-  sudo apt-get install -y curl
-  curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-fi
+#if [[ $OS_TYPE != "Darwin" ]]; then
+  # TODO uncomment
+  #sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+  #sudo apt-get update
+  #sudo apt-get install -y curl
+  #curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+#fi
 
 # Robot specific settings
 if [[ $REAL_ROBOT == 1 ]]; then
@@ -100,11 +101,12 @@ if [[ $REAL_ROBOT == 1 ]]; then
 fi
 
 # vcstool https://github.com/dirk-thomas/vcstool 
-if [[ $OS_TYPE != "Darwin" ]]; then
-  sudo apt-get update && sudo apt install -y python3-vcstool
-else
-  sudo pip install vcstool
-fi
+# TODO uncomment
+#if [[ $OS_TYPE != "Darwin" ]]; then
+  #sudo apt-get update && sudo apt install -y python3-vcstool
+#else
+#  pip install vcstool
+#fi
 
 # Make catkin_ws outside container for easy editing
 if [[ ! -d "../../../../../catkin_ws" ]]; then
@@ -117,26 +119,16 @@ export WS_PATH=$(pwd | sed 's:/catkin_ws.*::')
 cd $WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import < mushr/nav-repos.yaml
 cd mushr/mushr_utils/install/ && export INSTALL_PATH=$(pwd)
 
-# Make sure environment Variables are always set
-if ! grep -Fq "export INSTALL_PATH=" ~/$SHELL_PROFILE  || [[ $BUILD_FROM_SCRATCH ]] ; then
-  echo "export INSTALL_PATH=${INSTALL_PATH}" >> ~/$SHELL_PROFILE
-fi
-if ! grep -Fq "export REAL_ROBOT=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH ]] ; then
-  echo "export REAL_ROBOT=${REAL_ROBOT}" >> ~/$SHELL_PROFILE
-fi
-if ! grep -Fq "export WS_PATH=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH ]] ; then
-  echo "export WS_PATH=${WS_PATH}" >> ~/$SHELL_PROFILE
-fi
-if ! grep -Fq "export COMPOSE_FILE=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH=1 ]] ; then
-  echo "export COMPOSE_FILE=${COMPOSE_FILE}" >> ~/$SHELL_PROFILE
-fi
-if ! grep -Fq "export OS_TYPE=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH=1 ]] ; then
-  echo "export OS_TYPE=${OS_TYPE}" >> ~/$SHELL_PROFILE
-fi
-
-# Shortcuts
-if ! grep -Fq "alias mushr_noetic=" ~/$SHELL_PROFILE ; then
-  echo "alias mushr_noetic=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run -p 9090:9090 mushr_noetic bash\"" >> ~/$SHELL_PROFILE
+# Make custom mushr_noetic script
+if [[ ! -f "${INSTALL_PATH}/mushr_noetic" ]]; then
+    touch ${INSTALL_PATH}/mushr_noetic
+    echo "export INSTALL_PATH=${INSTALL_PATH}" >> ${INSTALL_PATH}/mushr_noetic
+    echo "export REAL_ROBOT=${REAL_ROBOT}" >> ${INSTALL_PATH}/mushr_noetic
+    echo "export WS_PATH=${WS_PATH}" >> ${INSTALL_PATH}/mushr_noetic
+    echo "export COMPOSE_FILE=${COMPOSE_FILE}" >> ${INSTALL_PATH}/mushr_noetic
+    echo "export OS_TYPE=${OS_TYPE}" >> ${INSTALL_PATH}/mushr_noetic
+    echo "docker-compose -f \$INSTALL_PATH/\$COMPOSE_FILE run -p 9090:9090 mushr_noetic bash" >> ${INSTALL_PATH}/mushr_noetic
+    chmod +x ${INSTALL_PATH}/mushr_noetic
 fi
 
 # If laptop, don't build realsense2_camera, ydlidar, or push_button_utils
