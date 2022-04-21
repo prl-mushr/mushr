@@ -1,4 +1,5 @@
 #!/bin/bash
+pushd `dirname $0`
 
 # Detect OS 
 export MUSHR_OS_TYPE="$(uname -s)"
@@ -140,3 +141,4 @@ fi
 if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
   sudo udevadm control --reload-rules && sudo udevadm trigger
 fi
+popd
