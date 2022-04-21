@@ -7,7 +7,6 @@ if [[ $MUSHR_OS_TYPE == "Linux" ]]; then
   export MUSHR_OS_TYPE="$(uname -i)"
 fi
 
-
 # Are we in the right place to be running this?
 if [[ ! -f mushr_install.bash ]]; then
   echo Wrong directory! Change directory to the one containing mushr_install.bash
@@ -106,12 +105,6 @@ fi
 #else
 #  pip install vcstool
 #fi
-
-# Make catkin_ws outside container for easy editing
-if [[ ! -d "../../../../../catkin_ws" ]]; then
-  mkdir -p ../../../catkin_ws/src
-  cd ../../../ && mv mushr catkin_ws/src/mushr
-fi
 
 # Pull repos
 export MUSHR_WS_PATH=$(pwd | sed 's:/catkin_ws.*::')
