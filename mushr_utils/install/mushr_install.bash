@@ -47,13 +47,12 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 # curl and dep keys
-#if [[ $MUSHR_OS_TYPE != "Darwin" ]]; then
-  # TODO uncomment
-  #sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-  #sudo apt-get update
-  #sudo apt-get install -y curl
-  #curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-#fi
+if [[ $MUSHR_OS_TYPE != "Darwin" ]]; then
+  sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+  sudo apt-get update
+  sudo apt-get install -y curl
+  curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+fi
 
 # Robot specific settings
 if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
@@ -99,12 +98,11 @@ if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
 fi
 
 # vcstool https://github.com/dirk-thomas/vcstool 
-# TODO uncomment
-#if [[ $MUSHR_OS_TYPE != "Darwin" ]]; then
-  #sudo apt-get update && sudo apt install -y python3-vcstool
-#else
-#  pip install vcstool
-#fi
+if [[ $MUSHR_OS_TYPE != "Darwin" ]]; then
+  sudo apt-get update && sudo apt install -y python3-vcstool
+else
+  pip install vcstool
+fi
 
 # Pull repos
 export MUSHR_WS_PATH=$(pwd | sed 's:/catkin_ws.*::')
@@ -121,6 +119,7 @@ if [[ ! -f "${MUSHR_INSTALL_PATH}/mushr_noetic" ]]; then
     echo "export MUSHR_OS_TYPE=${MUSHR_OS_TYPE}" >> ${MUSHR_INSTALL_PATH}/mushr_noetic
     echo "docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 9090:9090 mushr_noetic bash" >> ${MUSHR_INSTALL_PATH}/mushr_noetic
     chmod +x ${MUSHR_INSTALL_PATH}/mushr_noetic
+    sudo mv ${MUSHR_INSTALL_PATH}/mushr_noetic /usr/local/bin/
 fi
 
 # If laptop, don't build realsense2_camera, ydlidar, or push_button_utils
