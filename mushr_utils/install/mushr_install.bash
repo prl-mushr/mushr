@@ -110,15 +110,16 @@ cd $MUSHR_WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs im
 
 # Make custom mushr_noetic script
 if [[ ! -f "${MUSHR_INSTALL_PATH}/mushr_noetic" ]]; then
-    touch ${MUSHR_INSTALL_PATH}/mushr_noetic
-    echo "export MUSHR_INSTALL_PATH=${MUSHR_INSTALL_PATH}" >> ${MUSHR_INSTALL_PATH}/mushr_noetic
-    echo "export MUSHR_REAL_ROBOT=${MUSHR_REAL_ROBOT}" >> ${MUSHR_INSTALL_PATH}/mushr_noetic
-    echo "export MUSHR_WS_PATH=${MUSHR_WS_PATH}" >> ${MUSHR_INSTALL_PATH}/mushr_noetic
-    echo "export MUSHR_COMPOSE_FILE=${MUSHR_COMPOSE_FILE}" >> ${MUSHR_INSTALL_PATH}/mushr_noetic
-    echo "export MUSHR_OS_TYPE=${MUSHR_OS_TYPE}" >> ${MUSHR_INSTALL_PATH}/mushr_noetic
-    echo "docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 9090:9090 mushr_noetic bash" >> ${MUSHR_INSTALL_PATH}/mushr_noetic
-    chmod +x ${MUSHR_INSTALL_PATH}/mushr_noetic
-    sudo ln -s ${MUSHR_INSTALL_PATH}/mushr_noetic /usr/local/bin/
+	cat <<- EOF > ${MUSHR_INSTALL_PATH}/mushr_noetic
+	export MUSHR_INSTALL_PATH=${MUSHR_INSTALL_PATH}
+	export MUSHR_REAL_ROBOT=${MUSHR_REAL_ROBOT}
+	export MUSHR_WS_PATH=${MUSHR_WS_PATH}
+	export MUSHR_COMPOSE_FILE=${MUSHR_COMPOSE_FILE}
+	export MUSHR_OS_TYPE=${MUSHR_OS_TYPE}
+	docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 	9090:9090 mushr_noetic bash
+	EOF
+	chmod +x ${MUSHR_INSTALL_PATH}/mushr_noetic
+	sudo ln -s ${MUSHR_INSTALL_PATH}/mushr_noetic /usr/local/bin/
 fi
 
 # If laptop, don't build realsense2_camera, ydlidar, or push_button_utils
