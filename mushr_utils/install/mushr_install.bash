@@ -123,9 +123,9 @@ fi
 
 # If laptop, don't build realsense2_camera, ydlidar, or push_button_utils
 if [[ $MUSHR_REAL_ROBOT == 0 ]]; then
-  touch $MUSHR_WS_PATH/catkin_ws/src/mushr/mushr_hardware/push_button_utils/CATKIN_IGNORE
-  touch $MUSHR_WS_PATH/catkin_ws/src/mushr/mushr_hardware/ydlidar/CATKIN_IGNORE
-  touch $MUSHR_WS_PATH/catkin_ws/src/mushr/mushr_hardware/realsense/realsense2_camera/CATKIN_IGNORE
+  for ignored_package in push_button_utils ydlidar realsense/realsense2_camera; do
+    touch $MUSHR_WS_PATH/catkin_ws/src/mushr/mushr_hardware/${ignored_package}/CATKIN_IGNORE
+  done
 fi
 
 # Make sure all devices are visible
