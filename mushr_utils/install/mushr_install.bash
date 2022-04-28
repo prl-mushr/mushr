@@ -47,7 +47,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 # curl and dep keys
-if [[ $MUSHR_OS_TYPE != "Darwin" ]]; then
+if [[ $MUSHR_OS_TYPE == "Linux" ]]; then
   sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
   sudo apt-get update
   sudo apt-get install -y curl
@@ -105,9 +105,8 @@ else
 fi
 
 # Pull repos
-export MUSHR_WS_PATH=$(pwd | sed 's:/catkin_ws.*::')
+export MUSHR_WS_PATH=$(echo $MUSHR_INSTALL_PATH | sed 's:/catkin_ws.*::')
 cd $MUSHR_WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import < mushr/nav-repos.yaml
-cd mushr/mushr_utils/install/ && export MUSHR_INSTALL_PATH=$(pwd)
 
 # Make custom mushr_noetic script
 if [[ ! -f "${MUSHR_INSTALL_PATH}/mushr_noetic" ]]; then
@@ -119,7 +118,7 @@ if [[ ! -f "${MUSHR_INSTALL_PATH}/mushr_noetic" ]]; then
     echo "export MUSHR_OS_TYPE=${MUSHR_OS_TYPE}" >> ${MUSHR_INSTALL_PATH}/mushr_noetic
     echo "docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 9090:9090 mushr_noetic bash" >> ${MUSHR_INSTALL_PATH}/mushr_noetic
     chmod +x ${MUSHR_INSTALL_PATH}/mushr_noetic
-    sudo mv ${MUSHR_INSTALL_PATH}/mushr_noetic /usr/local/bin/
+    sudo ln -s ${MUSHR_INSTALL_PATH}/mushr_noetic /usr/local/bin/
 fi
 
 # If laptop, don't build realsense2_camera, ydlidar, or push_button_utils
