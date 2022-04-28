@@ -24,20 +24,7 @@ else
     export MUSHR_REAL_ROBOT=0
 fi
 
-# NVIDIA GPU? 
-read -p "Do you have a nvidia gpu with installed drivers? (y/n) " -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
-      export MUSHR_COMPOSE_FILE=docker-compose-robot.yml
-    else
-      export MUSHR_COMPOSE_FILE=docker-compose-gpu.yml
-    fi
-else
-    export MUSHR_COMPOSE_FILE=docker-compose-cpu.yml
-fi
-
-# Build from scratch (assumes GPU)?
+# Build from scratch 
 read -p "Build from scratch? (Not recommended, takes much longer than pulling ready-made image) (y/n) " -r
 echo
 export BUILD_FROM_SCRATCH=0
