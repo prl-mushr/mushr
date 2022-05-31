@@ -10,7 +10,7 @@ apt-get update
 apt-get install -y python3-vcstool python3-pip
 
 # Install extra ROS packages
-apt-get install -y ros-noetic-ackermann-msgs ros-noetic-map-server ros-noetic-urg-node ros-noetic-robot-state-publisher ros-noetic-xacro ros-noetic-joy ros-noetic-ddynamic-reconfigure ros-noetic-fake-localization ros-noetic-gmapping ros-noetic-rosbridge-suite
+apt-get install -y ros-noetic-ackermann-msgs ros-noetic-map-server ros-noetic-urg-node ros-noetic-robot-state-publisher ros-noetic-xacro ros-noetic-joy ros-noetic-ddynamic-reconfigure ros-noetic-fake-localization ros-noetic-gmapping ros-noetic-rosbridge-suite ros-noetic-sbpl
 
 # Install catkin tools
 wget http://packages.ros.org/ros.key -O - | apt-key add -
@@ -37,4 +37,8 @@ mkdir ~/.rviz
 cp ~/catkin_ws/src/mushr/mushr_utils/rviz/default.rviz ~/.rviz/
 
 # Set ROS_IP
-echo "export ROS_IP=\$(ifconfig wlan0 | grep 'inet ' | awk '{print \$2}')" >> ~/.bashrc
+if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
+    echo "export ROS_IP=\$(ifconfig wlan0 | grep 'inet ' | awk '{print \$2}')" >> ~/.bashrc
+else
+    echo "export ROS_IP=\$(ifconfig eth0 | grep 'inet ' | awk '{print \$2}')" >> ~/.bashrc
+fi

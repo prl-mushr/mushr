@@ -1,63 +1,47 @@
 #!/bin/bash
+pushd `dirname $0`
 
 # Detect OS 
-export OS_TYPE="$(uname -s)"
-if [[ $OS_TYPE == "Darwin" ]]; then
-  export SHELL_PROFILE=".zshrc"
-else
-  export OS_TYPE="$(uname -i)"
-  export SHELL_PROFILE=".bashrc"
-fi
+export MUSHR_OS_TYPE="$(uname -s)"
 
 # Are we in the right place to be running this?
 if [[ ! -f mushr_install.bash ]]; then
   echo Wrong directory! Change directory to the one containing mushr_install.bash
   exit 1
 fi
-export INSTALL_PATH=$(pwd)
+export MUSHR_INSTALL_PATH=$(pwd)
 
 # Real robot or on a laptop?
 read -p "Are you installing on robot and need all the sensor drivers? (y/n) " -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    export REAL_ROBOT=1
-    export OS_TYPE=robot
+    export MUSHR_REAL_ROBOT=1
 else
-    export REAL_ROBOT=0
+    export MUSHR_REAL_ROBOT=0
 fi
 
-# NVIDIA GPU? 
-read -p "Do you have a nvidia gpu with installed drivers? (y/n) " -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    if [[ $REAL_ROBOT == 1 ]]; then
-      export COMPOSE_FILE=docker-compose-robot.yml
-    else
-      export COMPOSE_FILE=docker-compose-gpu.yml
-    fi
-else
-    export COMPOSE_FILE=docker-compose-cpu.yml
-fi
-
-# Build from scratch (assumes GPU)?
+# Build from scratch 
 read -p "Build from scratch? (Not recommended, takes much longer than pulling ready-made image) (y/n) " -r
 echo
 export BUILD_FROM_SCRATCH=0
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   export BUILD_FROM_SCRATCH=1
-  export COMPOSE_FILE=docker-compose-build.yml
+  export MUSHR_COMPOSE_FILE=docker-compose-build.yml
 fi
 
 # curl and dep keys
-if [[ $OS_TYPE != "Darwin" ]]; then
+if [[ $MUSHR_OS_TYPE == "Linux" ]]; then
   sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
   sudo apt-get update
   sudo apt-get install -y curl
   curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+
+  # Reset to specific hardware
+  export MUSHR_OS_TYPE="$(uname -i)"
 fi
 
 # Robot specific settings
-if [[ $REAL_ROBOT == 1 ]]; then
+if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
     echo Running robot specific commands
     
     # Don't need sudo for docker
@@ -100,63 +84,39 @@ if [[ $REAL_ROBOT == 1 ]]; then
 fi
 
 # vcstool https://github.com/dirk-thomas/vcstool 
-if [[ $OS_TYPE != "Darwin" ]]; then
+if [[ $MUSHR_OS_TYPE != "Darwin" ]]; then
   sudo apt-get update && sudo apt install -y python3-vcstool
 else
-  sudo pip install vcstool
-fi
-
-# Make catkin_ws outside container for easy editing
-if [[ ! -d "../../../../../catkin_ws" ]]; then
-  mkdir -p ../../../catkin_ws/src
-  cd ../../../ && mv mushr catkin_ws/src/mushr
+  pip install vcstool
 fi
 
 # Pull repos
-export WS_PATH=$(pwd | sed 's:/catkin_ws.*::')
-cd $WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import < mushr/nav-repos.yaml
-cd mushr/mushr_utils/install/ && export INSTALL_PATH=$(pwd)
+export MUSHR_WS_PATH=$(echo $MUSHR_INSTALL_PATH | sed 's:/catkin_ws.*::')
+cd $MUSHR_WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import < mushr/nav-repos.yaml
 
-# Make sure environment Variables are always set
-if ! grep -Fq "export INSTALL_PATH=" ~/$SHELL_PROFILE  || [[ $BUILD_FROM_SCRATCH ]] ; then
-  echo "export INSTALL_PATH=${INSTALL_PATH}" >> ~/$SHELL_PROFILE
-fi
-if ! grep -Fq "export REAL_ROBOT=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH ]] ; then
-  echo "export REAL_ROBOT=${REAL_ROBOT}" >> ~/$SHELL_PROFILE
-fi
-if ! grep -Fq "export WS_PATH=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH ]] ; then
-  echo "export WS_PATH=${WS_PATH}" >> ~/$SHELL_PROFILE
-fi
-if ! grep -Fq "export COMPOSE_FILE=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH=1 ]] ; then
-  echo "export COMPOSE_FILE=${COMPOSE_FILE}" >> ~/$SHELL_PROFILE
-fi
-if ! grep -Fq "export OS_TYPE=" ~/$SHELL_PROFILE || [[ $BUILD_FROM_SCRATCH=1 ]] ; then
-  echo "export OS_TYPE=${OS_TYPE}" >> ~/$SHELL_PROFILE
+# Make custom mushr_noetic script
+if [[ ! -f "${MUSHR_INSTALL_PATH}/mushr_noetic" ]]; then
+	cat <<- EOF > ${MUSHR_INSTALL_PATH}/mushr_noetic
+	export MUSHR_INSTALL_PATH=${MUSHR_INSTALL_PATH}
+	export MUSHR_REAL_ROBOT=${MUSHR_REAL_ROBOT}
+	export MUSHR_WS_PATH=${MUSHR_WS_PATH}
+	export MUSHR_COMPOSE_FILE=${MUSHR_COMPOSE_FILE}
+	export MUSHR_OS_TYPE=${MUSHR_OS_TYPE}
+	docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 	9090:9090 mushr_noetic bash
+	EOF
+	chmod +x ${MUSHR_INSTALL_PATH}/mushr_noetic
+	sudo ln -s ${MUSHR_INSTALL_PATH}/mushr_noetic /usr/local/bin/
 fi
 
 # If laptop, don't build realsense2_camera, ydlidar, or push_button_utils
-if [[ $REAL_ROBOT == 0 ]]; then
-  touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/push_button_utils/CATKIN_IGNORE
-  touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/ydlidar/CATKIN_IGNORE
-  touch $WS_PATH/catkin_ws/src/mushr/mushr_hardware/realsense/realsense2_camera/CATKIN_IGNORE
-fi
-
-# Shortcuts
-if ! grep -Fq "alias mushr_noetic=" ~/$SHELL_PROFILE ; then
-  echo "alias mushr_noetic=\"docker-compose -f $INSTALL_PATH/$COMPOSE_FILE run -p 9090:9090 mushr_noetic bash\"" >> ~/$SHELL_PROFILE
+if [[ $MUSHR_REAL_ROBOT == 0 ]]; then
+  for ignored_package in push_button_utils ydlidar realsense/realsense2_camera; do
+    touch $MUSHR_WS_PATH/catkin_ws/src/mushr/mushr_hardware/${ignored_package}/CATKIN_IGNORE
+  done
 fi
 
 # Make sure all devices are visible
-if [[ $REAL_ROBOT == 1 ]]; then
+if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
   sudo udevadm control --reload-rules && sudo udevadm trigger
 fi
-
-# Display permissions
-if ! grep -Fxq "xhost + >> /dev/null" ~/$SHELL_PROFILE ; then
-  read -p $'Add "xhost +" to $SHELL_PROFILE? This enables GUI from docker but is a security risk.\nIf no, each time you run the docker container you will need to execute this command.\nAdd xhost + $SHELL_PROFILE? (y/n) ' -r
-  echo
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo WARNING: Adding "xhost +" to $SHELL_PROFILE 
-    echo "xhost + >> /dev/null" >> ~/$SHELL_PROFILE && source ~/$SHELL_PROFILE
-  fi
-fi
+popd
