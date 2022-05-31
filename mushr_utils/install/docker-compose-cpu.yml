@@ -3,15 +3,7 @@ services:
   mushr_noetic:
     image: mushr/mushr:${MUSHR_OS_TYPE}
     privileged: true
-    devices:
-      - "/dev:/dev"
-      - "/dev/ydlidar:/dev/ydlidar"
-      - "/dev/vesc:/dev/vesc"
-      - "/dev/input/js0:/dev/input/js0"
     volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
-      - /dev:/dev
-      - /dev/input:/dev/input
       - ${MUSHR_WS_PATH}/catkin_ws:/root/catkin_ws # Runtime attach
     environment:
       - DISPLAY=${DISPLAY}
