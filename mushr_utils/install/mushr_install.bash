@@ -3,9 +3,6 @@ pushd `dirname $0`
 
 # Detect OS 
 export MUSHR_OS_TYPE="$(uname -s)"
-if [[ $MUSHR_OS_TYPE == "Linux" ]]; then
-  export MUSHR_OS_TYPE="$(uname -i)"
-fi
 
 # Are we in the right place to be running this?
 if [[ ! -f mushr_install.bash ]]; then
@@ -19,7 +16,6 @@ read -p "Are you installing on robot and need all the sensor drivers? (y/n) " -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     export MUSHR_REAL_ROBOT=1
-    export MUSHR_OS_TYPE=robot
 else
     export MUSHR_REAL_ROBOT=0
 fi
@@ -39,6 +35,9 @@ if [[ $MUSHR_OS_TYPE == "Linux" ]]; then
   sudo apt-get update
   sudo apt-get install -y curl
   curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+
+  # Reset to specific hardware
+  export MUSHR_OS_TYPE="$(uname -i)"
 fi
 
 # Robot specific settings
