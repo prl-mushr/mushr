@@ -28,7 +28,11 @@ echo
 export BUILD_FROM_SCRATCH=0
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   export BUILD_FROM_SCRATCH=1
-  export MUSHR_COMPOSE_FILE=docker-compose-build.yml
+  if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
+  	export MUSHR_COMPOSE_FILE=docker-compose-build-robot.yml
+  else
+  	export MUSHR_COMPOSE_FILE=docker-compose-build-cpu.yml
+  fi
 fi
 
 # curl and dep keys

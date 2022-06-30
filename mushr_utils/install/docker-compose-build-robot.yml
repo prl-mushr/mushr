@@ -6,7 +6,7 @@ services:
       context: ${MUSHR_WS_PATH}/catkin_ws
       dockerfile: ${MUSHR_INSTALL_PATH}/Dockerfile
       args: 
-        REAL: ${REAL_ROBOT}
+        REAL: ${MUSHR_REAL_ROBOT}
         MUSHR_WS_PATH: ${MUSHR_WS_PATH}
     privileged: true
     devices:

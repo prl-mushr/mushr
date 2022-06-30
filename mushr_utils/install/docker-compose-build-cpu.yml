@@ -1,0 +1,16 @@
+version: "3.4"
+services:
+  mushr_noetic:
+    image: mushr/mushr:${MUSHR_OS_TYPE}
+    privileged: true
+    build: 
+      context: ${MUSHR_WS_PATH}/catkin_ws
+      dockerfile: ${MUSHR_INSTALL_PATH}/Dockerfile
+      args: 
+        REAL: ${MUSHR_REAL_ROBOT}
+        MUSHR_WS_PATH: ${MUSHR_WS_PATH}
+    volumes:
+      - ${MUSHR_WS_PATH}/catkin_ws:/root/catkin_ws # Runtime attach
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
