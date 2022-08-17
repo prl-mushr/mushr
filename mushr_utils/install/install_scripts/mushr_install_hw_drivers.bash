@@ -11,6 +11,7 @@ add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo bionic ma
 
 apt-get install rsync -y
 apt-get install librealsense2-utils librealsense2-dev -y
+apt-get install ros-noetic-realsense2-camera -y
 
 # Install BLDC tool. Following commands adapted from:
 # https://github.com/jetsonhacks/installBLDC/blob/master/installBLDC.sh
