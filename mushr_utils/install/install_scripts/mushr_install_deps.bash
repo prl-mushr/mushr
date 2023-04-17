@@ -18,7 +18,7 @@ apt-get update
 apt-get install -y python3-catkin-tools
 
 # Install Cython, PyTorch 1.10 at least!
-pip3 install Cython torch torchvision torchaudio numpy scipy progress --upgrade
+pip3 install Cython torch torchvision torchaudio numpy scipy networkx progress --upgrade
 
 # Create OpenCV symbolic link
 ln -s /usr/include/opencv4 /usr/include/opencv
@@ -37,8 +37,8 @@ mkdir ~/.rviz
 cp ~/catkin_ws/src/mushr/mushr_utils/rviz/default.rviz ~/.rviz/
 
 # Set ROS_IP
-if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
-    echo "export ROS_IP=\$(ifconfig wlan0 | grep 'inet ' | awk '{print \$2}')" >> ~/.bashrc
-else
-    echo "export ROS_IP=\$(ifconfig eth0 | grep 'inet ' | awk '{print \$2}')" >> ~/.bashrc
-fi
+# if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
+#     echo "export ROS_IP=\$(ifconfig wlan0 | grep 'inet ' | awk '{print \$2}')" >> ~/.bashrc
+# else
+#     echo "export ROS_IP=\$(ifconfig eth0 | grep 'inet ' | awk '{print \$2}')" >> ~/.bashrc
+# fi

@@ -14,3 +14,4 @@ services:
     environment:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
+      - MUSHR_REAL_ROBOT=${MUSHR_REAL_ROBOT}
