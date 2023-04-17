@@ -35,10 +35,3 @@ rm -rf range_libc
 # Create default RVIZ setup
 mkdir ~/.rviz
 cp ~/catkin_ws/src/mushr/mushr_utils/rviz/default.rviz ~/.rviz/
-
-# Set ROS_IP
-# if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
-#     echo "export ROS_IP=\$(ifconfig wlan0 | grep 'inet ' | awk '{print \$2}')" >> ~/.bashrc
-# else
-#     echo "export ROS_IP=\$(ifconfig eth0 | grep 'inet ' | awk '{print \$2}')" >> ~/.bashrc
-# fi
