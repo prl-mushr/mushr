@@ -1,7 +1,9 @@
 FROM ubuntu:focal
 
-MAINTAINER Matt Schmittle <schmttle@cs.washington.edu>
+LABEL maintainer="Matt Schmittle <schmttle@cs.washington.edu>"
 ARG DEBIAN_FRONTEND=noninteractive
+# 1 = real robot, 0 = sim (laptop)
+ARG REAL
 WORKDIR /root
 
 # Install docker deps for mushr_install 
@@ -22,7 +24,12 @@ ADD src/mushr/mushr_utils/install/install_scripts/mushr_install_deps.bash instal
 RUN chmod +x install_scripts/mushr_install_deps.bash && install_scripts/mushr_install_deps.bash 
 
 # Hardware drivers
-# 1 = real robot, 0 = sim (laptop)
-ARG REAL
 ADD src/mushr/mushr_utils/install/install_scripts/mushr_install_hw_drivers.bash install_scripts/mushr_install_hw_drivers.bash
 RUN if [ "$REAL" = 1 ] ; then chmod +x install_scripts/mushr_install_hw_drivers.bash && install_scripts/mushr_install_hw_drivers.bash ; fi
+
+# Set ROS_IP
+RUN if [ "$REAL" = 1 ] ; then \
+    echo "export ROS_IP=\$(ifconfig wlan0 | grep 'inet ' | awk '{print \$2}')" >> ~/.bashrc ; \
+    else \
+    echo "export ROS_IP=\$(ifconfig eth0 | grep 'inet ' | awk '{print \$2}')" >> ~/.bashrc ; \
+    fi

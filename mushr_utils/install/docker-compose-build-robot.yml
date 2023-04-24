@@ -2,6 +2,7 @@ version: "3.4"
 services:
   mushr_noetic:
     image: mushr/mushr:${MUSHR_OS_TYPE}
+    network_mode: "host"
     build: 
       context: ${MUSHR_WS_PATH}/catkin_ws
       dockerfile: ${MUSHR_INSTALL_PATH}/Dockerfile
@@ -33,3 +34,4 @@ services:
       - QT_X11_NO_MITSHM=1
       - NEVIAID_DRIVER_CAPABILITIES=all
       - NVIDIA_VISIBLE_DEVICES=all
+      - MUSHR_REAL_ROBOT=${MUSHR_REAL_ROBOT}
