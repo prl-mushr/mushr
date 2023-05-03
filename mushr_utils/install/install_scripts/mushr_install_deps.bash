@@ -32,6 +32,9 @@ python3 setup.py install
 cd ~/catkin_ws/src
 rm -rf range_libc
 
+# Remove Python2
+apt-get install -y python-is-python3
+
 # Create default RVIZ setup
 mkdir ~/.rviz
 cp ~/catkin_ws/src/mushr/mushr_utils/rviz/default.rviz ~/.rviz/

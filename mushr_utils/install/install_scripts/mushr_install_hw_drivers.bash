@@ -24,5 +24,3 @@ make clean & make
 
 # Install push-button drivers
 pip install Jetson.GPIO
-rm /usr/bin/python
-ln -s /usr/bin/python3 /usr/bin/python
