@@ -107,7 +107,15 @@ export MUSHR_REAL_ROBOT=${MUSHR_REAL_ROBOT}
 export MUSHR_WS_PATH=${MUSHR_WS_PATH}
 export MUSHR_COMPOSE_FILE=${MUSHR_COMPOSE_FILE}
 export MUSHR_OS_TYPE=${MUSHR_OS_TYPE}
-docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 	9090:9090 mushr_noetic bash
+if [ \$# == 0 ] || [ \$1 == "run" ];
+then
+  docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 	9090:9090 mushr_noetic bash
+elif [ \$1 == "build" ];
+then
+  docker-compose -f $MUSHR_INSTALL_PATH/$MUSHR_COMPOSE_FILE build --no-cache mushr_noetic
+else
+  echo "Invalid command supplied to mushr_noetic script; valid commands are 'run' or 'build'"
+fi
 EOF
 chmod +x ${MUSHR_INSTALL_PATH}/mushr_noetic
 sudo ln -s ${MUSHR_INSTALL_PATH}/mushr_noetic /usr/local/bin/
