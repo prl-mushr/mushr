@@ -1,6 +1,15 @@
 #!/bin/bash
 pushd `dirname $0`
 
+# Parse args
+TRIVIAL_ONLY=0
+for arg in "$@"; do
+    if [ "$arg" == "--trivial-only" ]; then
+        TRIVIAL_ONLY=1
+        break
+    fi
+done
+
 # Detect OS 
 export MUSHR_OS_TYPE="$(uname -s)"
 
@@ -12,8 +21,12 @@ fi
 export MUSHR_INSTALL_PATH=$(pwd)
 
 # Real robot or on a laptop?
-read -p "Are you installing on robot and need all the sensor drivers? (y/n) " -r
-echo
+if [[ $TRIVIAL_ONLY == 0 ]]; then
+  read -p "Are you installing on robot and need all the sensor drivers? (y/n) " -r
+  echo
+else
+  REPLY="n"
+fi
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     export MUSHR_REAL_ROBOT=1
     export MUSHR_COMPOSE_FILE=docker-compose-robot.yml
@@ -23,8 +36,12 @@ else
 fi
 
 # Build from scratch 
-read -p "Build from scratch? (Not recommended, takes much longer than pulling ready-made image) (y/n) " -r
-echo
+if [[ $TRIVIAL_ONLY == 0 ]]; then
+  read -p "Build from scratch? (Not recommended, takes much longer than pulling ready-made image) (y/n) " -r
+  echo
+else
+  REPLY="n"
+fi
 export BUILD_FROM_SCRATCH=0
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   export BUILD_FROM_SCRATCH=1
