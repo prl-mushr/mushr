@@ -1,0 +1,16 @@
+{
+    "tasks": [
+        {
+            "label": "Roslaunch teleop.launch",
+            "type": "shell",
+            "command": "mushr_noetic run 'source ~/.bashrc && roslaunch mushr_sim teleop.launch'",
+            "problemMatcher": []
+        },
+        {
+            "label": "Start Foxglove Studio server",
+            "type": "shell",
+            "command": "docker run --rm -p \"8080:8080\" ghcr.io/foxglove/studio:latest",
+            "problemMatcher": []
+        }
+    ]
+}
