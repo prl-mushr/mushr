@@ -109,7 +109,12 @@ export MUSHR_COMPOSE_FILE=${MUSHR_COMPOSE_FILE}
 export MUSHR_OS_TYPE=${MUSHR_OS_TYPE}
 if [ \$# == 0 ] || [ \$1 == "run" ];
 then
-  docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 	9090:9090 mushr_noetic bash
+  if [ $# == 2 ];
+  then
+    docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 	9090:9090 mushr_noetic bash -ic "\${2}"
+  else
+    docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 	9090:9090 mushr_noetic bash
+  fi
 elif [ \$1 == "build" ];
 then
   docker-compose -f $MUSHR_INSTALL_PATH/$MUSHR_COMPOSE_FILE build --no-cache mushr_noetic
