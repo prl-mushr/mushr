@@ -119,20 +119,21 @@ cd $MUSHR_WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs im
 
 # Make custom mushr_noetic script
 cat <<- EOF > ${MUSHR_INSTALL_PATH}/mushr_noetic
+#!/bin/bash
 export MUSHR_INSTALL_PATH=${MUSHR_INSTALL_PATH}
 export MUSHR_REAL_ROBOT=${MUSHR_REAL_ROBOT}
 export MUSHR_WS_PATH=${MUSHR_WS_PATH}
 export MUSHR_COMPOSE_FILE=${MUSHR_COMPOSE_FILE}
 export MUSHR_OS_TYPE=${MUSHR_OS_TYPE}
-if [ \$# == 0 ] || [ \$1 == "run" ];
+if [[ \$# == 0 ]] || [[ \$1 == "run" ]];
 then
-  if [ $# == 2 ];
+  if [[ \$# == 2 ]];
   then
     docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 	9090:9090 mushr_noetic bash -ic "\${2}"
   else
     docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 	9090:9090 mushr_noetic bash
   fi
-elif [ \$1 == "build" ];
+elif [[ \$1 == "build" ]];
 then
   docker-compose -f $MUSHR_INSTALL_PATH/$MUSHR_COMPOSE_FILE build --no-cache mushr_noetic
 else
