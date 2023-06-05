@@ -3,8 +3,8 @@
 	"features": {
 		"ghcr.io/devcontainers/features/common-utils:2": {
 			"username": "vscode",
-			"userUid": "1001",
-			"userGid": "1001"
+			"userUid": "1000",
+			"userGid": "1000"
 		},
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
 	},
