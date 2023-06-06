@@ -11,5 +11,5 @@
 	"remoteUser": "vscode",
 	"workspaceMount": "source=${localWorkspaceFolder},target=/home/vscode/catkin_ws/src/mushr,type=bind",
 	"workspaceFolder": "/home/vscode/catkin_ws",
-	"postCreateCommand": "sudo chown -R vscode:vscode /home/vscode/catkin_ws && ln -s /home/vscode/catkin_ws/src/mushr/.vscode /home/vscode/catkin_ws/ && cd /home/vscode/catkin_ws/src && ./mushr/mushr_utils/install/mushr_install.bash --trivial-only && mushr_noetic run 'cd catkin_ws && catkin build'"
+	"postCreateCommand": "sudo chown -R vscode:vscode . && ln -s ${containerWorkspaceFolder}/src/mushr/.vscode ${containerWorkspaceFolder} && ./src/mushr/.devcontainer/build.sh"
 }
