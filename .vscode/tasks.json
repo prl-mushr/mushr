@@ -9,7 +9,7 @@
         {
             "label": "Start Foxglove Studio server",
             "type": "shell",
-            "command": "docker run --rm -p \"8080:8080\" ghcr.io/foxglove/studio:latest",
+            "command": "caddy run --config ~/catkin_ws/src/mushr/.devcontainer/Caddyfile",
             "problemMatcher": []
         }
     ]
