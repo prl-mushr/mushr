@@ -6,10 +6,11 @@
 			"userUid": "1000",
 			"userGid": "1000"
 		},
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
+		"ghcr.io/devcontainers-contrib/features/caddy:1": {}
 	},
 	"remoteUser": "vscode",
 	"workspaceMount": "source=${localWorkspaceFolder},target=/home/vscode/catkin_ws/src/mushr,type=bind",
 	"workspaceFolder": "/home/vscode/catkin_ws",
-	"postCreateCommand": "sudo chown -R vscode:vscode . && ln -s ${containerWorkspaceFolder}/src/mushr/.vscode ${containerWorkspaceFolder} && ./src/mushr/.devcontainer/build.sh"
+	"postCreateCommand": "./src/mushr/.devcontainer/install.sh && sudo chown -R vscode:vscode . && ln -s ${containerWorkspaceFolder}/src/mushr/.vscode ${containerWorkspaceFolder} && ./src/mushr/.devcontainer/build.sh"
 }

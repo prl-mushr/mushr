@@ -1,0 +1,30 @@
+(globals) {
+	encode gzip
+	
+	@http_scheme {
+		expression {http.request.scheme}=="https" || {header.X-Forwarded-Scheme}=="https" || {header.X-Forwarded-Proto}=="https"
+	}
+	vars @http_scheme WsScheme "wss"
+	vars WsScheme "ws"
+
+	@host_forwarded {
+		header X-Forwarded-Host *
+	}
+	vars @host_forwarded ReqHost {header.X-Forwarded-Host}
+	vars ReqHost {http.request.hostport}
+
+	@websockets {
+		header_regexp Connection (?i)(Upgrade)
+		header Upgrade websocket
+	}
+}
+
+:8080 {
+	# serve foxglove studio
+	import globals
+	root * /srv/foxglove
+	file_server
+
+	# serve foxglove studio
+    reverse_proxy @websockets "localhost:9090"
+}
