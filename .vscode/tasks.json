@@ -3,7 +3,7 @@
         {
             "label": "Roslaunch teleop.launch",
             "type": "shell",
-            "command": "mushr_noetic run 'source ~/.bashrc && roslaunch mushr_sim teleop.launch'",
+            "command": "mushr_noetic run 'source ~/.bashrc && ROSBRIDGE_WEBSOCKET_EXTERNAL_PORT=80 roslaunch mushr_sim teleop.launch'",
             "problemMatcher": []
         },
         {
