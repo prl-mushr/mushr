@@ -1,6 +1,6 @@
 (globals) {
 	encode gzip
-	
+
 	@http_scheme {
 		expression {http.request.scheme}=="https" || {header.X-Forwarded-Scheme}=="https" || {header.X-Forwarded-Proto}=="https"
 	}
@@ -27,4 +27,8 @@
 
 	# serve foxglove studio
     reverse_proxy @websockets "localhost:9090"
+
+    log {
+    	output file /tmp/caddy.log
+    }
 }

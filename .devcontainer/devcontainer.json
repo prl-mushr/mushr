@@ -7,8 +7,12 @@
 			"userGid": "1000"
 		},
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
-		"ghcr.io/devcontainers-contrib/features/caddy:1": {}
+		"ghcr.io/devcontainers-contrib/features/caddy:1": {},
+		"ghcr.io/devcontainers/features/desktop-lite:1": {
+			"webPort": 6080
+		}
 	},
+	"forwardPorts": [6080],  // for noVNC clients
 	"remoteUser": "vscode",
 	"workspaceMount": "source=${localWorkspaceFolder},target=/home/vscode/catkin_ws/src/mushr,type=bind",
 	"workspaceFolder": "/home/vscode/catkin_ws",
