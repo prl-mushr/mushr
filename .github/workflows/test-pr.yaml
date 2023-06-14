@@ -1,0 +1,16 @@
+name: "CI"
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        id: checkout_release
+        uses: actions/checkout@v3
+      - name: Devcontainer container smoke test
+        id: test_devcontainer
+        shell: bash
+        run: ./.github/workflows/devcontainer-test.sh

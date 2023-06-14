@@ -1,6 +1,15 @@
 #!/bin/bash
 pushd `dirname $0`
 
+# Parse args
+TRIVIAL_ONLY=0
+for arg in "$@"; do
+    if [ "$arg" == "--trivial-only" ]; then
+        TRIVIAL_ONLY=1
+        break
+    fi
+done
+
 # Detect OS 
 export MUSHR_OS_TYPE="$(uname -s)"
 
@@ -12,8 +21,12 @@ fi
 export MUSHR_INSTALL_PATH=$(pwd)
 
 # Real robot or on a laptop?
-read -p "Are you installing on robot and need all the sensor drivers? (y/n) " -r
-echo
+if [[ $TRIVIAL_ONLY == 0 ]]; then
+  read -p "Are you installing on robot and need all the sensor drivers? (y/n) " -r
+  echo
+else
+  REPLY="n"
+fi
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     export MUSHR_REAL_ROBOT=1
     export MUSHR_COMPOSE_FILE=docker-compose-robot.yml
@@ -23,8 +36,12 @@ else
 fi
 
 # Build from scratch 
-read -p "Build from scratch? (Not recommended, takes much longer than pulling ready-made image) (y/n) " -r
-echo
+if [[ $TRIVIAL_ONLY == 0 ]]; then
+  read -p "Build from scratch? (Not recommended, takes much longer than pulling ready-made image) (y/n) " -r
+  echo
+else
+  REPLY="n"
+fi
 export BUILD_FROM_SCRATCH=0
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   export BUILD_FROM_SCRATCH=1
@@ -102,15 +119,21 @@ cd $MUSHR_WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs im
 
 # Make custom mushr_noetic script
 cat <<- EOF > ${MUSHR_INSTALL_PATH}/mushr_noetic
+#!/bin/bash
 export MUSHR_INSTALL_PATH=${MUSHR_INSTALL_PATH}
 export MUSHR_REAL_ROBOT=${MUSHR_REAL_ROBOT}
 export MUSHR_WS_PATH=${MUSHR_WS_PATH}
 export MUSHR_COMPOSE_FILE=${MUSHR_COMPOSE_FILE}
 export MUSHR_OS_TYPE=${MUSHR_OS_TYPE}
-if [ \$# == 0 ] || [ \$1 == "run" ];
+if [[ \$# == 0 ]] || [[ \$1 == "run" ]];
 then
-  docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 	9090:9090 mushr_noetic bash
-elif [ \$1 == "build" ];
+  if [[ \$# == 2 ]];
+  then
+    docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 	9090:9090 mushr_noetic bash -ic "\${2}"
+  else
+    docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 	9090:9090 mushr_noetic bash
+  fi
+elif [[ \$1 == "build" ]];
 then
   docker-compose -f $MUSHR_INSTALL_PATH/$MUSHR_COMPOSE_FILE build --no-cache mushr_noetic
 else
