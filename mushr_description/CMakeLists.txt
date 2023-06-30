@@ -42,6 +42,10 @@ file(MAKE_DIRECTORY ${ROBOTS_OUTPUT_DIR})
 #	   needs to have a unique name
 # See mushr_description/robots/color.urdf.xacro for a list of available
 # colors. Note that colors can be added to that file using the same format
+
+set(RACECAR_RU_URDF_XACRO "${ROBOTS_SRC_DIR}/mushr-ru.urdf.xacro")
+set(RACECAR_RU_URDF "${ROBOTS_OUTPUT_DIR}/mushr-ru.urdf")
+
 set(RACECAR_MIT_URDF_XACRO "${ROBOTS_SRC_DIR}/racecar-mit.urdf.xacro")
 set(RACECAR_MIT_URDF "${ROBOTS_OUTPUT_DIR}/racecar-mit.urdf")
 
@@ -79,6 +83,7 @@ set(MUSHR_NANO_GREEN_BLACK_LINK "${ROBOTS_OUTPUT_DIR}/racecar-uw-nano-green-blac
 set(MUSHR_NANO_GREEN_BLACK_ARGS "platform_color:=green" "inset_color:=black")
 
 build_xacro(${RACECAR_MIT_URDF_XACRO} ${RACECAR_MIT_URDF} "")
+build_xacro(${RACECAR_RU_URDF_XACRO} ${RACECAR_RU_URDF} "")
 build_xacro(${MUSHR_TX2_URDF_XACRO} ${MUSHR_TX2_URDF} "")
 build_xacro(${MUSHR_TX2_GREEN_BLACK_URDF_XACRO}
 						${MUSHR_TX2_GREEN_BLACK_URDF}
@@ -99,6 +104,7 @@ build_xacro(${MUSHR_NANO_GREEN_BLACK_URDF_XACRO}
 
 list(APPEND CORE_DESCRIPTION_FILES
 	${RACECAR_MIT_URDF}
+  ${RACECAR_RU_URDF}
 	${MUSHR_TX2_URDF}
 	${MUSHR_TX2_GREEN_BLACK_URDF}
 	${MUSHR_NANO_URDF}
