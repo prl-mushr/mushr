@@ -98,7 +98,7 @@ fi
 
 # Pull repos
 export MUSHR_WS_PATH=$(echo $MUSHR_INSTALL_PATH | sed 's:/catkin_ws.*::')
-cd $MUSHR_WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import < mushr/nav-repos.yaml
+# cd $MUSHR_WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import < mushr/nav-repos.yaml
 
 # Make custom mushr_noetic script
 cat <<- EOF > ${MUSHR_INSTALL_PATH}/mushr_noetic

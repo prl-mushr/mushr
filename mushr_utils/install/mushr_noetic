@@ -1,0 +1,11 @@
+export MUSHR_INSTALL_PATH=/home/hound/catkin_ws/src/mushr/mushr_utils/install
+export MUSHR_REAL_ROBOT=1
+export MUSHR_WS_PATH=/home/hound
+export MUSHR_COMPOSE_FILE=docker-compose-robot.yml
+export MUSHR_OS_TYPE=aarch64
+
+xhost +local:docker
+docker-compose -f $MUSHR_INSTALL_PATH/$MUSHR_COMPOSE_FILE run -p 9090:9090 --rm mushr_noetic bash
+xhost -local:docker
+
+# docker-compose -f $MUSHR_INSTALL_PATH/$MUSHR_COMPOSE_FILE run -p 9090:9090 -d --rm mushr_noetic /root/catkin_ws/src/hound_core/entry_command.sh

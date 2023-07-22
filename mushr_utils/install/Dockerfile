@@ -1,8 +1,12 @@
-FROM ubuntu:focal
+FROM l4t-pytorch:r34.1.1-pth1.12-py3
 
 MAINTAINER Matt Schmittle <schmttle@cs.washington.edu>
 ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR /root
+
+RUN apt-get update
+
+RUN apt-get install software-properties-common -y
 
 # Install docker deps for mushr_install 
 RUN apt-get update -y \

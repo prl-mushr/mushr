@@ -1,0 +1,12 @@
+[Unit]
+Description=mushr_docker
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=on-failure
+ExecStart=/home/hound/catkin_ws/src/mushr/mushr_utils/install/boot_script.sh start -a
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target

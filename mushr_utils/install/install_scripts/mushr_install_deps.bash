@@ -18,10 +18,10 @@ apt-get update
 apt-get install -y python3-catkin-tools
 
 # Install Cython, PyTorch 1.10 at least!
-pip3 install Cython torch torchvision torchaudio numpy scipy progress --upgrade
+# pip3 install Cython torch torchvision torchaudio numpy scipy progress --upgrade
 
 # Create OpenCV symbolic link
-ln -s /usr/include/opencv4 /usr/include/opencv
+# ln -s /usr/include/opencv4 /usr/include/opencv
 
 # Auto source this workspace on terminal startup
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc

@@ -13,16 +13,17 @@ apt-get install rsync -y
 apt-get install librealsense2-utils librealsense2-dev -y
 apt-get install ros-noetic-realsense2-camera -y
 
+
 # Install BLDC tool. Following commands adapted from:
 # https://github.com/jetsonhacks/installBLDC/blob/master/installBLDC.sh
-cd $ROOT
-apt-get install -y qtcreator libudev-dev libqt5serialport5-dev 
-git clone https://github.com/vedderb/bldc-tool
-cd bldc-tool
-qmake -qt=qt5
-make clean & make
+# cd $ROOT
+# apt-get install -y qtcreator libudev-dev libqt5serialport5-dev 
+# git clone https://github.com/vedderb/bldc-tool
+# cd bldc-tool
+# qmake -qt=qt5
+# make clean & make
 
 # Install push-button drivers
-pip install Jetson.GPIO -y
-rm /usr/bin/python
-ln -s /usr/bin/python3 /usr/bin/python
+# pip install Jetson.GPIO -y
+# rm /usr/bin/python
+# ln -s /usr/bin/python3 /usr/bin/python
