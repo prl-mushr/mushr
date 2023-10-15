@@ -1,4 +1,5 @@
-FROM l4t-pytorch:r34.1.1-pth1.12-py3
+ARG BASE_IMAGE
+FROM "$BASE_IMAGE"
 
 MAINTAINER Matt Schmittle <schmttle@cs.washington.edu>
 ARG DEBIAN_FRONTEND=noninteractive
@@ -25,8 +26,13 @@ ADD . catkin_ws
 ADD src/mushr/mushr_utils/install/install_scripts/mushr_install_deps.bash install_scripts/mushr_install_deps.bash
 RUN chmod +x install_scripts/mushr_install_deps.bash && install_scripts/mushr_install_deps.bash 
 
-# Hardware drivers
-# 1 = real robot, 0 = sim (laptop)
+# # Hardware drivers
+# # 1 = real robot, 0 = sim (laptop)
 ARG REAL
+ARG HOUND
+ARG OS
 ADD src/mushr/mushr_utils/install/install_scripts/mushr_install_hw_drivers.bash install_scripts/mushr_install_hw_drivers.bash
-RUN if [ "$REAL" = 1 ] ; then chmod +x install_scripts/mushr_install_hw_drivers.bash && install_scripts/mushr_install_hw_drivers.bash ; fi
+RUN if [ "$REAL" = 1 ] ; then chmod +x install_scripts/mushr_install_hw_drivers.bash && install_scripts/mushr_install_hw_drivers.bash "$OS" "$HOUND" ; fi
+
+ADD src/mushr/mushr_utils/install/install_scripts/hound_install.bash install_scripts/hound_install.bash
+RUN if [ "$HOUND" = 1 ] ; then chmod +x install_scripts/hound_install.bash && install_scripts/hound_install.bash ; fi

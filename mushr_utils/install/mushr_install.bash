@@ -22,6 +22,14 @@ else
     export MUSHR_COMPOSE_FILE=docker-compose-cpu.yml
 fi
 
+read -p "download HOUND/field-robotics related repositories? (y/n) " -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    export HOUND=1
+else
+    export HOUND=0
+fi
+
 # Build from scratch 
 read -p "Build from scratch? (Not recommended, takes much longer than pulling ready-made image) (y/n) " -r
 echo
@@ -44,6 +52,15 @@ if [[ $MUSHR_OS_TYPE == "Linux" ]]; then
 
   # Reset to specific hardware
   export MUSHR_OS_TYPE="$(uname -i)"
+fi
+
+if [ "$MUSHR_OS_TYPE" = "x86_64" ]; then
+    export MUSHR_BASE_IMAGE="nvcr.io/nvidia/pytorch:22.05-py3"
+elif [ "$MUSHR_OS_TYPE" = "aarch64" ]; then
+    export MUSHR_BASE_IMAGE="l4t-pytorch:r34.1.1-pth1.12-py3"
+else
+    echo "Unknown OS type: $MUSHR_OS_TYPE"
+    exit 0
 fi
 
 # Robot specific settings
@@ -98,7 +115,7 @@ fi
 
 # Pull repos
 export MUSHR_WS_PATH=$(echo $MUSHR_INSTALL_PATH | sed 's:/catkin_ws.*::')
-# cd $MUSHR_WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import < mushr/nav-repos.yaml
+cd $MUSHR_WS_PATH/catkin_ws/src/ && vcs import < mushr/base-repos.yaml && vcs import < mushr/nav-repos.yaml && if [[ $HOUND = 1 ]]; then vcs import < mushr/hound_repos.yaml; fi
 
 # Make custom mushr_noetic script
 cat <<- EOF > ${MUSHR_INSTALL_PATH}/mushr_noetic
@@ -107,14 +124,21 @@ export MUSHR_REAL_ROBOT=${MUSHR_REAL_ROBOT}
 export MUSHR_WS_PATH=${MUSHR_WS_PATH}
 export MUSHR_COMPOSE_FILE=${MUSHR_COMPOSE_FILE}
 export MUSHR_OS_TYPE=${MUSHR_OS_TYPE}
-docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 	9090:9090 mushr_noetic bash
+export MUSHR_BASE_IMAGE=${MUSHR_BASE_IMAGE}
+export MUSHR_HOUND=${HOUND}
+
+xhost +local:docker
+docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 9090:9090 --rm mushr_noetic bash
+xhost -local:docker
+
+# docker-compose -f \$MUSHR_INSTALL_PATH/\$MUSHR_COMPOSE_FILE run -p 9090:9090 -d --rm mushr_noetic /root/catkin_ws/src/hound_core/entry_command.sh
 EOF
 chmod +x ${MUSHR_INSTALL_PATH}/mushr_noetic
 sudo ln -s ${MUSHR_INSTALL_PATH}/mushr_noetic /usr/local/bin/
 
 # If laptop, don't build realsense2_camera, ydlidar, or push_button_utils
 if [[ $MUSHR_REAL_ROBOT == 0 ]]; then
-  for ignored_package in push_button_utils ydlidar realsense/realsense2_camera; do
+  for ignored_package in push_button_utils ydlidar; do
     touch $MUSHR_WS_PATH/catkin_ws/src/mushr/mushr_hardware/${ignored_package}/CATKIN_IGNORE
   done
 fi

@@ -1,13 +1,17 @@
 version: "3.4"
 services:
   mushr_noetic:
-    image: mushr/mushr:${MUSHR_OS_TYPE}
+    image: mushr/hound:${MUSHR_OS_TYPE}
+    network_mode: "host"
     build: 
       context: ${MUSHR_WS_PATH}/catkin_ws
       dockerfile: ${MUSHR_INSTALL_PATH}/Dockerfile
       args: 
         REAL: ${MUSHR_REAL_ROBOT}
         MUSHR_WS_PATH: ${MUSHR_WS_PATH}
+        BASE_IMAGE: ${MUSHR_BASE_IMAGE}
+        HOUND: ${MUSHR_HOUND}
+        OS: ${MUSHR_OS_TYPE}
     privileged: true
     devices:
       - "/dev:/dev"

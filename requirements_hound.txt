@@ -1,0 +1,12 @@
+pyyaml
+meshcat
+pyquaternion
+matplotlib
+scipy
+gym
+gdown
+pycuda
+dataclasses
+ruamel.yaml
+opencv-python
+shapely==1.7.1
