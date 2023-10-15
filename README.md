@@ -2,6 +2,32 @@
 # MuSHR
 Multi-agent System for non-Holonomic Racing
 
+##HOUND/MuSHR V4 beta testing instructions:
+
+### Desktop (x86_64):
+
+Step 1:
+```bash
+git clone -b noetic-HOUND https://github.com/prl-mushr/mushr
+```
+
+Step 2: [Install docker](https://docs.docker.com/desktop/install/debian/#install-docker-desktop)
+
+Step 3:[Install Nvidia Docker2](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installing-on-ubuntu-and-debian)
+
+Step 4: (say yes yes no to use prebuilt docker)
+```bash
+cd ~/catkin_ws/src/mushr/mushr_utils/install/mushr_install.bash
+```
+Step 5: Pull the docker image for the first time. This can take up to 5-6 minutes or more depending on your internet connection
+```bash
+mushr_noetic
+```
+### Running HOUND/V4 docker:
+```bash
+mushr_noetic
+```
+
 This is the main repository for MuSHR.
 - [About MuSHR](https://mushr.io/about/)
 - [System Overview](https://mushr.io/tutorials/overview/)
