@@ -1,9 +1,9 @@
-export MUSHR_INSTALL_PATH=/home/stark/catkin_ws/src/mushr/mushr_utils/install
+export MUSHR_INSTALL_PATH=/home/hound/catkin_ws/src/mushr/mushr_utils/install
 export MUSHR_REAL_ROBOT=1
-export MUSHR_WS_PATH=/home/stark
-export MUSHR_COMPOSE_FILE=docker-compose-robot.yml
-export MUSHR_OS_TYPE=x86_64
-export MUSHR_BASE_IMAGE=nvcr.io/nvidia/pytorch:22.05-py3
+export MUSHR_WS_PATH=/home/hound
+export MUSHR_COMPOSE_FILE=docker-compose-build-robot.yml
+export MUSHR_OS_TYPE=aarch64
+export MUSHR_BASE_IMAGE=l4t-pytorch:r34.1.1-pth1.12-py3
 export MUSHR_HOUND=1
 
 xhost +local:docker

@@ -104,6 +104,9 @@ if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
     echo "nvpmodel -m 0" >> /tmp/rc.local
     echo "sleep 60 && jetson_clocks" >> /tmp/rc.local
     sudo mv /tmp/rc.local /etc/rc.local
+
+    # Setup HOUND stuff
+    sudo systemctl enable mushr_start.service
 fi
 
 # vcstool https://github.com/dirk-thomas/vcstool 

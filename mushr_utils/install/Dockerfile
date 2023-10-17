@@ -21,16 +21,16 @@ RUN mkdir install_scripts
 ADD src/mushr/mushr_utils/install/install_scripts/mushr_install_ros.bash install_scripts/mushr_install_ros.bash
 RUN chmod +x install_scripts/mushr_install_ros.bash && install_scripts/mushr_install_ros.bash 
 
-# Catkin build and other deps
-ADD . catkin_ws
-ADD src/mushr/mushr_utils/install/install_scripts/mushr_install_deps.bash install_scripts/mushr_install_deps.bash
-RUN chmod +x install_scripts/mushr_install_deps.bash && install_scripts/mushr_install_deps.bash 
-
-# # Hardware drivers
-# # 1 = real robot, 0 = sim (laptop)
+# Hardware drivers
+# 1 = real robot, 0 = sim (laptop)
 ARG REAL
 ARG HOUND
 ARG OS
+# Catkin build and other deps
+ADD . catkin_ws
+ADD src/mushr/mushr_utils/install/install_scripts/mushr_install_deps.bash install_scripts/mushr_install_deps.bash
+RUN chmod +x install_scripts/mushr_install_deps.bash && install_scripts/mushr_install_deps.bash "$OS"
+
 ADD src/mushr/mushr_utils/install/install_scripts/mushr_install_hw_drivers.bash install_scripts/mushr_install_hw_drivers.bash
 RUN if [ "$REAL" = 1 ] ; then chmod +x install_scripts/mushr_install_hw_drivers.bash && install_scripts/mushr_install_hw_drivers.bash "$OS" "$HOUND" ; fi
 

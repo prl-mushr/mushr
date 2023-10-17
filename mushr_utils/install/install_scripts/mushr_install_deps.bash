@@ -17,10 +17,16 @@ wget http://packages.ros.org/ros.key -O - | apt-key add -
 apt-get update
 apt-get install -y python3-catkin-tools
 
-## this is to make sure we get the correct opencv version
-pip install opencv-python==4.2.0.32
-pip uninstall -y opencv-python
-pip install opencv-python==4.2.0.32
+
+OS = "$1"
+if [[ "$OS" == "x86_64" ]]; then
+	## this is to make sure we get the correct opencv version
+	pip install opencv-python==4.2.0.32
+	pip uninstall -y opencv-python
+	pip install opencv-python==4.2.0.32
+else
+	pip install cupy-cuda11x -f https://pip.cupy.dev/aarch64
+fi
 pip install empy
 pip install catkin-tools ## because apparently python3-catkin-tools != catkin-tools?
 apt-get install -y qtbase5-dev ros-noetic-pybind11-catkin
