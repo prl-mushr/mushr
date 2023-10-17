@@ -8,5 +8,6 @@ gdown
 pycuda
 dataclasses
 ruamel.yaml
-opencv-python
 shapely==1.7.1
+msgpack
+jinja2
