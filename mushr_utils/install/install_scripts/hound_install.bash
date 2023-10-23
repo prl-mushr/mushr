@@ -7,3 +7,4 @@ chmod a+x install_geographiclib_datasets.sh
 apt-get remove -y ros-noetic-mavros ros-noetic-mavros-extras
 catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release
 ## unit test: docker install --> catkin build --> BeamNG check --> BeamNG HITL test
+cd ~/catkin_ws && rm -rf ~/.catkin_tools
