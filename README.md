@@ -2,7 +2,7 @@
 # MuSHR
 Multi-agent System for non-Holonomic Racing
 
-##HOUND/MuSHR V4 beta testing instructions:
+## HOUND/MuSHR V4 beta testing instructions:
 
 ### Desktop (x86_64):
 
