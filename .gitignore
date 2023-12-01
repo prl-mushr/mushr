@@ -47,6 +47,8 @@ qtcreator-*
 # Emacs
 .#*
 
+mushr/mushr_utils/install/mushr_noetic
+
 # Catkin custom files
 CATKIN_IGNORE
 
