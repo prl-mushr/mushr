@@ -1,44 +1,43 @@
 repositories:
-  ## uncomment the following when we have them public?
-  # hound_core:
-  #   type: git
-  #   url: https://github.com/sidtalia/hound_core.git
-  #   version: main
-  # BeamNGRL:
-  #   type: git
-  #   url: https://github.com/sidtalia/BeamNGRL.git
-  #   version: master
+  hound_core:
+    type: git
+    url: https://github.com/prl-mushr/hound_core.git
+    version: main
+  BeamNGRL:
+    type: git
+    url: https://github.com/prl-mushr/BeamNGRL.git
+    version: master
   grid_map_occlusion_inpainting:
     type: git
-    url: https://github.com/sidtalia/grid_map_occlusion_inpainting.git
+    url: https://github.com/prl-mushr/grid_map_occlusion_inpainting.git
     version: master
   elevation_mapping_cupy:
     type: git
-    url: https://github.com/sidtalia/elevation_mapping_cupy.git
+    url: https://github.com/prl-mushr/elevation_mapping_cupy.git
     version: main 
   kindr_ros:
     type: git
-    url: https://github.com/sidtalia/kindr_ros.git
+    url: https://github.com/prl-mushr/kindr_ros.git
     version: master
   kindr:
     type: git
-    url: https://github.com/sidtalia/kindr.git
+    url: https://github.com/prl-mushr/kindr.git
     version: master
   mavros:
     type: git
-    url: https://github.com/sidtalia/mavros.git
+    url: https://github.com/prl-mushr/mavros.git
     version: mushr 
   mavlink:
     type: git
-    url: https://github.com/sidtalia/mavlink.git
+    url: https://github.com/prl-mushr/mavlink.git
     version: master 
   message_logger:
     type: git
-    url: https://github.com/sidtalia/message_logger.git
+    url: https://github.com/prl-mushr/message_logger.git
     version: master
   ntrip_ros:
     type: git
-    url: https://github.com/sidtalia/ntrip_ros.git
+    url: https://github.com/prl-mushr/ntrip_ros.git
     version: main
   ydlidar_ros:
     type: git
@@ -46,5 +45,5 @@ repositories:
     version: main
   timed_roslaunch:
     type: git
-    url: https://github.com/sidtalia/timed_roslaunch.git
+    url: https://github.com/prl-mushr/timed_roslaunch.git
     version: melodic-devel
