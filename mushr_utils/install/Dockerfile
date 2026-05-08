@@ -15,6 +15,9 @@ RUN apt-get update -y \
 # Adding/Running scripts separately allows us to cache each layer
 RUN mkdir install_scripts
 
+# Cyclone DDS unicast peer config (multicast-free network discovery)
+ADD cyclone_dds.xml /root/cyclone_dds.xml
+
 # ROS 2 Humble
 ADD install_scripts/mushr_install_ros.bash install_scripts/mushr_install_ros.bash
 RUN chmod +x install_scripts/mushr_install_ros.bash && install_scripts/mushr_install_ros.bash

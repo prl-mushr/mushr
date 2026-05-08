@@ -15,6 +15,11 @@ apt-get install -y --no-install-recommends ros-humble-desktop
 # Auto source ROS on terminal startup
 echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 
+# DDS / domain configuration
+echo "export ROS_DOMAIN_ID=42" >> /root/.bashrc
+echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> /root/.bashrc
+echo "export CYCLONEDDS_URI=file:///root/cyclone_dds.xml" >> /root/.bashrc
+
 # Source it for the rest of this script
 source /opt/ros/humble/setup.bash
 

@@ -50,5 +50,3 @@ python3 setup.py install
 cd /
 rm -rf /tmp/range_libc
 
-# Auto source workspace overlay if present
-echo "[ -f /root/colcon_ws/install/setup.bash ] && source /root/colcon_ws/install/setup.bash" >> /root/.bashrc
