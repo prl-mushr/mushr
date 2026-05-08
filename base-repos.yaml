@@ -1,8 +1,4 @@
 repositories:
-  mushr:
-    type: git
-    url: git@github.com:ShritanGopu/mushr.git
-    version: working_ROS2
   vesc:
     type: git
     url: https://github.com/dbzfan2012/vesc_ros2.git
