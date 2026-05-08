@@ -148,20 +148,36 @@ export MUSHR_OS_TYPE=${MUSHR_OS_TYPE}
 
 NAME=mushr_humble
 
-if [ \$# -eq 0 ] || [ "\$1" = "run" ]; then
-    if docker ps --format '{{.Names}}' | grep -q "^\${NAME}\$"; then
-        exec docker exec -it "\${NAME}" bash
-    fi
-    xhost +local:docker > /dev/null 2>&1 || true
-    exec docker compose -f "\${MUSHR_INSTALL_PATH}/\${MUSHR_COMPOSE_FILE}" \\
-        run --rm --service-ports --name "\${NAME}" mushr_humble bash
-elif [ "\$1" = "build" ]; then
-    exec docker compose -f "\${MUSHR_INSTALL_PATH}/\${MUSHR_COMPOSE_FILE}" \\
-        build --no-cache mushr_humble
-else
-    echo "Invalid command. Valid commands: 'run' (default), 'build'"
-    exit 1
-fi
+case "\${1:-run}" in
+    run)
+        # Already running -> exec into it
+        if docker ps --format '{{.Names}}' | grep -q "^\${NAME}\$"; then
+            exec docker exec -it "\${NAME}" bash
+        fi
+        # Exists but stopped -> start + exec (preserves apt/rosdep state)
+        if docker ps -a --format '{{.Names}}' | grep -q "^\${NAME}\$"; then
+            docker start "\${NAME}" > /dev/null
+            exec docker exec -it "\${NAME}" bash
+        fi
+        # Brand-new -> create container without --rm so it persists
+        xhost +local:docker > /dev/null 2>&1 || true
+        exec docker compose -f "\${MUSHR_INSTALL_PATH}/\${MUSHR_COMPOSE_FILE}" \\
+            run --service-ports --name "\${NAME}" mushr_humble bash
+        ;;
+    build)
+        exec docker compose -f "\${MUSHR_INSTALL_PATH}/\${MUSHR_COMPOSE_FILE}" \\
+            build --no-cache mushr_humble
+        ;;
+    rm|clean)
+        # Wipe the persisted container so the next 'run' creates a fresh one
+        docker rm -f "\${NAME}" 2>/dev/null || true
+        echo "Removed container \${NAME}."
+        ;;
+    *)
+        echo "Invalid command. Valid: 'run' (default), 'build', 'rm'"
+        exit 1
+        ;;
+esac
 EOF
 chmod +x "${MUSHR_INSTALL_PATH}/mushr_humble"
 

@@ -90,12 +90,19 @@ exists. Subsequent `mushr_humble` invocations just need
 A second terminal? Run `mushr_humble` again — the launcher detects the
 running container and `docker exec`s into it.
 
+The container is **persistent**: when you exit, it stops but isn't
+removed. The next `mushr_humble` restarts the same container, so apt
+packages installed by `rosdep install` stay around and you do **not**
+need to rerun `rosdep install` every session. Run `mushr_humble rm`
+if you ever want to wipe it and start fresh.
+
 ## `mushr_humble` subcommands
 
 | Command | Action |
 |---|---|
-| `mushr_humble` or `mushr_humble run` | enter the container (start fresh or `exec` into running) |
+| `mushr_humble` or `mushr_humble run` | enter the container (creates it the first time, restarts/`exec`s thereafter) |
 | `mushr_humble build` | rebuild the image with `--no-cache` |
+| `mushr_humble rm` | remove the persisted container (next `run` creates a fresh one) |
 
 ## Architecture
 
