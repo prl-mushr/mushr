@@ -1,0 +1,155 @@
+#!/bin/bash
+# MuSHR Humble installer.
+# Mirrors the structure of the original ROS 1 mushr_install.bash, adapted
+# for ROS 2 Humble + the additional dependencies (range_libc, librealsense
+# realsenseai repo, YDLidar SDK, custom rosdep keys).
+
+pushd "$(dirname "$0")" > /dev/null
+
+# Are we in the right place?
+if [[ ! -f mushr_install.bash ]]; then
+    echo "Wrong directory! Change directory to the one containing mushr_install.bash"
+    exit 1
+fi
+
+# Detect OS / arch
+export MUSHR_OS_TYPE="$(uname -m)"
+export MUSHR_INSTALL_PATH="$(pwd)"
+# MUSHR_WS_PATH points to the parent of colcon_ws/. Override via env if your
+# layout differs from the default ~/colcon_ws.
+export MUSHR_WS_PATH="${MUSHR_WS_PATH:-${HOME}}"
+mkdir -p "${MUSHR_WS_PATH}/colcon_ws/src"
+
+# Real robot vs sim
+read -p "Are you installing on the robot and need all the sensor drivers? (y/n) " -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    export MUSHR_REAL_ROBOT=1
+    export MUSHR_COMPOSE_FILE=docker-compose-robot.yml
+else
+    export MUSHR_REAL_ROBOT=0
+    export MUSHR_COMPOSE_FILE=docker-compose-cpu.yml
+fi
+
+# Build vs pull
+read -p "Build from scratch? (Not recommended, takes much longer than pulling ready-made image) (y/n) " -r
+echo
+export BUILD_FROM_SCRATCH=0
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    export BUILD_FROM_SCRATCH=1
+    if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
+        export MUSHR_COMPOSE_FILE=docker-compose-build-robot.yml
+    else
+        export MUSHR_COMPOSE_FILE=docker-compose-build-cpu.yml
+    fi
+fi
+
+# Robot-side host setup (only on real robot)
+if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
+    echo "Running robot-specific host setup..."
+
+    # Ensure user can run docker without sudo
+    sudo usermod -aG docker "$USER" || true
+
+    # Ensure docker compose v2 plugin is available
+    if ! docker compose version >/dev/null 2>&1; then
+        echo "Installing docker compose v2 plugin..."
+        sudo apt-get update
+        sudo apt-get install -y docker-compose-plugin || {
+            # Fallback: download plugin binary directly
+            DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+            mkdir -p "${DOCKER_CONFIG}/cli-plugins"
+            ARCH=$(uname -m)
+            case "${ARCH}" in
+                aarch64) DC_ARCH=aarch64 ;;
+                x86_64)  DC_ARCH=x86_64 ;;
+                *) echo "Unsupported arch: ${ARCH}"; exit 1 ;;
+            esac
+            curl -SL "https://github.com/docker/compose/releases/latest/download/docker-compose-linux-${DC_ARCH}" \
+                -o "${DOCKER_CONFIG}/cli-plugins/docker-compose"
+            chmod +x "${DOCKER_CONFIG}/cli-plugins/docker-compose"
+        }
+    fi
+
+    # Register nvidia container runtime if missing
+    if ! docker info 2>/dev/null | grep -qi 'Runtimes:.*nvidia'; then
+        echo "Registering nvidia container runtime..."
+        if ! command -v nvidia-ctk >/dev/null 2>&1; then
+            sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
+        fi
+        sudo nvidia-ctk runtime configure --runtime=docker
+        sudo systemctl restart docker
+    fi
+
+    # VESC udev rule
+    echo 'ACTION=="add", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", SYMLINK+="vesc"' \
+        | sudo tee /etc/udev/rules.d/10-vesc.rules > /dev/null
+
+    # Jetson GPIO udev + group
+    sudo groupadd -f -r gpio
+    sudo usermod -a -G gpio "$USER" || true
+    sudo wget -q https://raw.githubusercontent.com/NVIDIA/jetson-gpio/master/lib/python/Jetson/GPIO/99-gpio.rules \
+        -O /etc/udev/rules.d/99-gpio.rules
+
+    sudo udevadm control --reload-rules && sudo udevadm trigger
+fi
+
+# Build or pull
+if [[ $BUILD_FROM_SCRATCH == 1 ]]; then
+    echo "Building docker image from scratch (this can take a while)..."
+    docker compose -f "${MUSHR_INSTALL_PATH}/${MUSHR_COMPOSE_FILE}" build
+else
+    echo "Pulling pre-built docker image..."
+    docker compose -f "${MUSHR_INSTALL_PATH}/${MUSHR_COMPOSE_FILE}" pull || {
+        echo "Pull failed. Falling back to build from scratch..."
+        if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
+            export MUSHR_COMPOSE_FILE=docker-compose-build-robot.yml
+        else
+            export MUSHR_COMPOSE_FILE=docker-compose-build-cpu.yml
+        fi
+        docker compose -f "${MUSHR_INSTALL_PATH}/${MUSHR_COMPOSE_FILE}" build
+    }
+fi
+
+# If sim, mark hardware-only packages with COLCON_IGNORE so colcon skips them
+if [[ $MUSHR_REAL_ROBOT == 0 ]]; then
+    for ignored_package in push_button_utils ydlidar_ros2_driver realsense-ros; do
+        target="${MUSHR_WS_PATH}/colcon_ws/src/mushr/mushr_hardware/${ignored_package}"
+        [ -d "${target}" ] && touch "${target}/COLCON_IGNORE"
+    done
+fi
+
+# Generate the mushr_humble launcher
+cat > "${MUSHR_INSTALL_PATH}/mushr_humble" <<EOF
+#!/bin/bash
+export MUSHR_INSTALL_PATH=${MUSHR_INSTALL_PATH}
+export MUSHR_REAL_ROBOT=${MUSHR_REAL_ROBOT}
+export MUSHR_WS_PATH=${MUSHR_WS_PATH}
+export MUSHR_COMPOSE_FILE=${MUSHR_COMPOSE_FILE}
+export MUSHR_OS_TYPE=${MUSHR_OS_TYPE}
+
+NAME=mushr_humble
+
+if [ \$# -eq 0 ] || [ "\$1" = "run" ]; then
+    if docker ps --format '{{.Names}}' | grep -q "^\${NAME}\$"; then
+        exec docker exec -it "\${NAME}" bash
+    fi
+    xhost +local:docker > /dev/null 2>&1 || true
+    exec docker compose -f "\${MUSHR_INSTALL_PATH}/\${MUSHR_COMPOSE_FILE}" \\
+        run --rm --service-ports --name "\${NAME}" mushr_humble bash
+elif [ "\$1" = "build" ]; then
+    exec docker compose -f "\${MUSHR_INSTALL_PATH}/\${MUSHR_COMPOSE_FILE}" \\
+        build --no-cache mushr_humble
+else
+    echo "Invalid command. Valid commands: 'run' (default), 'build'"
+    exit 1
+fi
+EOF
+chmod +x "${MUSHR_INSTALL_PATH}/mushr_humble"
+
+echo "Installing mushr_humble launcher to /usr/local/bin..."
+sudo ln -sf "${MUSHR_INSTALL_PATH}/mushr_humble" /usr/local/bin/mushr_humble
+
+echo "Done. Run 'mushr_humble' to launch the container."
+
+popd > /dev/null

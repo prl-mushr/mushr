@@ -1,0 +1,24 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+
+  <arg name="racecar_version" />
+  <arg name="car_name" default="car" />
+  <arg name="tf_prefix" default="$(arg car_name)"/>
+
+  <arg name="sensors_config" default="$(find mushr_hardware)/config/$(arg racecar_version)/sensors.yaml" />
+  <rosparam file="$(arg sensors_config)" command="load" />
+
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch" >
+    <arg name="camera" value="$(arg car_name)/camera" />
+    <arg name="tf_prefix" default="$(arg tf_prefix)/camera"/>
+  </include>
+  
+  <include file="$(find ydlidar)/launch/lidar.launch" >
+    <arg name="car_name" value="$(arg car_name)" />
+    <arg name="tf_prefix" default="$(arg tf_prefix)"/>
+  </include>
+
+  <include file="$(find push_button_utils)/launch/push_button.launch" />
+
+
+</launch>

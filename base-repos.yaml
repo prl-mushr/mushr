@@ -1,0 +1,37 @@
+repositories:
+  mushr_sim:
+    type: git
+    url: https://github.com/prl-mushr/mushr_sim.git
+    version: noetic 
+  mushr/mushr_base/mushr_base:
+    type: git
+    url: https://github.com/prl-mushr/mushr_base.git
+    version: noetic 
+  mushr/mushr_base/vesc:
+    type: git
+    url: https://github.com/prl-mushr/vesc.git
+    version: noetic 
+  mushr/mushr_base/ackermann_cmd_mux:
+    type: git
+    url: https://github.com/prl-mushr/ackermann_cmd_mux.git
+    version: noetic 
+  mushr/mushr_hardware/realsense:
+    type: git
+    url: https://github.com/IntelRealSense/realsense-ros.git
+    version: f400d682beee6c216052a419f419e95b797255ad
+  range_libc:
+    type: git
+    url: https://github.com/prl-mushr/range_libc.git 
+    version: noetic 
+  mushr/mushr_hardware/push_button_utils:
+    type: git
+    url: https://github.com/prl-mushr/push_button_utils.git 
+    version: master 
+  mushr/mushr_hardware/ydlidar:
+    type: git
+    url: https://github.com/prl-mushr/ydlidar.git 
+    version: master 
+  serial:
+    type: git
+    url: https://github.com/wjwwood/serial.git
+    version: main

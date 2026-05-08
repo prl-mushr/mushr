@@ -1,0 +1,61 @@
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="mushr_wheel">
+        <xacro:macro name="mushr_wheel"
+		     params="prefix left:=false">
+
+                <link name="${prefix}/wheel_link">
+                        <inertial>
+				<xacro:if value="${left}">
+                                	<origin
+                                        	xyz="0 0 0"
+                                        	rpy="0 0 3.141592" />
+				</xacro:if>
+				<xacro:unless value="${left}">
+                                	<origin
+                                        	xyz="0 0 0"
+                                        	rpy="0 0 0" />
+				</xacro:unless>
+                                <mass
+                                        value="1.0" />
+                                <inertia
+                                        ixx="1"
+                                        ixy="0"
+                                        ixz="0"
+                                        iyy="1"
+                                        iyz="0"
+                                        izz="1" />
+                        </inertial>
+
+                        <visual>
+
+				<xacro:if value="${left}">
+                                	<origin
+                                        	xyz="0 0 0"
+                                        	rpy="0 0 3.141592" />
+				</xacro:if>
+				<xacro:unless value="${left}">
+                                	<origin
+                                        	xyz="0 0 0"
+                                        	rpy="0 0 0" />
+				</xacro:unless>
+                                <geometry>
+                                        <mesh filename="package://mushr_description/meshes/base/mushr_wheel.dae" />
+                                </geometry>
+                        </visual>
+                        <collision>
+				<xacro:if value="${left}">
+                                	<origin
+                                        	xyz="0 0 0"
+                                        	rpy="0 0 0" />
+				</xacro:if>
+				<xacro:unless value="${left}">
+                                	<origin
+                                        	xyz="0 0 0"
+                                        	rpy="0 0 3.141592" />
+				</xacro:unless>
+                                <geometry>
+                                        <mesh filename="package://mushr_description/meshes/base/mushr_wheel_collision.dae" />
+                                </geometry>
+                        </collision>
+                </link>
+        </xacro:macro>
+</robot>

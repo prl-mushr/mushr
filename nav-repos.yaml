@@ -1,0 +1,17 @@
+repositories:
+  mushr_pf:
+    type: git
+    url: https://github.com/prl-mushr/mushr_pf.git
+    version: noetic 
+  mushr_rhc:
+    type: git
+    url: https://github.com/prl-mushr/mushr_rhc.git
+    version: noetic 
+  mushr_gp:
+    type: git
+    url: https://github.com/prl-mushr/mushr_gp.git
+    version: main 
+  mushr_gprm:
+    type: git
+    url: https://github.com/prl-mushr/mushr_gprm.git
+    version: master 

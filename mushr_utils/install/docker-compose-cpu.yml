@@ -1,0 +1,12 @@
+services:
+  mushr_humble:
+    image: dbzfan2012/mushr-humble:${MUSHR_OS_TYPE}
+    privileged: true
+    volumes:
+      - ${MUSHR_WS_PATH}/colcon_ws:/root/colcon_ws
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - MUSHR_REAL_ROBOT=${MUSHR_REAL_ROBOT}
+    stdin_open: true
+    tty: true

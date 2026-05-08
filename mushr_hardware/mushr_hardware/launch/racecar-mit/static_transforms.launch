@@ -1,0 +1,39 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+
+  <!-- Sensor TFs -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_to_imu"
+        args="0.245 0.0 0.117    0.7071067811865475 0.7071067811865475 0.0 0.0 /base_link /base_imu_link" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_to_laser"
+        args="0.285 0.0 0.127 0.0 0.0 0.0 1.0 /base_link /laser" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_to_camera"
+        args="0.2538 -0.0262 0.1983     0.0 0.0 0.0 1.0 /base_link /camera_link" />
+
+  <!-- Racecar Body TFs -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_to_base_footprint"
+        args="0.0 0.0 0.0     0.0 0.0 0.0 1.0 /base_link /base_footprint" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_to_chassis"
+        args="0.0 0.0 0.05     0.0 0.0 0.0 1.0 /base_link /chassis" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="chassis_to_left_rear_wheel"
+        args="0.0 0.1 0.0     0.0 0.0 1.5708 /chassis /left_rear_wheel" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="chassis_to_right_rear_wheel"
+        args="0.0 -0.1 0.0    0.0 0.0 1.5708 /chassis /right_rear_wheel" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="chassis_to_left_steering_hinge"
+        args="0.325 0.1 0.0    0.0 1.5708 0.0 /chassis /left_steering_hinge" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="chassis_to_right_steering_hinge"
+        args="0.325 -0.1 0.0    0.0 1.5708 0.0 /chassis /right_steering_hinge" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="left_steering_hinge_to_left_front_wheel"
+        args="0.0 0.0 0.0    0.0 0.0 1.5708 /left_steering_hinge /left_front_wheel" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="right_steering_hinge_to_right_front_wheel"
+        args="0.0 0.0 0.0    0.0 0.0 1.5708 /right_steering_hinge /right_front_wheel" />
+
+</launch>

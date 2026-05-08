@@ -1,0 +1,135 @@
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="mushr_tx2">
+
+	<xacro:include filename="mushr_base_tx2.urdf.xacro" />
+	<xacro:include filename="mushr_wheel.urdf.xacro" />
+	<xacro:include filename="mushr_ydlidar.urdf.xacro" />
+	<xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />	
+
+	<xacro:arg name="platform_color" default="none"/>
+	<xacro:arg name="inset_color" default="none" />
+
+	<xacro:mushr_base_tx2 platform_color="$(arg platform_color)" inset_color="$(arg inset_color)"/>
+
+	<xacro:mushr_wheel prefix="front_left"  left="true" />
+	<xacro:mushr_wheel prefix="front_right" left="false"/>
+	<xacro:mushr_wheel prefix="back_left"  left="true" />
+	<xacro:mushr_wheel prefix="back_right" left="false"/>
+
+	<xacro:mushr_ydlidar />
+
+	<xacro:sensor_d435 parent="base_link" >
+  		<origin xyz="0.10075 0.0 0.099" rpy="0 0 0" />
+	</xacro:sensor_d435>
+
+
+	<link name="front_left/wheel_steer_link"/>
+	<link name="front_right/wheel_steer_link" />
+
+  <joint
+  	name="front_left_wheel_steer"
+    type="revolute">
+		<axis 
+			xyz="0 0 1"/>
+		<limit 
+			effort="1000.0" 
+			lower="-1.57" 
+			upper="1.57" 
+			velocity="10.0"/>
+    <origin
+      xyz="0.1385 0.115 -0.045855"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="front_left/wheel_steer_link" />
+	</joint>
+
+
+  <joint
+  	name="front_right_wheel_steer"
+    type="revolute">
+		<axis 
+			xyz="0 0 1"/>
+		<limit
+			effort="1000.0" 
+			lower="-1.57" 
+			upper="1.57" 
+			velocity="10.0"/>
+		<origin
+		  xyz="0.1385 -0.115 -0.045855"
+		  rpy="0 0 0" />
+		<parent
+		  link="base_link" />
+		<child
+			link="front_right/wheel_steer_link" />
+	</joint>
+
+  <joint
+    name="front_left_wheel_throttle"
+    type="continuous">
+		<axis 
+			xyz="0 1 0"/>
+		<origin
+		  xyz="0 0 0"
+		  rpy="0 0 0" />
+		<parent
+		  link="front_left/wheel_steer_link" />
+		<child
+		  link="front_left/wheel_link" />
+	</joint>
+
+
+  <joint
+    name="front_right_wheel_throttle"
+    type="continuous">
+		<axis 
+			xyz="0 1 0"/>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="front_right/wheel_steer_link" />
+    <child
+      link="front_right/wheel_link" />
+	</joint>
+
+  <joint
+    name="back_left_wheel_throttle"
+    type="continuous">
+		<axis 
+			xyz="0 1 0"/>
+    <origin
+      xyz="-0.158 0.115 -0.045855"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="back_left/wheel_link" />
+	</joint>
+
+  <joint
+	  name="back_right_wheel_throttle"
+	  type="continuous">
+		<axis 
+			xyz="0 1 0"/>
+    <origin
+      xyz="-0.158 -0.115 -0.045855"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="back_right/wheel_link" />
+	</joint>
+
+	<joint
+		name="base_link_to_laser_link"
+		type="fixed" >
+		<origin
+			xyz="-0.038975 0 0.15775"
+			rpy="0 0 0" />
+		<parent
+			link="base_link" />
+		<child
+			link="laser_link" />
+	</joint>
+</robot>

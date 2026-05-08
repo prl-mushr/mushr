@@ -1,0 +1,137 @@
+{
+  "configById": {
+    "3D Panel!2u81bic": {
+      "autoSyncCameraState": false,
+      "autoTextBackgroundColor": true,
+      "cameraState": {
+        "distance": 157.90940353848492,
+        "perspective": false,
+        "phi": 0.7853981633974483,
+        "targetOffset": [
+          -7.4305506959907515,
+          14.803272939370283,
+          0
+        ],
+        "thetaOffset": 0,
+        "fovy": 0.7853981633974483,
+        "near": 0.01,
+        "far": 5000
+      },
+      "checkedKeys": [
+        "name:Topics",
+        "t:/car/particle_filter/inferred_pose",
+        "t:/map",
+        "t:/robot_description",
+        "t:/controller/path/waypoints",
+        "t:/controller/path/poses",
+        "t:/controller/path/selected_waypoint",
+        "t:/move_base_simple/goal",
+        "t:/car/car_pose",
+        "t:/car/scan"
+      ],
+      "clickToPublishPoseTopic": "/foxglove/pose_stamped",
+      "clickToPublishPointTopic": "/clicked_point",
+      "clickToPublishPoseEstimateTopic": "/initialpose",
+      "clickToPublishPoseEstimateXDeviation": 0.5,
+      "clickToPublishPoseEstimateYDeviation": 0.5,
+      "clickToPublishPoseEstimateThetaDeviation": 0.26179939,
+      "customBackgroundColor": "#000000",
+      "diffModeEnabled": true,
+      "expandedKeys": [
+        "name:Topics"
+      ],
+      "followMode": "follow",
+      "modifiedNamespaceTopics": [],
+      "pinTopics": false,
+      "settingsByKey": {
+        "t:/car/particle_filter/inferred_pose": {
+          "overrideColor": {
+            "r": 1,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          }
+        },
+        "t:/move_base_simple/goal": {
+          "overrideColor": {
+            "r": 0,
+            "g": 1,
+            "b": 0.13333333333333333,
+            "a": 1
+          }
+        },
+        "t:/controller/path/selected_waypoint": {
+          "overrideColor": {
+            "r": 1,
+            "g": 0,
+            "b": 0.6,
+            "a": 1
+          }
+        },
+        "t:/car/car_pose": {
+          "overrideColor": {
+            "r": 1,
+            "g": 0,
+            "b": 0,
+            "a": 1
+          },
+          "size": {
+            "shaftLength": 3,
+            "shaftWidth": 0.25,
+            "headWidth": 1,
+            "headLength": 0.6
+          }
+        },
+        "t:/car/scan": {
+          "colorMode": {
+            "mode": "turbo",
+            "colorField": "x"
+          }
+        }
+      },
+      "useThemeBackgroundColor": true,
+      "followTf": "map",
+      "colorOverrideByVariable": {},
+      "ignoreColladaUpAxis": true
+    },
+    "Teleop!1m7m4ij": {
+      "topic": "/car/foxglove/teleop",
+      "publishRate": 1,
+      "upButton": {
+        "field": "linear-x",
+        "value": 1
+      },
+      "downButton": {
+        "field": "linear-x",
+        "value": -1
+      },
+      "leftButton": {
+        "field": "linear-z",
+        "value": -1
+      },
+      "rightButton": {
+        "field": "linear-z",
+        "value": 1
+      }
+    },
+    "MushrTeleop.MushrTeleop!4080ms0": {}
+  },
+  "globalVariables": {},
+  "userNodes": {},
+  "linkedGlobalVariables": [],
+  "playbackConfig": {
+    "speed": 1,
+    "messageOrder": "receiveTime"
+  },
+  "layout": {
+    "first": "3D Panel!2u81bic",
+    "second": {
+      "first": "Teleop!1m7m4ij",
+      "second": "MushrTeleop.MushrTeleop!4080ms0",
+      "direction": "column",
+      "splitPercentage": 60.111111111111114
+    },
+    "direction": "row",
+    "splitPercentage": 75.33415737065557
+  }
+}

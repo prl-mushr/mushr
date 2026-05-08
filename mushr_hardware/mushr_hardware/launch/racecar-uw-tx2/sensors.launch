@@ -1,0 +1,13 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+
+  <arg name="racecar_version" />
+  <arg name="sensors_config" default="$(find mushr_hardware)/config/$(arg racecar_version)/sensors.yaml" />
+  <rosparam file="$(arg sensors_config)" command="load" />
+
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch" />
+  <include file="$(find ydlidar)/launch/lidar.launch" />
+  <include file="$(find push_button_utils)/launch/push_button.launch" />
+
+
+</launch>

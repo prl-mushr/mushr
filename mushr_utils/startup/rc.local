@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+echo 200 > /sys/class/gpio/export
+chmod go+w /sys/class/gpio/gpio200/direction
+chmod go+rw /sys/class/gpio/gpio200/value
+
+echo "in" > /sys/class/gpio/gpio200/direction
+
+su robot -c '/home/robot/teleop-on-startup.sh 2>&1 > /home/robot/teleop-on-startup.log &'
+
+nvpmodel -m 0
+sleep 60  && jetson_clocks
