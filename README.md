@@ -24,7 +24,7 @@ Components are listed below. Note not all components are installed by default. F
 - [`mushr_hardware`](https://github.com/prl-mushr/mushr/tree/master/mushr_hardware/mushr_hardware): launchfiles for running the car and location for installed hardware packages
 - [`mushr_description`](https://github.com/prl-mushr/mushr/tree/master/mushr_description): Official meshes, stl files, and urdf's for each mushr platform. Also contains description of kinematic car model
 - [`mushr_cad`](https://github.com/prl-mushr/mushr_cad): CAD files for all versions of the MuSHR car
-- [`push_button_utils`](https://github.com/prl-mushr/push_button_utils): ROS node interface for front bumper
+- [`push_button_utils`](https://github.com/prl-mushr/push_button_utils): ROS node interface for front bumper. _Present in the original ROS 1 stack but disabled here — upstream is ROS 1 only and does not build under ROS 2. Kept in the tree with `COLCON_IGNORE` for reference._
 - [`vesc`](https://github.com/prl-mushr/vesc): Code for communicating with the MuSHR car's VESC
 - [`ydlidar`](https://github.com/prl-mushr/ydlidar): Package that contains all code for the laser scanner
 - [`Realsense`](https://github.com/IntelRealSense/realsense-ros): External package for interfacing withe realsense camera
