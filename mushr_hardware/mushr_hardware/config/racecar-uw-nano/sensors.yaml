@@ -1,8 +1,13 @@
 imu_node:
-  port: /dev/imu
+  ros__parameters:
+    port: /dev/imu
+
+# laser_node:
+#   ros__parameters:
+#     serial_port: /dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0
+#     angle_min: -2.0892818331
 
 camera:
-  realsense2_camera_manager:
+  ros__parameters:
     rs435_color_saturation: 50
     rs435_color_white_balance: 300
-

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>mushr_sim</name>
+  <version>1.0.0</version>
+  <description>A simulator for the MuSHR car. Created by Patrick Lancaster</description>
+
+  <maintainer email="schmittle@cs.washington.edu">schmittle</maintainer>
+  <maintainer email="rockettm@cs.washington.edu">Matthew Rockett</maintainer>
+
+  <license>BSD</license>
+
+  <!-- Interface generation (CarPose.srv) -->
+  
+  <build_depend>std_msgs</build_depend>
+  <exec_depend>std_msgs</exec_depend>
+
+  <!-- Python runtime -->
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+
+  <!-- Messages / TF -->
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+
+  <exec_depend>mushr_base</exec_depend>
+  <exec_depend>mushr_description</exec_depend>
+  <exec_depend>vesc_msgs</exec_depend>
+  <exec_depend>ackermann_msgs</exec_depend>
+  <exec_depend>vesc_driver</exec_depend>
+  <exec_depend>mushr_sim_interfaces</exec_depend>
+  <exec_depend>vesc_ackermann</exec_depend>
+  <exec_depend>fake_localization_ros2</exec_depend>
+
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+    sim:
+        build: .
+        volumes:
+            - /tmp/.X11-unix:/tmp/.X11-unix:rw
+            - /usr/lib/nvidia-${NVIDIA}:/usr/lib/nvidia-${NVIDIA}
+            - /usr/lib32/nvidia-${NVIDIA}/:/usr/lib32/nvidia-${NVIDIA}
+        environment:
+            DISPLAY: $DISPLAY
+            LD_LIBRARY_PATH: /home/developer/catkin_ws/devel/lib:/opt/ros/melodic/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/lib/nvidia-${NVIDIA}:/usr/lib32/nvidia-${NVIDIA}
+            PATH: /opt/ros/melodic/bin:/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/nvidia-${NVIDIA}/bin
+        stdin_open: true
+        tty: true
+        privileged: true
+        entrypoint: bash -c "./home/developer/entrypoint.bash"

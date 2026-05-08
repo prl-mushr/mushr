@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<library path="ackermann_cmd_mux_node">
+  <class
+      type="ackermann_cmd_mux::AckermannCmdMuxNode"
+      base_class_type="rclcpp::Node"
+      description="Ackermann command multiplexer component"/>
+</library>

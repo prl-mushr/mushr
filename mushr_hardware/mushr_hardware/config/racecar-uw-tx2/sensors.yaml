@@ -1,8 +1,8 @@
 imu_node:
-  port: /dev/imu
+  ros__parameters:
+    port: /dev/imu
 
 camera:
-  realsense2_camera_manager:
+  ros__parameters:
     rs435_color_saturation: 50
     rs435_color_white_balance: 300
-

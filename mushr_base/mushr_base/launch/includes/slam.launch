@@ -1,0 +1,44 @@
+<launch>
+        <arg name="car_name" default="car" />
+        <remap from="/scan" to="/$(arg car_name)/scan"/>
+        <remap from="/odom" to="/$(arg car_name)/odom"/>
+	<node name="laser_slam_node" type="slam_gmapping" pkg="gmapping">
+		<param name="throttle_scans" type="int" value="1"/>
+		<param name="base_frame" type="string" value="$(arg car_name)/base_link"/>
+		<param name="map_frame" type="string" value="map"/>
+		<param name="odom_frame" type="string" value="$(arg car_name)/odom"/>
+		<param name="map_update_interval" type="double" value="5.0"/>
+		<param name="maxUrange" type="double" value="5.59"/>
+		<param name="sigma" type="double" value="0.05"/>
+		<param name="kernelSize" type="int" value="1" />
+		<param name="lstep" type="double" value="0.05"/>
+		<param name="astep" type="double" value="0.05"/>
+		<param name="iterations" type="int" value="5"/>
+		<param name="lsigma" type="double" value="0.075"/>
+		<param name="ogain" type="double" value="3.0"/>
+		<param name="lskip" type="int" value="0"/>
+		<param name="minimumScore" type="double" value="0.0"/>
+		<param name="srr" type="double" value="0.1"/>
+		<param name="srt" type="double" value="0.2"/>
+		<param name="str" type="double" value="0.1"/>
+		<param name="stt" type="double" value="0.2"/>
+		<param name="linearUpdate" type="double" value="1.0"/>
+		<param name="angularUpdate" type="double" value="0.5"/>
+		<param name="temporalUpdate" type="double" value="-1.0"/>
+		<param name="resampleThreshold" type="double" value="0.5"/>
+		<param name="particles" type="int" value="100"/>
+		<param name="xmin" type="double" value="-25"/>
+		<param name="ymin" type="double" value="-25"/>
+		<param name="xmax" type="double" value="25"/>
+		<param name="ymax" type="double" value="25"/>
+		<param name="delta" type="double" value="0.05"/>
+		<param name="llsamplerange" type="double" value="0.01"/>
+		<param name="llsamplestep" type="double" value="0.01"/>
+		<param name="lasamplerange" type="double" value="0.005"/>
+		<param name="lasamplestep" type="double" value="0.005"/>
+		<param name="transform_publish_period" type="double" value="0.05"/>		
+		<param name="occ_thresh" type="double" value="0.25"/>
+		<param name="maxRange" type="double" value="11.0"/>		
+	</node>
+
+</launch>

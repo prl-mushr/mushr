@@ -1,11 +1,13 @@
 laser_node:
-  serial_port: /dev/lidar_hokuyo
-  angle_min: -2.0892818331
+  ros__parameters:
+    serial_port: /dev/lidar_hokuyo
+    angle_min: -2.0892818331
 
 imu_node:
-  port: /dev/imu
+  ros__parameters:
+    port: /dev/imu
 
 camera:
-  realsense2_camera_manager:
+  ros__parameters:
     rs435_color_saturation: 50
     rs435_color_white_balance: 300

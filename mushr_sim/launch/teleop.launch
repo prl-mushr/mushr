@@ -1,0 +1,65 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+
+    <!-- Set to 1 if you want to run the map_server -->
+    <arg name="map_server" value = "1" />
+    <arg name="nav_msg_converter" value = "1" />
+    <!-- Set to 1 if you want to use foxglove teleop inputs instead of keyboard teleop -->
+    <arg name="foxglove_teleop" value = "0" />
+    <!-- Set to 1 if you want to use keyboard teleop inputs instead of foxglove teleop -->
+    <arg name="keyboard_teleop" value = "0" />
+
+    <!-- Start up websocket for docker container foxglove -->
+    <group if="$(arg foxglove_teleop)">
+        <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" > 
+            <arg name="port" value="9090"/>
+        </include>
+    </group>
+
+    <!-- We take a map path either as an environment variable or an argument.
+         The environment variable has precedence. -->
+    <arg name="_env_map" default="$(optenv MAP)" />
+    <arg name="map" default="$(find mushr_sim)/maps/sandbox.yaml"/>
+    <arg name="car_name" default="car" />
+    <arg name="use_tf_prefix" default="true" />
+    <arg name="fake_localization" default="true" />
+    <arg name="initial_x" default="0"/>
+    <arg name="initial_y" default="0"/>
+    <arg name="initial_theta" default="0"/>
+
+    <!-- Launch  map server-->
+    <group if="$(arg map_server)">
+        <include file="$(find mushr_sim)/launch/map_server.launch">
+            <arg name="map" value="$(eval _env_map if _env_map else map)" />
+        </include>
+    </group>
+
+    <!-- Launch  nav msg converter-->
+    <group if="$(arg nav_msg_converter)">
+        <include file="$(find mushr_base)/launch/includes/nav_msg_converter.launch">
+        </include>
+    </group>
+
+    <!-- Launch car -->
+    <remap from="/$(arg car_name)/initialpose" to="/initialpose" />
+
+    <include file="$(find mushr_sim)/launch/single_car_sim.launch">
+        <!-- Could be racecar-mit, racecar-uw-tx2, or racecar-uw-nano -->
+        <arg name="racecar_version" value="racecar-uw-nano" />
+        <!-- The colors of the racecar, should be of the form "-<platform_color>-<inset_color>" -->
+        <!-- An empty string will result in the default URDF -->
+          <!-- Check CMakeLists.txt of mushr_description for appropriate values -->
+        <arg name="racecar_color" value="" />
+
+        <arg name="foxglove_teleop" value="$(arg foxglove_teleop)" />
+        <arg name="keyboard_teleop" value="$(arg keyboard_teleop)" />
+
+        <arg name="fake_localization" value="$(arg fake_localization)" />
+        <arg name="initial_x" value="$(arg initial_x)"/>
+        <arg name="initial_y" value="$(arg initial_y)"/>
+        <arg name="initial_theta" value="$(arg initial_theta)"/>
+        <arg name="use_tf_prefix" value="$(arg use_tf_prefix)" />
+        <arg name="car_name" value="$(arg car_name)" />
+     </include>
+
+</launch>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>mushr_base</name>
+  <version>0.0.0</version>
+  <description>The mushr_base package</description>
+
+  <maintainer email="schmittle@todo.todo">schmittle</maintainer>
+
+
+  <license>BSD</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <exec_depend>ackermann_cmd_mux</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>joy</exec_depend>
+  <exec_depend>mushr_description</exec_depend>
+  <exec_depend>mushr_hardware</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>rosbridge_server</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>tf_transformations</exec_depend>
+  <exec_depend>vesc_main</exec_depend>
+  <depend>vesc_msgs</depend>
+  <exec_depend>xacro</exec_depend>
+  
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+
+</package>

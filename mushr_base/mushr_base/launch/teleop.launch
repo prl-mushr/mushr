@@ -1,0 +1,66 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+  <!-- Change car name to match the name of the car, e.g. car1 -->
+  <arg name="car_name" default="car" />
+
+  <!-- Could be racecar-mit, racecar-uw-tx2, or racecar-uw-nano -->
+  <arg name="racecar_version" default="racecar-uw-nano" />
+
+  <!-- Use mocap published car pose instead of using odom -->
+  <arg name="use_mocap" default="false" />
+
+  <!-- Set to 1 if you want to use foxglove teleop inputs instead of keyboard teleop -->
+  <arg name="foxglove_teleop" value = "1" />
+
+  <!-- Start up websocket for docker container foxglove -->
+  <group if="$(arg foxglove_teleop)">
+      <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" > 
+          <arg name="port" value="9090"/>
+      </include>
+  </group>
+
+  <group ns="$(arg car_name)">
+
+    <param name="robot_description"
+           textfile="$(find mushr_description)/robots/$(arg racecar_version).urdf"/>
+
+    <group ns="vesc">
+         <include file="$(find vesc_main)/launch/vesc.launch">
+             <arg name="racecar_version" value="$(arg racecar_version)" />
+             <arg name="car_name" default="/$(arg car_name)" />
+         </include>
+    </group>
+    <group ns="teleop">
+        <include file="$(find mushr_base)/launch/includes/joy_teleop.launch">
+            <arg name="car_name" value="/$(arg car_name)" />
+        </include>
+    </group>
+
+    <group ns="mux">
+        <include file="$(find ackermann_cmd_mux)/launch/mux.launch" />
+    </group>
+
+    <include file="$(find mushr_hardware)/launch/$(arg racecar_version)/sensors.launch" >
+        <arg name="racecar_version" value="$(arg racecar_version)" />
+        <arg name="tf_prefix" value="$(arg car_name)" />
+        <arg name="car_name" default="$(arg car_name)" />
+    </include>
+
+    <include file="$(find mushr_base)/launch/includes/racecar_state.launch">
+        <arg name="tf_prefix" value="$(arg car_name)" />
+        <arg name="use_mocap" value="$(arg use_mocap)" />
+    </include>
+
+    <include file="$(find mushr_base)/launch/includes/nav_msg_converter.launch">
+      <arg name="car_name" value="$(arg car_name)" />
+    </include>
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="state_publisher">
+      <param name="tf_prefix" value="$(arg car_name)"/>
+      <param name="robot_description" value="/$(arg car_name)/robot_description"/>
+    </node>
+
+  </group>
+
+
+</launch>

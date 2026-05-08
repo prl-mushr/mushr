@@ -1,195 +1,168 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(mushr_hardware)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++11)
+## Compile as C++14, supported in ROS 2 Foxy and newer
+add_compile_options(-std=c++14)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+############################################################
+## Find ament_cmake and other package dependencies        ##
+############################################################
+
+## In ROS 2, packages are found using ament. If your package
+## depends on other ROS 2 packages, list them in the REQUIRED
+## COMPONENTS section below. For example:
+## find_package(rclcpp REQUIRED)
+## find_package(std_msgs REQUIRED)
+find_package(ament_cmake REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
-
-## Uncomment this if the package has a setup.py. This macro ensures
-## modules and global scripts declared therein get installed
-## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
-# catkin_python_setup()
-
 ################################################
-## Declare ROS messages, services and actions ##
+## Declare ROS interface files (msg/srv/action) ##
 ################################################
 
-## To declare and build messages, services or actions from within this
-## package, follow these steps:
-## * Let MSG_DEP_SET be the set of packages whose message types you use in
-##   your messages/services/actions (e.g. std_msgs, actionlib_msgs, ...).
-## * In the file package.xml:
-##   * add a build_depend tag for "message_generation"
-##   * add a build_depend and a exec_depend tag for each package in MSG_DEP_SET
-##   * If MSG_DEP_SET isn't empty the following dependency has been pulled in
-##     but can be declared for certainty nonetheless:
-##     * add a exec_depend tag for "message_runtime"
-## * In this file (CMakeLists.txt):
-##   * add "message_generation" and every package in MSG_DEP_SET to
-##     find_package(catkin REQUIRED COMPONENTS ...)
-##   * add "message_runtime" and every package in MSG_DEP_SET to
-##     catkin_package(CATKIN_DEPENDS ...)
-##   * uncomment the add_*_files sections below as needed
-##     and list every .msg/.srv/.action file to be processed
-##   * uncomment the generate_messages entry below
-##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
+## In ROS 2, messages, services, and actions are generated
+## using rosidl. To use this, follow these steps:
+## * In package.xml:
+##   * Add <build_depend> and <exec_depend> on "rosidl_default_generators"
+##   * Add <exec_depend> on "rosidl_default_runtime"
+##   * Add dependencies for all interface packages referenced
+## * In this file:
+##   * Add rosidl_default_generators to find_package(...)
+##   * Uncomment/add rosidl_generate_interfaces(...)
+##   * List every .msg/.srv/.action file to be generated
+## * Dependent packages should add this package to
+##   rosidl_generate_interfaces(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
+# set(MSG_FILES
+#   "msg/Message1.msg"
+#   "msg/Message2.msg"
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
+# set(SRV_FILES
+#   "srv/Service1.srv"
+#   "srv/Service2.srv"
 # )
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
+# set(ACTION_FILES
+#   "action/Action1.action"
+#   "action/Action2.action"
 # )
 
-## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
+## Generate all declared interfaces
+# rosidl_generate_interfaces(${PROJECT_NAME}
+#   ${MSG_FILES}
+#   ${SRV_FILES}
+#   ${ACTION_FILES}
+#   DEPENDENCIES builtin_interfaces
 # )
 
-################################################
-## Declare ROS dynamic reconfigure parameters ##
-################################################
+#########################################################
+## Dynamic parameters and configuration in ROS 2       ##
+#########################################################
 
-## To declare and build dynamic reconfigure parameters within this
-## package, follow these steps:
-## * In the file package.xml:
-##   * add a build_depend and a exec_depend tag for "dynamic_reconfigure"
-## * In this file (CMakeLists.txt):
-##   * add "dynamic_reconfigure" to
-##     find_package(catkin REQUIRED COMPONENTS ...)
-##   * uncomment the "generate_dynamic_reconfigure_options" section below
-##     and list every .cfg file to be processed
-
-## Generate dynamic reconfigure parameters in the 'cfg' folder
-# generate_dynamic_reconfigure_options(
-#   cfg/DynReconf1.cfg
-#   cfg/DynReconf2.cfg
-# )
+## ROS 2 does not use dynamic_reconfigure. Instead:
+## * Nodes typically declare parameters via rclcpp::Node::declare_parameter
+## * Parameters can be updated dynamically if the node registers
+##   a parameter change callback
+##
+## If using rclcpp_components, parameters may also be
+## specified via XML/YAML loaded at runtime.
 
 ###################################
-## catkin specific configuration ##
+## ament package configuration    ##
 ###################################
-## The catkin_package macro generates cmake config files for your package
-## Declare things to be passed to dependent projects
-## INCLUDE_DIRS: uncomment this if your package contains header files
-## LIBRARIES: libraries you create in this project that dependent projects also need
-## CATKIN_DEPENDS: catkin_packages dependent projects also need
-## DEPENDS: system dependencies of this project that dependent projects also need
-catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES mushr_hardware
-#  CATKIN_DEPENDS other_catkin_pkg
-#  DEPENDS system_lib
-)
+
+## The ament_package() macro generates CMake config files for
+## downstream packages. You may list:
+## * INCLUDE_DIRS: Public header directories
+## * LIBRARIES: Libraries provided by this package
+## * DEPENDS: Non-ROS libraries needed by dependent packages
+# ament_package(
+# #  INCLUDE_DIRS include
+# #  LIBRARIES mushr_hardware
+# #  DEPENDS Boost
+# )
 
 ###########
 ## Build ##
 ###########
 
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
+## Specify additional include directories — your package’s
+## include/ folder should appear before others.
 include_directories(
 # include
-# ${catkin_INCLUDE_DIRS}
+# ${Boost_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/mushr_hardware.cpp
+#   src/mushr_hardware.cpp
 # )
 
-## Add cmake target dependencies of the library
-## as an example, code may need to be generated before libraries
-## either from message generation or dynamic reconfigure
-# add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+## If your library depends on rosidl-generated code, use:
+## ament_target_dependencies(${PROJECT_NAME} rclcpp builtin_interfaces)
 
 ## Declare a C++ executable
-## With catkin_make all packages are built within a single CMake context
-## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/mushr_hardware_node.cpp)
 
-## Rename C++ executable without prefix
-## The above recommended prefix causes long target names, the following renames the
-## target back to the shorter version for ease of user use
-## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
-# set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
-
-## Add cmake target dependencies of the executable
-## same as for the library above
-# add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_node
-#   ${catkin_LIBRARIES}
+## Recommended: manually name the target for clarity in ROS 2
+## (no prefix removal is needed)
+# ament_target_dependencies(${PROJECT_NAME}_node
+#   rclcpp
 # )
 
 #############
 ## Install ##
 #############
 
-# all install targets should use catkin DESTINATION variables
-# See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
+## All install targets should use ament install destinations.
 
-## Mark executable scripts (Python etc.) for installation
-## in contrast to setup.py, you can choose the destination
+## Install Python scripts (if any)
 # install(PROGRAMS
 #   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+#   DESTINATION lib/${PROJECT_NAME}
 # )
 
-## Mark executables and/or libraries for installation
-# install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_node
-#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+## Install executables and/or libraries
+# install(TARGETS
+#   ${PROJECT_NAME}
+#   ${PROJECT_NAME}_node
+#   ARCHIVE DESTINATION lib
+#   LIBRARY DESTINATION lib
+#   RUNTIME DESTINATION lib/${PROJECT_NAME}
 # )
 
-## Mark cpp header files for installation
+## Install C++ header files
 # install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
+#   DESTINATION include/${PROJECT_NAME}
+#   FILES_MATCHING PATTERN "*.hpp"
 # )
 
-## Mark other files for installation (e.g. launch and bag files, etc.)
-# install(FILES
-#   # myfile1
-#   # myfile2
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-# )
+## Install other files such as config, launch, maps, etc.
+install(
+  DIRECTORY
+    config
+    launch
+  DESTINATION share/${PROJECT_NAME}
+)
 
 #############
 ## Testing ##
 #############
 
-## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_mushr_hardware.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+## Add gtest-based C++ test
+# find_package(ament_cmake_gtest REQUIRED)
+# ament_add_gtest(${PROJECT_NAME}_test test/test_mushr_hardware.cpp)
+# if(TARGET ${PROJECT_NAME}_test)
+#   target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})
 # endif()
 
-## Add folders to be run by python nosetests
-# catkin_add_nosetests(test)
+## Add ament lint or pytest tests (if needed)
+# ament_add_pytest_test(test_mushr_hardware test)
+
+ament_package()

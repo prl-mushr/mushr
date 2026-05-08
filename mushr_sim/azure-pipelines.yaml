@@ -1,0 +1,55 @@
+trigger:
+- master
+pr:
+- master
+
+jobs:
+- job:
+  displayName: Run Linting and Tests
+  pool:
+    vmImage: 'ubuntu-16.04'
+
+  variables:
+    azure_tmpdir: $(Agent.TempDirectory)
+    devtools: $(azure_tmpdir)/devtools
+    CatkinProjectDir: /catkin_ws/src/$(Build.Repository.Name)
+
+  container: prlmushr/mushr:bionic
+
+  steps:
+  - script: git clone https://github.com/prl-mushr/devtools.git $(devtools)
+    displayName: Get devtools
+
+  - bash: /ros_entrypoint.sh $(devtools)/bin/mushr_lint_flake8 .
+    displayName: flake8
+    condition: succeededOrFailed()
+
+  - bash: /ros_entrypoint.sh $(devtools)/bin/mushr_lint_isort . --check
+    displayName: isort
+    condition: succeededOrFailed()
+
+  - bash: /ros_entrypoint.sh $(devtools)/bin/mushr_lint_black . --check
+    displayName: black
+    condition: succeededOrFailed()
+
+  - bash: |
+      source /opt/ros/melodic/setup.bash
+
+      sudo chown -R $(whoami) /catkin_ws
+
+      # since we are testing sim, we want to use our version
+      rm -rf /catkin_ws/src/mushr_sim
+
+      mkdir -p $(CatkinProjectDir)
+      cp -r * $(CatkinProjectDir)
+
+      cd /catkin_ws
+      # build and source setup files
+      catkin_make
+      source devel/setup.bash
+
+      # test
+      cd $(CatkinProjectDir)
+      ./test.sh
+    displayName: Run tests
+    condition: succeededOrFailed()

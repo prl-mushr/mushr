@@ -1,0 +1,63 @@
+<launch>
+
+    <arg name="fake_localization" default="true" />
+    <arg name="car1_name" default="car1" />
+    <arg name="car2_name" default="car2" />
+    <!-- Could be racecar-mit, racecar-uw-tx2, or racecar-uw-nano -->
+    <arg name="racecar_version" default="racecar-uw-nano" />
+
+    <!-- Set to 1 if you want to run the map_server -->
+    <arg name="map_server" value = "1"/>
+
+    <!-- Launch  map server-->
+    <group if="$(arg map_server)">
+        <include file="$(find mushr_sim)/launch/map_server.launch" />
+    </group>
+
+    <!-- Launch first car -->
+    <group ns="$(arg car1_name)">
+         <include file="$(find mushr_sim)/launch/single_car.launch" >
+            <arg name="car_name" value="$(arg car1_name)"/>
+            <arg name="racecar_version" value="$(arg racecar_version)"/>
+            <!-- The colors of the racecar, should be of the form "-<platform_color>-<inset_color>" -->
+            <!-- An empty string will result in the default URDF -->
+            <!-- Check CMakeLists.txt of mushr_description for appropriate values -->
+            <arg name="racecar_color" value="" />
+            <arg name="fake_localization" value="$(arg fake_localization)" />
+            <arg name="use_tf_prefix" value="true" />
+        </include>
+    </group>
+
+    <!-- Launch second car -->
+    <group ns="$(arg car2_name)">
+        <include file="$(find mushr_sim)/launch/single_car.launch" >
+            <arg name="car_name" value="$(arg car2_name)"/>
+            <arg name="racecar_version" value="$(arg racecar_version)"/>
+            <arg name="racecar_color" value="-green-black" />
+            <arg name="fake_localization" value="$(arg fake_localization)" />
+            <arg name="use_tf_prefix" value="true" />
+        </include>
+    </group>
+
+    <!-- Launch third car, fourth car, etc by following above template -->
+
+        <node pkg="mushr_sim" type="mushr_sim" name="mushr_sim">
+            <param name="use_tf_prefix" value="true" />
+            <rosparam param="car_names" subst_value="True">['$(arg car1_name)', '$(arg car2_name)']</rosparam>
+
+            <remap from="~$(arg car1_name)/scan" to="/$(arg car1_name)/scan" />
+            <remap from="~$(arg car1_name)/car_pose" to="/$(arg car1_name)/car_pose"/>
+            <param name="$(arg car1_name)/initial_x" value="0"/>
+            <param name="$(arg car1_name)/initial_y" value="0"/>
+            <param name="$(arg car1_name)/initial_theta" value="0"/>
+
+            <remap from="~$(arg car2_name)/scan" to="/$(arg car2_name)/scan" />
+            <remap from="~$(arg car2_name)/car_pose" to="/$(arg car2_name)/car_pose"/>
+            <param name="$(arg car2_name)/initial_x" value="0"/>
+            <param name="$(arg car2_name)/initial_y" value="1"/>
+            <param name="$(arg car2_name)/initial_theta" value="0"/>
+
+            <rosparam command="load" file="$(find mushr_sim)/config/mushr_sim.yaml" />
+            <rosparam command="load" file="$(find mushr_sim)/config/$(arg racecar_version)/sensors.yaml" />
+        </node>
+</launch>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>ackermann_cmd_mux</name>
+  <version>0.8.0</version>
+  <description>
+    A multiplexer for Ackermann drive commands. ROS2 Jazzy port.
+  </description>
+
+  <maintainer email="you@example.com">Your Name</maintainer>
+  <author>Original ROS1 Authors</author>
+  <license>BSD</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>rclcpp_components</depend>
+  <depend>pluginlib</depend>
+  <depend>ackermann_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>yaml-cpp</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+    <pluginlib plugin="${prefix}/components.xml"/>
+    <rclcpp_components/>
+  </export>
+</package>

@@ -1,0 +1,7 @@
+/**:
+  ros__parameters:
+    angle_min: -2.0892818331
+    angle_max: 2.09234976768
+    angle_step: 0.00613592332229
+    min_range_meters: 0.02
+    max_range_meters: 5.6

@@ -1,0 +1,6 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+    <rosparam command="load" file="$(find mushr_sim)/config/foxglove_teleop.yaml" />
+
+    <node pkg="mushr_sim" type="foxglove_teleop" name="foxglove_teleop" output="screen" />
+</launch>

@@ -1,0 +1,5 @@
+joy_node:
+  ros__parameters:
+    deadzone: 0.01
+    autorepeat_rate: 20
+    coalesce_interval: 0.01

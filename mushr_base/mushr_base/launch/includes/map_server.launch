@@ -1,0 +1,5 @@
+<launch>
+    <arg name="map" default="$(find mushr_base)/maps/sandbox.yaml" />
+
+    <node pkg="map_server" name="map_server" type="map_server" args="$(arg map)" />
+</launch>

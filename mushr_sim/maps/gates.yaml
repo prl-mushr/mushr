@@ -1,0 +1,7 @@
+image: gates.pgm
+resolution: 0.020000
+origin: [-38.120000, -25.320000, 0.000000]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+

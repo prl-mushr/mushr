@@ -1,0 +1,52 @@
+joy_node:
+  ros__parameters:
+    deadzone: 0.01
+    autorepeat_rate: 20
+    coalesce_interval: 0.01
+
+joy_teleop:
+  ros__parameters:
+    # Default mode - Stop for safety
+    teleop:
+      default:
+        type: topic
+        is_default: true
+        message_type: ackermann_msgs/AckermannDriveStamped  
+        topic_name: mux/input/teleop
+        message_value:
+          -
+            target: drive.speed
+            value: 0.0
+          -
+            target: drive.steering_angle
+            value: 0.0
+
+      # Enable Human control by holding Left Bumper
+      human_control:
+        type: topic
+        message_type: ackermann_msgs/AckermannDriveStamped
+        topic_name: mux/input/teleop
+        deadman_buttons: [4]
+        axis_mappings:
+          -
+            axis: 1
+            target: drive.speed
+            scale: 2.0
+            offset: 0.0
+          -
+            axis: 3
+            target: drive.steering_angle
+            scale: 0.34
+            offset: 0.0
+
+      # Enable autonomous control by pressing right bumper.
+      # This switches the teleop publisher to /dev/null.
+      autonomous_control:
+        type: topic
+        message_type: std_msgs/Int8
+        topic_name: /dev/null
+        deadman_buttons: [5]
+        message_value:
+          -
+            target: data
+            value: 0

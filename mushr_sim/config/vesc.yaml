@@ -1,0 +1,43 @@
+/**/ackermann_to_vesc:
+  ros__parameters:
+    speed_to_erpm_gain: 4614.0
+    speed_to_erpm_offset: 0.0
+    tachometer_ticks_to_meters_gain: 0.00225
+
+    max_acceleration: 2.5
+    throttle_smoother_rate: 75.0
+
+    max_servo_speed: 3.2
+    servo_smoother_rate: 75.0
+
+    steering_angle_to_servo_gain: -1.2135
+    steering_angle_to_servo_offset: 0.5304
+
+    wheelbase: 0.25
+    chassis_length: 0.33
+
+    vesc_to_odom:
+      publish_tf: true
+
+
+/**/vesc_driver:
+  ros__parameters:
+    port: /dev/ttyACM0
+    
+    duty_cycle_min: 0.0
+    duty_cycle_max: 0.0
+
+    current_min: 0.0
+    current_max: 20.0
+
+    brake_min: -20000.0
+    brake_max: 200000.0
+
+    speed_min: -30500.0
+    speed_max: 30500.0
+
+    position_min: 0.0
+    position_max: 0.0
+
+    servo_min: 0.15
+    servo_max: 0.85

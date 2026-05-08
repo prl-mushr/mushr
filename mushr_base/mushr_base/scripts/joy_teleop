@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+
+import rclpy
+from mushr_base.joy_teleop import JoyTeleop, JoyTeleopException
+
+
+if __name__ == "__main__":
+    try:
+        rclpy.init("joy_teleop")
+        jt = JoyTeleop()
+        rclpy.spin()
+    except JoyTeleopException:
+        pass
+    except rclpy.ROSInterruptException:
+        pass

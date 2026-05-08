@@ -1,0 +1,63 @@
+<launch>
+
+    <arg name="car_name" default="car" />
+    <arg name="use_tf_prefix" default="true" />
+    <arg name="fake_localization" default="true" />
+    <arg name="teleop" default="true" />
+    <arg name="foxglove_teleop" default="1" />
+    <arg name="keyboard_teleop" default="0" />
+
+    <!-- Could be racecar-mit, racecar-uw-tx2, or racecar-uw-nano -->
+    <arg name="racecar_version" default="racecar-uw-nano" />
+
+    <!-- The colors of the racecar, should be of the form "-<platform_color>-<inset_color>" -->
+    <!-- An empty string will result in the default URDF -->
+    <!-- Check CMakeLists.txt of mushr_description for appropriate values -->
+    <arg name="racecar_color" default=""/>
+
+    <!-- Launch model/state publishers-->
+    <group if="$(arg fake_localization)">
+        <node pkg="fake_localization" type="fake_localization" name="fake_localization">
+            <remap from="base_pose_ground_truth" to="/mushr_sim/$(arg car_name)/odom" />
+            <param name="base_frame_id" value="base_footprint"/>
+            <param name="base_frame_id" value="$(arg car_name)/base_footprint" if="$(arg use_tf_prefix)"/>
+            <param name="odom_frame_id" value="$(arg car_name)/odom" if="$(arg use_tf_prefix)"/>
+        </node>
+    </group>
+
+    <param name="robot_description"
+         textfile="$(find mushr_description)/robots/$(arg racecar_version)$(arg racecar_color).urdf"/>
+
+    <include file="$(find mushr_base)/launch/includes/racecar_state.launch" >
+            <arg if="$(arg use_tf_prefix)" name="tf_prefix" value="$(arg car_name)" />
+    </include>
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="state_publisher">
+        <param if="$(arg use_tf_prefix)" name="tf_prefix" value="$(arg car_name)"/>
+        <param name="robot_description" value="/$(arg car_name)/robot_description" />
+    </node>
+
+    <group if="$(arg foxglove_teleop)">
+        <include file="$(find mushr_sim)/launch/foxglove_teleop.launch.xml" />
+    </group>
+
+    <group if="$(arg keyboard_teleop)">
+        <include file="$(find mushr_sim)/launch/keyboard_teleop.launch.xml" />
+    </group>
+
+    <group ns="mux">
+        <!-- Spawn MUXs -->
+        <include file="$(find ackermann_cmd_mux)/launch/mux.launch" />
+    </group>
+
+    <group ns="vesc">
+        <!-- Start electronic speed controller driver -->
+        <include file="$(find mushr_sim)/launch/vesc.launch.xml" >
+            <arg name="mux_output_topic" value="/$(arg car_name)/mux/ackermann_cmd_mux/output" />
+            <arg name="car_name" value="/$(arg car_name)" />
+        </include>
+    </group>
+
+
+
+</launch>

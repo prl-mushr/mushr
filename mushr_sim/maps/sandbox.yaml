@@ -1,0 +1,6 @@
+image: sandbox.png
+resolution: 0.1
+origin: [50.0, 50.0, 3.14159265359]
+occupied_thresh: 0.1
+free_thresh: 0.09
+negate: 0
