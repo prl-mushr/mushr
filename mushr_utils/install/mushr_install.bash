@@ -20,6 +20,24 @@ export MUSHR_INSTALL_PATH="$(pwd)"
 export MUSHR_WS_PATH="${MUSHR_WS_PATH:-${HOME}}"
 mkdir -p "${MUSHR_WS_PATH}/colcon_ws/src"
 
+# Install vcstool on host (needed for vcs import below)
+if ! command -v vcs >/dev/null 2>&1; then
+    echo "Installing python3-vcstool..."
+    sudo apt-get update
+    sudo apt-get install -y python3-vcstool
+fi
+
+# Pull workspace dependencies declared in base-repos.yaml
+# (nav-repos.yaml is intentionally NOT imported here — install that manually.)
+SRC_DIR="${MUSHR_WS_PATH}/colcon_ws/src"
+BASE_REPOS_YAML="${MUSHR_INSTALL_PATH}/../../base-repos.yaml"
+if [[ -f "${BASE_REPOS_YAML}" ]]; then
+    echo "Importing base-repos.yaml dependencies into ${SRC_DIR}..."
+    (cd "${SRC_DIR}" && vcs import < "${BASE_REPOS_YAML}")
+else
+    echo "WARNING: ${BASE_REPOS_YAML} not found — skipping vcs import."
+fi
+
 # Real robot vs sim
 read -p "Are you installing on the robot and need all the sensor drivers? (y/n) " -r
 echo

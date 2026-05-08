@@ -29,21 +29,35 @@ mushr_utils/install/
 ```bash
 mkdir -p ~/colcon_ws/src
 cd ~/colcon_ws/src
-git clone --recurse-submodules <MUSHR_REPO_URL> mushr
+git clone <MUSHR_CLASS_REPO_URL> mushr
 cd ~/colcon_ws/src/mushr/mushr_utils/install
 ./mushr_install.bash
 ```
 
-Two prompts:
-- **robot vs sim** — `y` on the car (installs hardware drivers, registers
-  nvidia runtime, writes udev rules, adds the user to `gpio` group).
-- **build vs pull** — `n` to pull the pre-built image (fast); `y` to build
-  locally from the Dockerfile (~30 min on Jetson).
+The installer will:
+1. Install `python3-vcstool` if missing.
+2. Run `vcs import < ../../base-repos.yaml` from `~/colcon_ws/src/` to
+   pull all workspace dependencies (vesc, transport_drivers, YDLidar SDK,
+   realsense-ros, push_button_utils, ydlidar_ros2_driver, etc.).
+3. Prompt for **robot vs sim** — `y` on the car (installs hardware
+   drivers, registers nvidia runtime, writes udev rules, adds the user
+   to `gpio` group).
+4. Prompt for **build vs pull** — `n` to pull the pre-built image
+   (fast); `y` to build locally from the Dockerfile (~30 min on Jetson).
+   If a pre-built image isn't published yet, pull will fall back to a
+   local build automatically.
+5. Drop `COLCON_IGNORE` into hardware-only packages on sim installs.
+6. Write `mushr_humble` here and symlink it into `/usr/local/bin`.
 
-The installer writes `mushr_humble` into this directory and symlinks
-it into `/usr/local/bin`.
+`nav-repos.yaml` is **NOT** imported automatically — install that
+repo manually if you need the class-code packages:
 
-After the container starts, build the workspace:
+```bash
+cd ~/colcon_ws/src
+vcs import < mushr/nav-repos.yaml
+```
+
+After the container starts (run `mushr_humble`), build the workspace:
 
 ```bash
 cd ~/colcon_ws
@@ -51,9 +65,6 @@ rosdep install --from-paths src --ignore-src -y
 colcon build --symlink-install
 source install/setup.bash
 ```
-
-On sim installs, `COLCON_IGNORE` is dropped into `mushr_hardware/`
-sub-packages that need real hardware to build.
 
 ## Daily use
 
