@@ -29,6 +29,8 @@ apt-get install -y --no-install-recommends \
     ros-humble-image-transport-plugins \
     ros-humble-camera-info-manager \
     ros-humble-nav2-map-server \
+    ros-humble-nav2-lifecycle-manager \
+    ros-humble-nav2-costmap-2d \
     ros-humble-xacro \
     ros-humble-plotjuggler \
     ros-humble-topic-tools \
