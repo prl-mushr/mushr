@@ -1,17 +1,5 @@
 repositories:
-  mushr_pf:
+  mushr-478-the-best-team:
     type: git
-    url: https://github.com/prl-mushr/mushr_pf.git
-    version: noetic 
-  mushr_rhc:
-    type: git
-    url: https://github.com/prl-mushr/mushr_rhc.git
-    version: noetic 
-  mushr_gp:
-    type: git
-    url: https://github.com/prl-mushr/mushr_gp.git
-    version: main 
-  mushr_gprm:
-    type: git
-    url: https://github.com/prl-mushr/mushr_gprm.git
-    version: master 
+    url: git@github.com:dbzfan2012/MuSHR-ROS2-Class-Code.git
+    version: 63a35628e63844b0ca9ffc25c20d72af4ef09b11
