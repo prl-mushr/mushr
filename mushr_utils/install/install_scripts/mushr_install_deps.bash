@@ -31,6 +31,9 @@ apt-get install -y --no-install-recommends \
     ros-humble-nav2-map-server \
     ros-humble-nav2-lifecycle-manager \
     ros-humble-nav2-costmap-2d \
+    ros-humble-joint-state-publisher-gui \
+    ros-humble-joy \
+    ros-humble-joy-teleop \
     ros-humble-xacro \
     ros-humble-plotjuggler \
     ros-humble-topic-tools \
@@ -41,7 +44,8 @@ apt-get install -y --no-install-recommends \
 pip install --no-cache-dir -U \
     "numpy<2" \
     transforms3d scipy matplotlib pandas networkx Cython sympy rosbags \
-    tqdm requests
+    tqdm requests \
+    ros2-ndarray-msg-utils
 
 # range_libc (custom C++ build, runtime dep of localization sensor_model)
 git clone https://github.com/RTIS-Lab/range_libc.git /tmp/range_libc

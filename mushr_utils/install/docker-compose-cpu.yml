@@ -2,6 +2,7 @@ services:
   mushr_humble:
     image: dbzfan2012/mushr-humble:${MUSHR_OS_TYPE}
     privileged: true
+    network_mode: host
     volumes:
       - ${MUSHR_WS_PATH}/colcon_ws:/root/colcon_ws
     environment:

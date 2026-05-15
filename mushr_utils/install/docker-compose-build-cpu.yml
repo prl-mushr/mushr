@@ -2,6 +2,7 @@ services:
   mushr_humble:
     image: dbzfan2012/mushr-humble:${MUSHR_OS_TYPE}
     privileged: true
+    network_mode: host
     build:
       context: ${MUSHR_INSTALL_PATH}
       dockerfile: Dockerfile
