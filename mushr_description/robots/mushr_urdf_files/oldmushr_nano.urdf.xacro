@@ -110,7 +110,7 @@
   <joint
   	name="back_right_wheel_throttle"
   	type="continuous">
-		<axis
+		<axis 
 			xyz="0 1 0"/>
     <origin
       xyz="-0.158 -0.115 -0.045855"
@@ -123,7 +123,7 @@
 
 	<joint
 		name="base_link_to_laser_link"
-		type="fixed">
+		type="fixed" >
 		<origin
 			xyz="-0.035325 0 0.10775"
 			rpy="0 0 3.14159" />
