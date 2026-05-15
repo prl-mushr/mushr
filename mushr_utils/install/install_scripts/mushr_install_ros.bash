@@ -16,7 +16,7 @@ apt-get install -y --no-install-recommends ros-humble-desktop
 echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 
 # DDS / domain configuration
-echo "export ROS_DOMAIN_ID=42" >> /root/.bashrc
+echo "export ROS_DOMAIN_ID=0" >> /root/.bashrc
 echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> /root/.bashrc
 echo "export CYCLONEDDS_URI=file:///root/cyclone_dds.xml" >> /root/.bashrc
 
