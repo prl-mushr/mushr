@@ -126,7 +126,7 @@
 		type="fixed" >
 		<origin
 			xyz="-0.035325 0 0.10775"
-			rpy="0 0 0" />
+			rpy="0 0 3.14159" />
 		<parent
 			link="base_link" />
 		<child
