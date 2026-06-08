@@ -1,6 +1,6 @@
 #!/bin/bash
 # Install hardware-only drivers: librealsense, YDLidar SDK, Jetson.GPIO,
-# ros-humble-librealsense2. Only runs when REAL=1.
+# ros-jazzy-librealsense2. Only runs when REAL=1.
 
 set -e
 
@@ -14,7 +14,7 @@ echo "deb [signed-by=/etc/apt/keyrings/librealsenseai.gpg] https://librealsense.
 apt-get update
 apt-get install -y --no-install-recommends \
     librealsense2-dev librealsense2-utils \
-    ros-humble-librealsense2
+    ros-jazzy-librealsense2
 
 # Jetson GPIO (pip; apt package only in NVIDIA repos)
 pip install --no-cache-dir Jetson.GPIO

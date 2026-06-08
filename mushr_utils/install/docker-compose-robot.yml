@@ -1,6 +1,6 @@
 services:
-  mushr_humble:
-    image: dbzfan2012/mushr-humble:${MUSHR_OS_TYPE}
+  mushr_jazzy:
+    image: dbzfan2012/mushr-jazzy:${MUSHR_OS_TYPE}
     runtime: nvidia
     network_mode: host
     privileged: true

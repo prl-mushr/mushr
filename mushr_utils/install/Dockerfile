@@ -1,4 +1,7 @@
-FROM ros:humble
+ARG BASE_IMAGE
+FROM "$BASE_IMAGE"
+
+ENV PIP_BREAK_SYSTEM_PACKAGES=1
 
 LABEL maintainer="Ethan Kogan <dbzfan@uw.edu>"
 ARG DEBIAN_FRONTEND=noninteractive
@@ -18,7 +21,7 @@ RUN mkdir install_scripts
 # Cyclone DDS unicast peer config (multicast-free network discovery)
 ADD cyclone_dds.xml /root/cyclone_dds.xml
 
-# ROS 2 Humble
+# ROS 2 jazzy
 ADD install_scripts/mushr_install_ros.bash install_scripts/mushr_install_ros.bash
 RUN chmod +x install_scripts/mushr_install_ros.bash && install_scripts/mushr_install_ros.bash
 

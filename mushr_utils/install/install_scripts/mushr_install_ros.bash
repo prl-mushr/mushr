@@ -1,27 +1,16 @@
 #!/bin/bash
-# Install ROS 2 Humble base + rosdep.
-
 set -e
 
-# Setup software sources from packages.ros.org (already present in ros:humble
-# base image, but kept here for completeness if base image is swapped).
-apt-get update
-apt-get install -y --no-install-recommends \
-    curl gnupg lsb-release ca-certificates software-properties-common
+# ROS already installed in Isaac image (Jazzy)
+echo "Sourcing ROS Jazzy..."
 
-# Install ROS 2 Humble desktop (rviz, demo nodes, common msgs, etc.)
-apt-get install -y --no-install-recommends ros-humble-desktop
-
-# Auto source ROS on terminal startup
-echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
+echo "source /opt/ros/jazzy/setup.bash" >> /root/.bashrc
+source /opt/ros/jazzy/setup.bash
 
 # DDS / domain configuration
 echo "export ROS_DOMAIN_ID=0" >> /root/.bashrc
 echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> /root/.bashrc
 echo "export CYCLONEDDS_URI=file:///root/cyclone_dds.xml" >> /root/.bashrc
-
-# Source it for the rest of this script
-source /opt/ros/humble/setup.bash
 
 # Custom rosdep keys: librealsense2 / jetson-gpio / ament_python /
 # push_button_utils aren't in stock Ubuntu rosdep rules, so map them to
@@ -43,6 +32,6 @@ printf '%s\n' \
 echo "yaml file:///etc/ros/rosdep/mushr-extras.yaml" \
     > /etc/ros/rosdep/sources.list.d/50-mushr.list
 
-# Initialize / update rosdep (ros:humble already runs rosdep init; ignore failure)
+# Initialize / update rosdep (ros:jazzy already runs rosdep init; ignore failure)
 rosdep init || true
 rosdep update

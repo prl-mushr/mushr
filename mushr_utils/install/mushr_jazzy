@@ -1,0 +1,44 @@
+#!/bin/bash
+export MUSHR_INSTALL_PATH=/home/hound/colcon_ws/src/mushr_ros2/mushr_utils/install
+export MUSHR_REAL_ROBOT=1
+export MUSHR_WS_PATH=/home/hound
+export MUSHR_COMPOSE_FILE=docker-compose-build-robot.yml
+export MUSHR_OS_TYPE=aarch64
+
+NAME=mushr_jazzy
+
+# case "${1:-run}" in
+#     run)
+#         # Already running -> exec into it
+#         if docker ps --format '{{.Names}}' | grep -q "^${NAME}$"; then
+#             exec docker exec -it "${NAME}" bash
+#         fi
+#         # Exists but stopped -> start + exec (preserves apt/rosdep state)
+#         if docker ps -a --format '{{.Names}}' | grep -q "^${NAME}$"; then
+#             docker start "${NAME}" > /dev/null
+#             exec docker exec -it "${NAME}" bash
+#         fi
+#         # Brand-new -> create container without --rm so it persists
+#         xhost +local:docker > /dev/null 2>&1 || true
+#         exec docker compose -f "${MUSHR_INSTALL_PATH}/${MUSHR_COMPOSE_FILE}" \
+#             run --service-ports --name "${NAME}" mushr_jazzy bash
+#         ;;
+#     build)
+#         exec docker compose -f "${MUSHR_INSTALL_PATH}/${MUSHR_COMPOSE_FILE}" \
+#             build --no-cache mushr_jazzy
+#         ;;
+#     rm|clean)
+#         # Wipe the persisted container so the next 'run' creates a fresh one
+#         docker rm -f "${NAME}" 2>/dev/null || true
+#         echo "Removed container ${NAME}."
+#         ;;
+#     *)
+#         echo "Invalid command. Valid: 'run' (default), 'build', 'rm'"
+#         exit 1
+#         ;;
+# esac
+xhost +local:docker
+docker-compose -f $MUSHR_INSTALL_PATH/$MUSHR_COMPOSE_FILE run -p 9090:9090 --rm mushr_noetic bash
+xhost -local:docker
+
+# docker-compose -f $MUSHR_INSTALL_PATH/$MUSHR_COMPOSE_FILE run -p 9090:9090 -d --rm mushr_noetic /root/catkin_ws/src/hound_core/entry_command.sh

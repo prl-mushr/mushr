@@ -1,7 +1,7 @@
-# MuSHR Humble Docker
+# MuSHR jazzy Docker
 
-ROS 2 Humble port of the original `mushr_noetic` install pattern.
-Containerized environment for the MuSHR car: ROS 2 Humble, range_libc,
+ROS 2 jazzy port of the original `mushr_noetic` install pattern.
+Containerized environment for the MuSHR car: ROS 2 jazzy, range_libc,
 librealsense, YDLidar SDK, Jetson.GPIO, and the scientific Python stack
 all baked in. The workspace itself is **not** copied into the image; it is
 bind-mounted at runtime so source edits on the host appear immediately
@@ -13,14 +13,14 @@ inside the container.
 mushr_utils/install/
 ├── Dockerfile                         image definition; calls the install_scripts/
 ├── install_scripts/
-│   ├── mushr_install_ros.bash         ros-humble-desktop, rosdep, custom keys
+│   ├── mushr_install_ros.bash         ros-jazzy-desktop, rosdep, custom keys
 │   ├── mushr_install_deps.bash        apt extras, pip, range_libc, dev tools
 │   └── mushr_install_hw_drivers.bash  librealsense, YDLidar SDK, Jetson.GPIO
 ├── docker-compose-cpu.yml             sim runtime (image-only)
 ├── docker-compose-robot.yml           robot runtime (image-only, nvidia + /dev)
 ├── docker-compose-build-cpu.yml       sim build
 ├── docker-compose-build-robot.yml     robot build
-├── mushr_install.bash                 top-level installer + mushr_humble generator
+├── mushr_install.bash                 top-level installer + mushr_jazzy generator
 └── README.md                          this file
 ```
 
@@ -47,7 +47,7 @@ The installer will:
    If a pre-built image isn't published yet, pull will fall back to a
    local build automatically.
 5. Drop `COLCON_IGNORE` into hardware-only packages on sim installs.
-6. Write `mushr_humble` here and symlink it into `/usr/local/bin`.
+6. Write `mushr_jazzy` here and symlink it into `/usr/local/bin`.
 
 `nav-repos.yaml` is **NOT** imported automatically — install that
 repo manually if you need the class-code packages:
@@ -57,7 +57,7 @@ cd ~/colcon_ws/src
 vcs import < mushr/nav-repos.yaml
 ```
 
-After the container starts (run `mushr_humble`), build the workspace:
+After the container starts (run `mushr_jazzy`), build the workspace:
 
 ```bash
 cd ~/colcon_ws
@@ -69,7 +69,7 @@ source install/setup.bash
 ## Daily use
 
 ```bash
-mushr_humble
+mushr_jazzy
 ```
 
 Drops you into a bash shell inside the container with the workspace
@@ -83,26 +83,26 @@ source install/setup.bash
 ```
 
 After that, `~/.bashrc` (in the image) auto-sources both
-`/opt/ros/humble/setup.bash` and `~/colcon_ws/install/setup.bash` if it
-exists. Subsequent `mushr_humble` invocations just need
+`/opt/ros/jazzy/setup.bash` and `~/colcon_ws/install/setup.bash` if it
+exists. Subsequent `mushr_jazzy` invocations just need
 `source install/setup.bash` if the overlay isn't picked up.
 
-A second terminal? Run `mushr_humble` again — the launcher detects the
+A second terminal? Run `mushr_jazzy` again — the launcher detects the
 running container and `docker exec`s into it.
 
 The container is **persistent**: when you exit, it stops but isn't
-removed. The next `mushr_humble` restarts the same container, so apt
+removed. The next `mushr_jazzy` restarts the same container, so apt
 packages installed by `rosdep install` stay around and you do **not**
-need to rerun `rosdep install` every session. Run `mushr_humble rm`
+need to rerun `rosdep install` every session. Run `mushr_jazzy rm`
 if you ever want to wipe it and start fresh.
 
-## `mushr_humble` subcommands
+## `mushr_jazzy` subcommands
 
 | Command | Action |
 |---|---|
-| `mushr_humble` or `mushr_humble run` | enter the container (creates it the first time, restarts/`exec`s thereafter) |
-| `mushr_humble build` | rebuild the image with `--no-cache` |
-| `mushr_humble rm` | remove the persisted container (next `run` creates a fresh one) |
+| `mushr_jazzy` or `mushr_jazzy run` | enter the container (creates it the first time, restarts/`exec`s thereafter) |
+| `mushr_jazzy build` | rebuild the image with `--no-cache` |
+| `mushr_jazzy rm` | remove the persisted container (next `run` creates a fresh one) |
 
 ## Architecture
 
@@ -128,5 +128,5 @@ Python/launch/config changes, no rebuild is needed
 container. To pick up Dockerfile or system-dep changes:
 
 ```bash
-mushr_humble build
+mushr_jazzy build
 ```

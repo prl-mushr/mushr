@@ -1,7 +1,7 @@
 #!/bin/bash
-# MuSHR Humble installer.
+# MuSHR jazzy installer.
 # Mirrors the structure of the original ROS 1 mushr_install.bash, adapted
-# for ROS 2 Humble + the additional dependencies (range_libc, librealsense
+# for ROS 2 jazzy + the additional dependencies (range_libc, librealsense
 # realsenseai repo, YDLidar SDK, custom rosdep keys).
 
 pushd "$(dirname "$0")" > /dev/null
@@ -61,6 +61,16 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
         export MUSHR_COMPOSE_FILE=docker-compose-build-cpu.yml
     fi
 fi
+
+if [ "$MUSHR_OS_TYPE" = "x86_64" ]; then
+    export MUSHR_BASE_IMAGE="nvcr.io/nvidia/isaac/ros:isaac_ros_28556f8bc78a98822bd08b2d7c6fcf9b-amd64"
+elif [ "$MUSHR_OS_TYPE" = "aarch64" ]; then
+    export MUSHR_BASE_IMAGE="nvcr.io/nvidia/isaac/ros:isaac_ros_28556f8bc78a98822bd08b2d7c6fcf9b-arm64-jetpack"
+else
+    echo "Unknown OS type: $MUSHR_OS_TYPE"
+    exit 0
+fi
+
 
 # Robot-side host setup (only on real robot)
 if [[ $MUSHR_REAL_ROBOT == 1 ]]; then
@@ -137,16 +147,17 @@ if [[ $MUSHR_REAL_ROBOT == 0 ]]; then
     done
 fi
 
-# Generate the mushr_humble launcher
-cat > "${MUSHR_INSTALL_PATH}/mushr_humble" <<EOF
+# Generate the mushr_jazzy launcher
+cat > "${MUSHR_INSTALL_PATH}/mushr_jazzy" <<EOF
 #!/bin/bash
 export MUSHR_INSTALL_PATH=${MUSHR_INSTALL_PATH}
 export MUSHR_REAL_ROBOT=${MUSHR_REAL_ROBOT}
 export MUSHR_WS_PATH=${MUSHR_WS_PATH}
 export MUSHR_COMPOSE_FILE=${MUSHR_COMPOSE_FILE}
 export MUSHR_OS_TYPE=${MUSHR_OS_TYPE}
+export MUSHR_BASE_IMAGE=${MUSHR_BASE_IMAGE}
 
-NAME=mushr_humble
+NAME=mushr_jazzy
 
 case "\${1:-run}" in
     run)
@@ -162,11 +173,11 @@ case "\${1:-run}" in
         # Brand-new -> create container without --rm so it persists
         xhost +local:docker > /dev/null 2>&1 || true
         exec docker compose -f "\${MUSHR_INSTALL_PATH}/\${MUSHR_COMPOSE_FILE}" \\
-            run --service-ports --name "\${NAME}" mushr_humble bash
+            run --service-ports --name "\${NAME}" mushr_jazzy bash
         ;;
     build)
         exec docker compose -f "\${MUSHR_INSTALL_PATH}/\${MUSHR_COMPOSE_FILE}" \\
-            build --no-cache mushr_humble
+            build --no-cache mushr_jazzy
         ;;
     rm|clean)
         # Wipe the persisted container so the next 'run' creates a fresh one
@@ -179,11 +190,11 @@ case "\${1:-run}" in
         ;;
 esac
 EOF
-chmod +x "${MUSHR_INSTALL_PATH}/mushr_humble"
+chmod +x "${MUSHR_INSTALL_PATH}/mushr_jazzy"
 
-echo "Installing mushr_humble launcher to /usr/local/bin..."
-sudo ln -sf "${MUSHR_INSTALL_PATH}/mushr_humble" /usr/local/bin/mushr_humble
+echo "Installing mushr_jazzy launcher to /usr/local/bin..."
+sudo ln -sf "${MUSHR_INSTALL_PATH}/mushr_jazzy" /usr/local/bin/mushr_jazzy
 
-echo "Done. Run 'mushr_humble' to launch the container."
+echo "Done. Run 'mushr_jazzy' to launch the container."
 
 popd > /dev/null

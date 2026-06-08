@@ -1,14 +1,18 @@
 services:
-  mushr_humble:
-    image: dbzfan2012/mushr-humble:${MUSHR_OS_TYPE}
+  mushr_jazzy:
+    image: dbzfan2012/mushr-jazzy:${MUSHR_OS_TYPE}
     runtime: nvidia
     network_mode: host
     privileged: true
     build:
       context: ${MUSHR_INSTALL_PATH}
       dockerfile: Dockerfile
-      args:
+      args: 
         REAL: ${MUSHR_REAL_ROBOT}
+        MUSHR_WS_PATH: ${MUSHR_WS_PATH}
+        BASE_IMAGE: ${MUSHR_BASE_IMAGE}
+        HOUND: ${MUSHR_HOUND}
+        OS: ${MUSHR_OS_TYPE}
     devices:
       - "/dev:/dev"
     deploy:

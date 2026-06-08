@@ -5,7 +5,7 @@
 set -e
 
 # Source ROS 2 for tools that need it
-source /opt/ros/humble/setup.bash
+source /opt/ros/jazzy/setup.bash
 
 # Basic dev tools, networking, build tooling
 apt-get install -y --no-install-recommends \
@@ -17,28 +17,28 @@ apt-get install -y --no-install-recommends \
 
 # Extra ROS 2 packages used by the MuSHR stack
 apt-get install -y --no-install-recommends \
-    ros-humble-ackermann-msgs \
-    ros-humble-cv-bridge \
-    ros-humble-tf-transformations \
-    ros-humble-rosbridge-suite \
-    ros-humble-foxglove-bridge \
-    ros-humble-rmw-cyclonedds-cpp \
-    ros-humble-rmw-fastrtps-cpp \
-    ros-humble-rosbag2 \
-    ros-humble-rosbag2-storage-mcap \
-    ros-humble-image-transport-plugins \
-    ros-humble-camera-info-manager \
-    ros-humble-nav2-map-server \
-    ros-humble-nav2-lifecycle-manager \
-    ros-humble-nav2-costmap-2d \
-    ros-humble-joint-state-publisher-gui \
-    ros-humble-joy \
-    ros-humble-joy-teleop \
-    ros-humble-xacro \
-    ros-humble-plotjuggler \
-    ros-humble-topic-tools \
-    ros-humble-diagnostic-updater \
-    ros-humble-launch-pytest
+    ros-jazzy-ackermann-msgs \
+    ros-jazzy-cv-bridge \
+    ros-jazzy-tf-transformations \
+    ros-jazzy-rosbridge-suite \
+    ros-jazzy-foxglove-bridge \
+    ros-jazzy-rmw-cyclonedds-cpp \
+    ros-jazzy-rmw-fastrtps-cpp \
+    ros-jazzy-rosbag2 \
+    ros-jazzy-rosbag2-storage-mcap \
+    ros-jazzy-image-transport-plugins \
+    ros-jazzy-camera-info-manager \
+    ros-jazzy-nav2-map-server \
+    ros-jazzy-nav2-lifecycle-manager \
+    ros-jazzy-nav2-costmap-2d \
+    ros-jazzy-joint-state-publisher-gui \
+    ros-jazzy-joy \
+    ros-jazzy-joy-teleop \
+    ros-jazzy-xacro \
+    ros-jazzy-plotjuggler \
+    ros-jazzy-topic-tools \
+    ros-jazzy-diagnostic-updater \
+    ros-jazzy-launch-pytest
 
 # Python deps: numpy<2 to keep ABI compatible with apt-installed scipy etc.
 pip install --no-cache-dir -U \
