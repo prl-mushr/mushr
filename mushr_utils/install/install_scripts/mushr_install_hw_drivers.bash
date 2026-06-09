@@ -16,6 +16,8 @@ apt-get install -y --no-install-recommends \
     librealsense2-dev librealsense2-utils \
     ros-jazzy-librealsense2
 
+sudo apt install ros-jazzy-realsense2-*
+
 # Jetson GPIO (pip; apt package only in NVIDIA repos)
 pip install --no-cache-dir Jetson.GPIO
 
