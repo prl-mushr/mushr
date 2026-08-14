@@ -54,3 +54,13 @@ python3 setup.py install
 cd /
 rm -rf /tmp/range_libc
 
+# NanoSAM (hound_core sam_refine_node when sam_backend=nanosam).
+# Python package: colcon_ws/src/nanosam-src (bind-mounted with workspace).
+# TensorRT engines: colcon_ws/src/nanosam/data/*.engine (not installed here).
+pip install --no-cache-dir git+https://github.com/NVIDIA-AI-IOT/torch2trt.git
+NANOSAM_SRC=/root/colcon_ws/src/nanosam-src
+if [ ! -d "${NANOSAM_SRC}/nanosam" ]; then
+    git clone --depth 1 https://github.com/NVIDIA-AI-IOT/nanosam.git "${NANOSAM_SRC}"
+fi
+pip install --no-cache-dir -e "${NANOSAM_SRC}"
+
